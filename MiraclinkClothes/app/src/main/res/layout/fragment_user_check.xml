@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textUserCheckFragmentTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="00:00"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textUserCheckFragmentRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rate_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentTimer" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btUserCheckFragmentArm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/arm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentRate" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btUserCheckFragmentChest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/chest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentRate" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btUserCheckFragmentStomach"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stomach"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentRate" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btUserCheckFragmentLeg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/leg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btUserCheckFragmentChest" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btUserCheckFragmentNeck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/neck"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btUserCheckFragmentLeg" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btUserCheckFragmentBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/backback"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btUserCheckFragmentLeg" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btUserCheckFragmentRear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rear"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/btUserCheckFragmentLeg"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btUserCheckFragmentStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btUserCheckFragmentAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="add"
+        app:layout_constraintBottom_toBottomOf="@id/btUserCheckFragmentStart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btUserCheckFragmentStart" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btUserCheckFragmentCut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cut"
+        app:layout_constraintBottom_toBottomOf="@id/btUserCheckFragmentStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btUserCheckFragmentStart" />
+</androidx.constraintlayout.widget.ConstraintLayout>

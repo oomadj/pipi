@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="info_start_layout_margin">10dp</dimen>
+    <dimen name="info_top_layout_margin">20dp</dimen>
+
+    <dimen name="fragment_text_weight">50dp</dimen>
+    <dimen name="fragment_text_height">50dp</dimen>
+
+</resources>

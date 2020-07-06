@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="black">#000000</color>
+
+
+    <!--enterprise-->
+    <color name="enterprise_blue">#004f9c</color>
+    <color name="enterprise_lightblue">#0075b0</color>
+    <color name="enterprise_springgreen">#01ffb4</color>
+    <color name="enterprise_darkblue">#0e355c</color>
+    <color name="enterprise_darkblack">#141414</color>
+    <color name="enterprise_tealblue">#1a99ac</color>
+    <color name="enterprise_darkcyan">#1c9e90</color>
+    <color name="enterprise_cyan">#27baab</color>
+    <color name="enterprise_black">#373737</color>
+    <color name="enterprise_dodgerblue">#454db7</color>
+    <color name="enterprise_azure">#48acec</color>
+    <color name="enterprise_lightblack">#505050</color>
+    <color name="enterprise_lightcyan">#53e6d6</color>
+    <color name="enterprise_smokegreen">#5ea707</color>
+    <color name="enterprise_darkgreen">#638c0b</color>
+    <color name="enterprise_green">#64b602</color>
+    <color name="enterprise_darklightgreen">#5b9b6f</color>
+    <color name="enterprise_darkgray">#696969</color>
+    <color name="enterprise_shadowgray">#808080</color>
+    <color name="enterprise_darkred">#870a0a</color>
+    <color name="enterprise_lightgreen">#8ca84d</color>
+    <color name="enterprise_gray">#919191</color>
+    <color name="enterprise_softblue">#98b6e3</color>
+    <color name="enterprise_red">#bf0000</color>
+    <color name="enterprise_smokygray">#b6b6b6</color>
+    <color name="enterprise_gainsboro">#cccccc</color>
+    <color name="enterprise_silver">#dfdfdf</color>
+    <color name="enterprise_smokeorange">#e58c02</color>
+    <color name="enterprise_palered">#e64949</color>
+    <color name="enterprise_lightgray">#e8e8e8</color>
+    <color name="enterprise_whitesmoke">#f6f6f6</color>
+    <color name="enterprise_darkorange">#fc5503</color>
+    <color name="enterprise_orange">#ff9b00</color>
+    <color name="enterprise_white">#ffffff</color>
+    <color name="enterprise_fuchsia">#eb799e</color>
+    <color name="enterprise_turquoise">#49afdd</color>
+</resources>

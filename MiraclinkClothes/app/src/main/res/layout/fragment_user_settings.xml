@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="50dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingsFragmentDeviceSelect"
+            android:layout_width="80dp"
+            android:layout_height="@dimen/fragment_text_height"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:text="@string/device_select"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btSettingsFragmentSelect"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:layout_marginEnd="@dimen/info_start_layout_margin"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingsFragmentDeviceSelect"
+            app:layout_constraintStart_toEndOf="@id/textSettingsFragmentDeviceSelect"
+            app:layout_constraintTop_toTopOf="@id/textSettingsFragmentDeviceSelect"
+            app:layout_constraintEnd_toStartOf="@id/btSettingsFragmentSave"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btSettingsFragmentSave"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:text="@string/save"
+            app:layout_constraintBottom_toBottomOf="@id/btSettingsFragmentSelect"
+            app:layout_constraintTop_toTopOf="@id/btSettingsFragmentSelect"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingsFragmentStrong"
+            android:layout_width="@dimen/fragment_text_height"
+            android:layout_height="@dimen/fragment_text_weight"
+            android:gravity="center"
+            android:text="@string/strong"
+            android:layout_marginTop="@dimen/info_top_layout_margin"
+            app:layout_constraintEnd_toEndOf="@id/textSettingsFragmentTime"
+            app:layout_constraintStart_toStartOf="@id/textSettingsFragmentDeviceSelect"
+            app:layout_constraintTop_toBottomOf="@id/textSettingsFragmentDeviceSelect" />
+
+        <com.miraclink.widget.SlideHorizontalView
+            android:id="@+id/slideSettingsFragmentStrong"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="70dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingsFragmentStrong"
+            app:layout_constraintStart_toEndOf="@id/textSettingsFragmentStrong"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textSettingsFragmentStrong" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingsFragmentTime"
+            android:layout_width="@dimen/fragment_text_weight"
+            android:layout_height="@dimen/fragment_text_height"
+            android:gravity="center"
+            android:text="@string/time"
+            android:layout_marginTop="@dimen/info_top_layout_margin"
+            app:layout_constraintStart_toStartOf="@id/textSettingsFragmentStrong"
+            app:layout_constraintTop_toBottomOf="@id/textSettingsFragmentStrong" />
+
+        <com.miraclink.widget.ScrollerLayout
+            android:id="@+id/scrollerSettingsFragmentTime"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:background="@drawable/bg_time_scroller"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingsFragmentTime"
+            app:layout_constraintStart_toEndOf="@id/textSettingsFragmentTime"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textSettingsFragmentTime">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </com.miraclink.widget.ScrollerLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingsFragmentRate"
+            android:layout_width="@dimen/fragment_text_weight"
+            android:layout_height="@dimen/fragment_text_height"
+            android:gravity="center"
+            android:text="@string/rate"
+            android:layout_marginTop="@dimen/info_top_layout_margin"
+            app:layout_constraintEnd_toEndOf="@id/textSettingsFragmentTime"
+            app:layout_constraintStart_toStartOf="@id/textSettingsFragmentTime"
+            app:layout_constraintTop_toBottomOf="@id/textSettingsFragmentTime" />
+
+        <com.miraclink.widget.SlideHorizontalView
+            android:id="@+id/slideSettingsFragmentRate"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="70dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingsFragmentRate"
+            app:layout_constraintStart_toEndOf="@id/textSettingsFragmentRate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textSettingsFragmentRate" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingsFragmentCompose"
+            android:layout_width="@dimen/fragment_text_weight"
+            android:layout_height="@dimen/fragment_text_height"
+            android:gravity="center"
+            android:text="@string/compose"
+            android:layout_marginTop="@dimen/info_top_layout_margin"
+            app:layout_constraintEnd_toEndOf="@id/textSettingsFragmentRate"
+            app:layout_constraintStart_toStartOf="@id/textSettingsFragmentRate"
+            app:layout_constraintTop_toBottomOf="@id/textSettingsFragmentRate" />
+
+        <RadioGroup
+            android:id="@+id/rgSettingsFragmentCompose"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingsFragmentCompose"
+            app:layout_constraintStart_toEndOf="@id/textSettingsFragmentCompose"
+            app:layout_constraintTop_toTopOf="@id/textSettingsFragmentCompose">
+
+            <RadioButton
+                android:id="@+id/rbSettingsFragment1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/compose_alone" />
+
+            <RadioButton
+                android:id="@+id/rbSettingsFragment2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/compose1" />
+
+            <RadioButton
+                android:id="@+id/rbSettingsFragment3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/compose2" />
+
+            <RadioButton
+                android:id="@+id/rbSettingsFragment4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/compose3" />
+
+            <RadioButton
+                android:id="@+id/rbSettingsFragment5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/compose4" />
+        </RadioGroup>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingsFragmentMode"
+            android:layout_width="@dimen/fragment_text_weight"
+            android:layout_height="@dimen/fragment_text_height"
+            android:gravity="center"
+            android:text="@string/mode"
+            android:layout_marginTop="@dimen/info_top_layout_margin"
+            app:layout_constraintEnd_toEndOf="@id/textSettingsFragmentCompose"
+            app:layout_constraintStart_toStartOf="@id/textSettingsFragmentCompose"
+            app:layout_constraintTop_toBottomOf="@id/textSettingsFragmentCompose" />
+
+        <RadioGroup
+            android:id="@+id/rgSettingsFragmentMode"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingsFragmentMode"
+            app:layout_constraintStart_toEndOf="@id/textSettingsFragmentMode"
+            app:layout_constraintTop_toTopOf="@id/textSettingsFragmentMode">
+
+            <RadioButton
+                android:id="@+id/rbSettingsFragmentMode1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/mode1" />
+
+            <RadioButton
+                android:id="@+id/rbSettingsFragmentMode2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mode2" />
+
+            <RadioButton
+                android:id="@+id/rbSettingsFragmentMode3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mode3" />
+
+            <RadioButton
+                android:id="@+id/rbSettingsFragmentMode4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mode4" />
+
+            <RadioButton
+                android:id="@+id/rbSettingsFragmentMode5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mode5" />
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
