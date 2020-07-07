@@ -13,6 +13,7 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -72,6 +73,7 @@ public class MyBlueService extends Service {
         if (bluetoothManager == null) {
             bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
             if (bluetoothManager == null) {
+                LogUtil.d(TAG,"Unable to initialize BluetoothManager.");
                 return false;
             }
         }
@@ -79,6 +81,7 @@ public class MyBlueService extends Service {
         if (bluetoothAdapter == null) {
             bluetoothAdapter = bluetoothManager.getAdapter();
             if (bluetoothAdapter == null) {
+                LogUtil.d(TAG,"Unable to obtain a BluetoothAdapter.");
                 return false;
             }
         }
@@ -89,11 +92,12 @@ public class MyBlueService extends Service {
     // Previously connected device.  Try to reconnect.
     public boolean connect(final String address) {
         if (bluetoothAdapter == null || address == null) {
-            LogUtil.d(TAG, "BluetoothAdapter not initialized or unspecified address");
+            LogUtil.i(TAG, "BluetoothAdapter not initialized or unspecified address");
             return false;
         }
 
         if (bluetoothAddress != null && address.equals(bluetoothAddress) && bluetoothGatt != null) {
+            LogUtil.i(TAG,"Trying to use an existing mBluetoothGatt for connection.");
             if (bluetoothGatt.connect()) {
                 connectStatus = STATE_CONNECTING;
                 return true;
@@ -104,11 +108,16 @@ public class MyBlueService extends Service {
 
         final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(address);
         if (device == null) {
-            LogUtil.d(TAG, "device not found");
+            LogUtil.i(TAG, "device not found");
             return false;
         }
-
-        bluetoothGatt = device.connectGatt(this, false, gattCallback);
+        // android 6.0 connectGatt
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            bluetoothGatt = device.connectGatt(this, false, gattCallback,BluetoothDevice.TRANSPORT_LE);
+        }else {
+            bluetoothGatt = device.connectGatt(this,false,gattCallback);
+        }
+        LogUtil.i(TAG,"Trying to create a new connection.");
         bluetoothAddress = address;
         connectStatus = STATE_CONNECTING;
         return true;
@@ -223,6 +232,7 @@ public class MyBlueService extends Service {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             String intentAction;
+            LogUtil.i(TAG,"onConnectionStateChange states:"+newState);
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 intentAction = BroadCastAction.ACTION_GATT_CONNECTED;
                 connectStatus = STATE_CONNECTED;

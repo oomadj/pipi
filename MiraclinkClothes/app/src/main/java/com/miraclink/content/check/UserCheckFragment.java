@@ -24,13 +24,12 @@ import com.miraclink.utils.Utils;
 public class UserCheckFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = UserCheckFragment.class.getSimpleName();
     private Button btStart;
-    private Button btLeg, btNeck,btArm,btChest,btStomach,btBack,btRear;
+    private Button btLeg, btNeck, btArm, btChest, btStomach, btBack, btRear;
     private TextView tvTime;
 
-    private Button btAdd,btCut;
+    private Button btAdd, btCut;
 
-    private int checkStatus; //测试的状态
-    private boolean isLegSelect,isNeckSelect;
+    private boolean isLegSelect, isNeckSelect,isArmSelect,isChestSelect,isStomachSelect,isBackSelect,isRearSelect;
 
     private CheckCallback checkCallback;
 
@@ -53,7 +52,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener 
     }
 
     private void initParam() {
-        LogUtil.i(TAG,"DPI"+getContext().getResources().getDisplayMetrics().densityDpi);
+        LogUtil.i(TAG, "DPI" + getContext().getResources().getDisplayMetrics().densityDpi);
     }
 
     private void initView(View view) {
@@ -84,85 +83,83 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btUserCheckFragmentStart:     // start and stop pause
-                if (ContentActivity.mState == ContentActivity.UART_PROFILE_CONNECTED){
-                    checkCallback.onCheckStartClick();
-                }else {
-                    Toast.makeText(getContext(),"ble not connected",Toast.LENGTH_SHORT).show();
+                if (Utils.isFastDoubleClick()) {
+                    LogUtil.i(TAG, "click is fast");
+                } else {
+                    if (ContentActivity.mState == ContentActivity.UART_PROFILE_CONNECTED) {
+                        checkCallback.onCheckStartClick();
+                    } else {
+                        Toast.makeText(getContext(), "ble not connected", Toast.LENGTH_SHORT).show();
+                    }
                 }
-
-                break;
-            case R.id.btUserCheckFragmentLeg:
-                checkCallback.onCheckLegClick(10);
-                break;
-            case R.id.btUserCheckFragmentNeck:
                 break;
             case R.id.btUserCheckFragmentAdd:
-                if (isLegSelect){
-
-                }
                 checkCallback.onCheckRateAdd();
                 break;
             case R.id.btUserCheckFragmentCut:
                 checkCallback.onCheckRateCut();
-                LogUtil.i(TAG,"test---:"+0xE1+":"+((0x01+0x32+0x32+0x32+0x32+0x32+0x32+0x32+0x05)&0xFF)+":"+((0x01+0x0A+0x14+0x1E+0x28+0x32+0x3C+0x46+0x01)&0xFF));
+                break;
+
+            case R.id.btUserCheckFragmentLeg:
+                if (isLegSelect){
+                    isLegSelect = false;
+                }else {
+                    isLegSelect = true;
+                }
+                checkCallback.onCheckLegClick(10);
+                break;
+            case R.id.btUserCheckFragmentNeck:
+                btNeck.setActivated(true);
+                break;
+            case R.id.btUserCheckFragmentArm:
+                break;
+            case R.id.btUserCheckFragmentChest:
+                break;
+            case R.id.btUserCheckFragmentStomach:
+                break;
+            case R.id.btUserCheckFragmentBack:
+                break;
+            case R.id.btUserCheckFragmentRear:
                 break;
             default:
                 break;
         }
     }
 
-    private CountDownTimer countDownTimer = new CountDownTimer(10 * 60 * 1000, 1000) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-            tvTime.setText(Utils.formatTime(millisUntilFinished));
-        }
-
-        @Override
-        public void onFinish() {
-            tvTime.setText("00:00");
-        }
-    };
-
-    //取消倒计时
-    public void timerCancel() {
-        countDownTimer.cancel();
-    }
-
-    //开始倒计时
-    public void timerStart() {
-        countDownTimer.start();
-    }
-
-    public TextView timeText(){
+    public TextView timeText() {
         return tvTime;
     }
 
-    public void setButtonText(int status){
+    public Button startButton() {
+        return btStart;
+    }
 
-        LogUtil.i(TAG,"test-status:"+ContentActivity.checkStatus);
+    public void setButtonText(int status) {
+
+        LogUtil.i(TAG, "test-status:" + ContentActivity.checkStatus);
         getActivity().runOnUiThread(new Runnable() {   //TODO 子线程中setText可能不会更新？
             @Override
             public void run() {
-                if(status == 0){
+                if (status == 0) {
                     btStart.setText("start");
-                }else {
+                } else {
                     btStart.setText("stop");
                 }
             }
         });
     }
 
-    public void refreshBtText(int strong){
+    public void refreshBtText(int strong) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                btArm.setText(String.format(getContext().getString(R.string.arm),strong)+"%");
-                btChest.setText(String.format(getContext().getString(R.string.chest),strong)+"%");
-                btStomach.setText(String.format(getContext().getString(R.string.stomach),strong)+"%");
-                btLeg.setText(String.format(getContext().getString(R.string.leg),strong)+"%");
-                btNeck.setText(String.format(getContext().getString(R.string.neck),strong)+"%");
-                btBack.setText(String.format(getContext().getString(R.string.backback),strong)+"%");
-                btRear.setText(String.format(getContext().getString(R.string.rear),strong)+"%");
+                btArm.setText(String.format(getContext().getString(R.string.arm), strong) + "%");
+                btChest.setText(String.format(getContext().getString(R.string.chest), strong) + "%");
+                btStomach.setText(String.format(getContext().getString(R.string.stomach), strong) + "%");
+                btLeg.setText(String.format(getContext().getString(R.string.leg), strong) + "%");
+                btNeck.setText(String.format(getContext().getString(R.string.neck), strong) + "%");
+                btBack.setText(String.format(getContext().getString(R.string.backback), strong) + "%");
+                btRear.setText(String.format(getContext().getString(R.string.rear), strong) + "%");
             }
         });
     }

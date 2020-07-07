@@ -204,9 +204,10 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         blueService.stopSelf();
         blueService = null;
         unregisterReceiver(receiver);
-
-        //timer cancel
-        myCountDownTimer.cancel();
+        if (myCountDownTimer != null){
+            //timer cancel
+            myCountDownTimer.cancel();
+        }
     }
 
     private void setTabSelection(int page) {
@@ -328,10 +329,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    public void onDeviceWrite(boolean status, BluetoothGattCharacteristic bluetoothGattCharacteristic) {
-    }
-
-    @Override
     public void onCheckStartClick() {
         LogUtil.i(TAG, "checkStatus:" + checkStatus);
         if (checkStatus == 0) {
@@ -345,11 +342,12 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
                 }
             }, 1000);
         } else if (checkStatus == 1) {
-            myCountDownTimer.cancel();
+            if (myCountDownTimer != null){
+                myCountDownTimer.cancel();
+            }
             blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x05, 0xE2, 0xE7));
         }
     }
-
 
     //leg click
     @Override
@@ -362,7 +360,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         if (0 <= ioRate && ioRate <= 9){
             ioRate++;
             blueService.writeRXCharacteristic(ByteUtils.getRateCmd(ioRate,1));
-            //checkFragment.refreshBtText(ioRate);
         }
     }
 
@@ -397,8 +394,10 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         @Override
         public void onFinish() {
             myCountDownTimer.cancel();
+            blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x05, 0xE2, 0xE7));
             pauseTime = 2*60*1000;
             checkFragment.timeText().setText("00:00");
+            checkFragment.startButton().setText("start");
             //TODO bt start status change
         }
     }

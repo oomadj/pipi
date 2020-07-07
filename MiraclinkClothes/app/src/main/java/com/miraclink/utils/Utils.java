@@ -54,4 +54,16 @@ public class Utils {
     public static int dpToPx(Context context, int dp) {
         return dp * (context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
+
+
+    private static long lastClickTime;
+    public static boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if ( 0 < timeD && timeD < 1000) {       //500毫秒内按钮无效，这样可以控制快速点击，自己调整频率
+            return true;
+        }
+        lastClickTime = time;
+        return false;
+    }
 }
