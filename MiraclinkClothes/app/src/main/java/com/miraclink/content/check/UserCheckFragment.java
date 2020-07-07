@@ -26,10 +26,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener 
     private Button btStart;
     private Button btLeg, btNeck, btArm, btChest, btStomach, btBack, btRear;
     private TextView tvTime;
-
     private Button btAdd, btCut;
-
-    private boolean isLegSelect, isNeckSelect,isArmSelect,isChestSelect,isStomachSelect,isBackSelect,isRearSelect;
 
     private CheckCallback checkCallback;
 
@@ -101,25 +98,25 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener 
                 break;
 
             case R.id.btUserCheckFragmentLeg:
-                if (isLegSelect){
-                    isLegSelect = false;
-                }else {
-                    isLegSelect = true;
-                }
-                checkCallback.onCheckLegClick(10);
+                checkCallback.onCheckLegClick();
                 break;
             case R.id.btUserCheckFragmentNeck:
-                btNeck.setActivated(true);
+                checkCallback.onCheckNeckClick();
                 break;
             case R.id.btUserCheckFragmentArm:
+                checkCallback.onCheckArmClick();
                 break;
             case R.id.btUserCheckFragmentChest:
+                checkCallback.onCheckChestClick();
                 break;
             case R.id.btUserCheckFragmentStomach:
+                checkCallback.onCheckStomachClick();
                 break;
             case R.id.btUserCheckFragmentBack:
+                checkCallback.onCheckBackClick();
                 break;
             case R.id.btUserCheckFragmentRear:
+                checkCallback.onCheckRearClick();
                 break;
             default:
                 break;
@@ -149,17 +146,74 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener 
         });
     }
 
-    public void refreshBtText(int strong) {
+
+    public void setButtonBackground(int i,boolean isSelect){
+        switch (i){
+            case 1:
+                if (isSelect){
+                    btArm.setBackgroundResource(R.drawable.bg_bt_selcet);
+                }else {
+                    btArm.setBackgroundResource(R.drawable.bg_bt_noselect);
+                }
+                break;
+            case 2:
+                if (isSelect){
+                    btChest.setBackgroundResource(R.drawable.bg_bt_selcet);
+                }else {
+                    btChest.setBackgroundResource(R.drawable.bg_bt_noselect);
+                }
+                break;
+            case 3:
+                if (isSelect){
+                    btStomach.setBackgroundResource(R.drawable.bg_bt_selcet);
+                }else {
+                    btStomach.setBackgroundResource(R.drawable.bg_bt_noselect);
+                }
+                break;
+            case 4:
+                if (isSelect){
+                    btLeg.setBackgroundResource(R.drawable.bg_bt_selcet);
+                }else {
+                    btLeg.setBackgroundResource(R.drawable.bg_bt_noselect);
+                }
+                break;
+            case 5:
+                if (isSelect){
+                    btNeck.setBackgroundResource(R.drawable.bg_bt_selcet);
+                }else {
+                    btNeck.setBackgroundResource(R.drawable.bg_bt_noselect);
+                }
+                break;
+            case 6:
+                if (isSelect){
+                    btBack.setBackgroundResource(R.drawable.bg_bt_selcet);
+                }else {
+                    btBack.setBackgroundResource(R.drawable.bg_bt_noselect);
+                }
+                break;
+            case 7:
+                if (isSelect){
+                    btRear.setBackgroundResource(R.drawable.bg_bt_selcet);
+                }else {
+                    btRear.setBackgroundResource(R.drawable.bg_bt_noselect);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void refreshBtText(int armIo,int chestIo,int stomachIo,int legIo,int neckIo,int backIo,int rearIo) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                btArm.setText(String.format(getContext().getString(R.string.arm), strong) + "%");
-                btChest.setText(String.format(getContext().getString(R.string.chest), strong) + "%");
-                btStomach.setText(String.format(getContext().getString(R.string.stomach), strong) + "%");
-                btLeg.setText(String.format(getContext().getString(R.string.leg), strong) + "%");
-                btNeck.setText(String.format(getContext().getString(R.string.neck), strong) + "%");
-                btBack.setText(String.format(getContext().getString(R.string.backback), strong) + "%");
-                btRear.setText(String.format(getContext().getString(R.string.rear), strong) + "%");
+                btArm.setText(String.format(getContext().getString(R.string.arm), armIo*10) + "%");
+                btChest.setText(String.format(getContext().getString(R.string.chest), chestIo*10) + "%");
+                btStomach.setText(String.format(getContext().getString(R.string.stomach), stomachIo*10) + "%");
+                btLeg.setText(String.format(getContext().getString(R.string.leg), legIo*10) + "%");
+                btNeck.setText(String.format(getContext().getString(R.string.neck), neckIo*10) + "%");
+                btBack.setText(String.format(getContext().getString(R.string.backback), backIo*10) + "%");
+                btRear.setText(String.format(getContext().getString(R.string.rear), rearIo*10) + "%");
             }
         });
     }

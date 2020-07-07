@@ -302,11 +302,8 @@ public class MyBlueService extends Service {
                     LogUtil.e(TAG, "un encoding exception" + e.toString());
                     e.printStackTrace();
                 }
-
-                baseCallback.onDeviceWrite(true,characteristic);
             } else {
                 LogUtil.e(TAG, "on ct write failed:" + status);
-                baseCallback.onDeviceWrite(false,characteristic);
             }
         }
 

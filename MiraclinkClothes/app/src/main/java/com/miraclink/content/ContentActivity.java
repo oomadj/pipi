@@ -37,7 +37,7 @@ import com.miraclink.utils.ByteUtils;
 import com.miraclink.utils.LogUtil;
 import com.miraclink.utils.Utils;
 
-public class ContentActivity extends BaseActivity implements View.OnClickListener, BaseCallback, CheckCallback {
+public class ContentActivity extends BaseActivity implements View.OnClickListener{
     private static final String TAG = ContentActivity.class.getSimpleName();
     private FrameLayout frameLayout;
     private UserCheckFragment checkFragment;
@@ -59,6 +59,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     private ServiceConnection serviceConnection;
     private MyBlueService blueService;
     private Intent bindIntent;
+    private ContentContract.Presenter presenter;
 
     public static int checkStatus = 0;   // 0 stop // 1 starting
     public static String bleAddress;
@@ -72,14 +73,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
 
     public int ioRate = 1; // io 功率
     public int strong = 1; //strong
-
-    private boolean isLegChecked;
-    private boolean isArmChecked;
-    private boolean isChestChecked;
-    private boolean isStomachChecked;
-    private boolean isNeckChecked;
-    private boolean isBackChecked;
-    private boolean isRearChecked;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,6 +90,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         bindIntent = new Intent(this, MyBlueService.class);
         fragmentManager = getSupportFragmentManager();
         frameLayout = findViewById(R.id.layoutContentActivityContent);
+        presenter = new ContentPresenter();
         serviceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
@@ -105,7 +99,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
                     LogUtil.d(TAG, "Unable to initialize Bluetooth");
                     finish();
                 }
-                blueService.setCallback(ContentActivity.this);
+                presenter.getBlueService(blueService);
             }
 
             @Override
@@ -166,7 +160,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("position", i);
-        //LogUtil.i(TAG, "on save instance state");
     }
 
     @Override
@@ -204,10 +197,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         blueService.stopSelf();
         blueService = null;
         unregisterReceiver(receiver);
-        if (myCountDownTimer != null){
-            //timer cancel
-            myCountDownTimer.cancel();
-        }
+
     }
 
     private void setTabSelection(int page) {
@@ -237,7 +227,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
             case 2:
                 if (checkFragment == null) {
                     checkFragment = new UserCheckFragment();
-                    checkFragment.setOnCheckClickListener(this);
+                    presenter.getCheckFragment(checkFragment);
                     transaction.add(R.id.layoutContentActivityContent, checkFragment);
                 } else {
                     transaction.show(checkFragment);
@@ -311,95 +301,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    @Override
-    public void onDeviceChange(BluetoothGattCharacteristic bluetoothGattCharacteristic) {
-        String value = ByteUtils.toHexString(bluetoothGattCharacteristic.getValue());
-        LogUtil.i(TAG, "xzx--on device change -values:" + value);
-        if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(), Utils.startBackByte)) {
-            checkStatus = 1;
-            LogUtil.i(TAG, "checkStatus == 1");
-            checkFragment.setButtonText(checkStatus);
-        } else if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(), Utils.stopBackByte)) {
-            checkStatus = 0;
-            LogUtil.i(TAG, "checkStatus == 0");
-            checkFragment.setButtonText(checkStatus);
-        } else if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(),Utils.addOrCutBackByte)){
-            checkFragment.refreshBtText(ioRate);
-        }
-    }
 
-    @Override
-    public void onCheckStartClick() {
-        LogUtil.i(TAG, "checkStatus:" + checkStatus);
-        if (checkStatus == 0) {
-            blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x03, 0xE1, 0xE4));
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // timer cmd
-                    myCountDownTimer = new MyCountDownTimer(pauseTime,1000);
-                    myCountDownTimer.start();
-                }
-            }, 1000);
-        } else if (checkStatus == 1) {
-            if (myCountDownTimer != null){
-                myCountDownTimer.cancel();
-            }
-            blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x05, 0xE2, 0xE7));
-        }
-    }
-
-    //leg click
-    @Override
-    public void onCheckLegClick(int strong) {
-    }
-
-    // add rate while fun button is checked
-    @Override
-    public void onCheckRateAdd() {
-        if (0 <= ioRate && ioRate <= 9){
-            ioRate++;
-            blueService.writeRXCharacteristic(ByteUtils.getRateCmd(ioRate,1));
-        }
-    }
-
-    //cut rate
-    @Override
-    public void onCheckRateCut() {
-        if (1 <= ioRate && ioRate <= 10) {
-            ioRate--;
-            blueService.writeRXCharacteristic(ByteUtils.getRateCmd(ioRate,1));
-        }
-    }
-
-    private MyCountDownTimer myCountDownTimer;
-    private long pauseTime = 2*60*1000;    //init time
-
-    //每秒钟发送一次心跳包
-    class MyCountDownTimer extends CountDownTimer{
-
-        public MyCountDownTimer(long millisInFuture, long countDownInterval) {
-            super(millisInFuture, countDownInterval);
-        }
-
-        @Override
-        public void onTick(long millisUntilFinished) {
-            if (blueService != null) {
-                blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x07, 0xE3, 0xEA));
-                checkFragment.timeText().setText(Utils.formatTime(millisUntilFinished));
-                pauseTime = millisUntilFinished;
-            }
-        }
-
-        @Override
-        public void onFinish() {
-            myCountDownTimer.cancel();
-            blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x05, 0xE2, 0xE7));
-            pauseTime = 2*60*1000;
-            checkFragment.timeText().setText("00:00");
-            checkFragment.startButton().setText("start");
-            //TODO bt start status change
-        }
-    }
 
 }

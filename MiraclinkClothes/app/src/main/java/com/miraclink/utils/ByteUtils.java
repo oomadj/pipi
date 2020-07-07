@@ -29,6 +29,21 @@ public class ByteUtils {
         }
     }
 
+
+    //TODO strong will get
+    public static byte[] getRateCmd(int armIo,int chestIo,int stomachIo,int legIo,int neckIo,int backIo,int rearIo,int strong){
+        if (armIo >=0 && armIo <=10){
+            byte[] data = new byte[]{(byte) 0xAE, 0x01,intToByte(armIo *10),intToByte(chestIo*10),intToByte(stomachIo*10),intToByte(legIo*10),intToByte(neckIo*10),
+                    intToByte(backIo*10),intToByte(rearIo*10),0x01,(byte) ((intToByte(armIo *10)+ intToByte(chestIo*10)+intToByte(stomachIo*10)+intToByte(legIo*10)+
+                    intToByte(neckIo*10)+intToByte(backIo*10)+intToByte(rearIo*10)+0x01+0x01)&0xFF)};
+            return data;
+        }else {
+            LogUtil.i("ByteUtils","cmd exception");
+            return new byte[]{(byte) 0xAE, 0x01, 0x32, 0x32, 0x32, 0x32, 0x32, 0x32, 0x32, 0x05, 0x64};  // exception rate
+        }
+
+    }
+
     // leg 大腿    arm 臂     chest 胸膛      stomach 腹部     neck 脖子    back 背部      rear 屁股
     //public static byte[] getFunRateCmd(boolean leg,boolean arm,boolean chest,boolean stomach,boolean neck,boolean back,boolean rear){
 

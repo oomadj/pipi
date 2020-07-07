@@ -300,8 +300,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     }
 
-    @Override
-    public void onDeviceWrite(boolean status, BluetoothGattCharacteristic bluetoothGattCharacteristic) {
-        LogUtil.i(TAG, "xzx--on device write");
-    }
 }
