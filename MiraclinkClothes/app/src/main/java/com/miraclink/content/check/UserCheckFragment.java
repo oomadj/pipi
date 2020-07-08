@@ -1,8 +1,10 @@
 package com.miraclink.content.check;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,24 +17,29 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.miraclink.R;
-import com.miraclink.base.CheckCallback;
 import com.miraclink.content.ContentActivity;
+import com.miraclink.database.IUserDatabaseManager;
+import com.miraclink.database.UserDatabaseManager;
+import com.miraclink.model.User;
+import com.miraclink.utils.AppExecutors;
+import com.miraclink.utils.BroadCastAction;
 import com.miraclink.utils.LogUtil;
+import com.miraclink.utils.SharePreUtils;
 import com.miraclink.utils.Utils;
 
 
-public class UserCheckFragment extends Fragment implements View.OnClickListener {
+public class UserCheckFragment extends Fragment implements View.OnClickListener, UserCheckContract.IView {
     private static final String TAG = UserCheckFragment.class.getSimpleName();
     private Button btStart;
     private Button btLeg, btNeck, btArm, btChest, btStomach, btBack, btRear;
     private TextView tvTime;
     private Button btAdd, btCut;
+    private TextView tvName, tvId;
 
-    private CheckCallback checkCallback;
-
-    public void setOnCheckClickListener(CheckCallback callback) {
-        checkCallback = callback;
-    }
+    private UserCheckContract.Presenter presenter;
+    ContentActivity activity;
+    private IUserDatabaseManager iUserDatabaseManager;
+    private BroadcastReceiver receiver;
 
     @Nullable
     @Override
@@ -48,8 +55,44 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener 
         initView(view);
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        activity = (ContentActivity) getActivity();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!SharePreUtils.getCurrentID(getContext()).isEmpty()) {
+            LogUtil.i(TAG, "get current id != null" + SharePreUtils.getCurrentID(getContext()));
+            presenter.getUserInfo(SharePreUtils.getCurrentID(getContext()));
+        }
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BroadCastAction.USER_CHANGED);
+        getContext().registerReceiver(receiver, filter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
+        getContext().unregisterReceiver(receiver);
+    }
+
     private void initParam() {
-        LogUtil.i(TAG, "DPI" + getContext().getResources().getDisplayMetrics().densityDpi);
+        iUserDatabaseManager = UserDatabaseManager.getInstance(getContext(), AppExecutors.getInstance());
+        presenter = new UserCheckPresenter(this, iUserDatabaseManager);
+        presenter.getBlueService(activity.getBlueService());
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(BroadCastAction.USER_CHANGED)) {
+                    presenter.onUserChanged();
+                }
+            }
+        };
     }
 
     private void initView(View view) {
@@ -74,6 +117,8 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener 
         btBack.setOnClickListener(this);
         btChest.setOnClickListener(this);
         btRear.setOnClickListener(this);
+        tvName = view.findViewById(R.id.textUserCheckFragmentName);
+        tvId = view.findViewById(R.id.textUserCheckFragmentId);
     }
 
     @Override
@@ -84,55 +129,129 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener 
                     LogUtil.i(TAG, "click is fast");
                 } else {
                     if (ContentActivity.mState == ContentActivity.UART_PROFILE_CONNECTED) {
-                        checkCallback.onCheckStartClick();
+                        presenter.onCheckStartClick();
                     } else {
                         Toast.makeText(getContext(), "ble not connected", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
             case R.id.btUserCheckFragmentAdd:
-                checkCallback.onCheckRateAdd();
+                presenter.onCheckRateAdd();
                 break;
             case R.id.btUserCheckFragmentCut:
-                checkCallback.onCheckRateCut();
+                presenter.onCheckRateCut();
                 break;
-
             case R.id.btUserCheckFragmentLeg:
-                checkCallback.onCheckLegClick();
+                presenter.onCheckLegClick();
                 break;
             case R.id.btUserCheckFragmentNeck:
-                checkCallback.onCheckNeckClick();
+                presenter.onCheckNeckClick();
                 break;
             case R.id.btUserCheckFragmentArm:
-                checkCallback.onCheckArmClick();
+                presenter.onCheckArmClick();
                 break;
             case R.id.btUserCheckFragmentChest:
-                checkCallback.onCheckChestClick();
+                presenter.onCheckChestClick();
                 break;
             case R.id.btUserCheckFragmentStomach:
-                checkCallback.onCheckStomachClick();
+                presenter.onCheckStomachClick();
                 break;
             case R.id.btUserCheckFragmentBack:
-                checkCallback.onCheckBackClick();
+                presenter.onCheckBackClick();
                 break;
             case R.id.btUserCheckFragmentRear:
-                checkCallback.onCheckRearClick();
+                presenter.onCheckRearClick();
                 break;
             default:
                 break;
         }
     }
 
-    public TextView timeText() {
-        return tvTime;
+    @Override
+    public void setButtonBackground(int i, boolean isCheck) {
+        switch (i) {
+            case 1:
+                if (isCheck) {
+                    btArm.setBackgroundResource(R.drawable.bg_bt_selcet);
+                } else {
+                    btArm.setBackgroundResource(R.drawable.bg_bt_noselect);
+                }
+                break;
+            case 2:
+                if (isCheck) {
+                    btChest.setBackgroundResource(R.drawable.bg_bt_selcet);
+                } else {
+                    btChest.setBackgroundResource(R.drawable.bg_bt_noselect);
+                }
+                break;
+            case 3:
+                if (isCheck) {
+                    btStomach.setBackgroundResource(R.drawable.bg_bt_selcet);
+                } else {
+                    btStomach.setBackgroundResource(R.drawable.bg_bt_noselect);
+                }
+                break;
+            case 4:
+                if (isCheck) {
+                    btLeg.setBackgroundResource(R.drawable.bg_bt_selcet);
+                } else {
+                    btLeg.setBackgroundResource(R.drawable.bg_bt_noselect);
+                }
+                break;
+            case 5:
+                if (isCheck) {
+                    btNeck.setBackgroundResource(R.drawable.bg_bt_selcet);
+                } else {
+                    btNeck.setBackgroundResource(R.drawable.bg_bt_noselect);
+                }
+                break;
+            case 6:
+                if (isCheck) {
+                    btBack.setBackgroundResource(R.drawable.bg_bt_selcet);
+                } else {
+                    btBack.setBackgroundResource(R.drawable.bg_bt_noselect);
+                }
+                break;
+            case 7:
+                if (isCheck) {
+                    btRear.setBackgroundResource(R.drawable.bg_bt_selcet);
+                } else {
+                    btRear.setBackgroundResource(R.drawable.bg_bt_noselect);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
-    public Button startButton() {
-        return btStart;
+    @Override
+    public void setTimeText(String text) {
+        tvTime.setText(text);
     }
 
-    public void setButtonText(int status) {
+    @Override
+    public void setStartText(String text) {
+        btStart.setText(text);
+    }
 
+    @Override
+    public void refreshCheckButtonText(int armIo, int chestIo, int stomachIo, int legIo, int neckIo, int backIo, int rearIo) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                btArm.setText(String.format(getContext().getString(R.string.arm), armIo * 10) + "%");
+                btChest.setText(String.format(getContext().getString(R.string.chest), chestIo * 10) + "%");
+                btStomach.setText(String.format(getContext().getString(R.string.stomach), stomachIo * 10) + "%");
+                btLeg.setText(String.format(getContext().getString(R.string.leg), legIo * 10) + "%");
+                btNeck.setText(String.format(getContext().getString(R.string.neck), neckIo * 10) + "%");
+                btBack.setText(String.format(getContext().getString(R.string.backback), backIo * 10) + "%");
+                btRear.setText(String.format(getContext().getString(R.string.rear), rearIo * 10) + "%");
+            }
+        });
+    }
+
+    @Override
+    public void refreshStartButtonText(int status) {
         LogUtil.i(TAG, "test-status:" + ContentActivity.checkStatus);
         getActivity().runOnUiThread(new Runnable() {   //TODO 子线程中setText可能不会更新？
             @Override
@@ -146,77 +265,10 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener 
         });
     }
 
-
-    public void setButtonBackground(int i,boolean isSelect){
-        switch (i){
-            case 1:
-                if (isSelect){
-                    btArm.setBackgroundResource(R.drawable.bg_bt_selcet);
-                }else {
-                    btArm.setBackgroundResource(R.drawable.bg_bt_noselect);
-                }
-                break;
-            case 2:
-                if (isSelect){
-                    btChest.setBackgroundResource(R.drawable.bg_bt_selcet);
-                }else {
-                    btChest.setBackgroundResource(R.drawable.bg_bt_noselect);
-                }
-                break;
-            case 3:
-                if (isSelect){
-                    btStomach.setBackgroundResource(R.drawable.bg_bt_selcet);
-                }else {
-                    btStomach.setBackgroundResource(R.drawable.bg_bt_noselect);
-                }
-                break;
-            case 4:
-                if (isSelect){
-                    btLeg.setBackgroundResource(R.drawable.bg_bt_selcet);
-                }else {
-                    btLeg.setBackgroundResource(R.drawable.bg_bt_noselect);
-                }
-                break;
-            case 5:
-                if (isSelect){
-                    btNeck.setBackgroundResource(R.drawable.bg_bt_selcet);
-                }else {
-                    btNeck.setBackgroundResource(R.drawable.bg_bt_noselect);
-                }
-                break;
-            case 6:
-                if (isSelect){
-                    btBack.setBackgroundResource(R.drawable.bg_bt_selcet);
-                }else {
-                    btBack.setBackgroundResource(R.drawable.bg_bt_noselect);
-                }
-                break;
-            case 7:
-                if (isSelect){
-                    btRear.setBackgroundResource(R.drawable.bg_bt_selcet);
-                }else {
-                    btRear.setBackgroundResource(R.drawable.bg_bt_noselect);
-                }
-                break;
-            default:
-                break;
-        }
+    @Override
+    public void setInfoText(User user) {
+        tvName.setText(user.getName());
+        tvId.setText(user.getID());
     }
-
-    public void refreshBtText(int armIo,int chestIo,int stomachIo,int legIo,int neckIo,int backIo,int rearIo) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                btArm.setText(String.format(getContext().getString(R.string.arm), armIo*10) + "%");
-                btChest.setText(String.format(getContext().getString(R.string.chest), chestIo*10) + "%");
-                btStomach.setText(String.format(getContext().getString(R.string.stomach), stomachIo*10) + "%");
-                btLeg.setText(String.format(getContext().getString(R.string.leg), legIo*10) + "%");
-                btNeck.setText(String.format(getContext().getString(R.string.neck), neckIo*10) + "%");
-                btBack.setText(String.format(getContext().getString(R.string.backback), backIo*10) + "%");
-                btRear.setText(String.format(getContext().getString(R.string.rear), rearIo*10) + "%");
-            }
-        });
-    }
-
 
 }

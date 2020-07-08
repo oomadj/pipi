@@ -46,7 +46,7 @@ public class MyBlueService extends Service {
 
     private BaseCallback baseCallback; // xzx add
 
-    public void setCallback(BaseCallback callback){
+    public void setCallback(BaseCallback callback) {
         baseCallback = callback;
     }
 
@@ -73,7 +73,7 @@ public class MyBlueService extends Service {
         if (bluetoothManager == null) {
             bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
             if (bluetoothManager == null) {
-                LogUtil.d(TAG,"Unable to initialize BluetoothManager.");
+                LogUtil.d(TAG, "Unable to initialize BluetoothManager.");
                 return false;
             }
         }
@@ -81,7 +81,7 @@ public class MyBlueService extends Service {
         if (bluetoothAdapter == null) {
             bluetoothAdapter = bluetoothManager.getAdapter();
             if (bluetoothAdapter == null) {
-                LogUtil.d(TAG,"Unable to obtain a BluetoothAdapter.");
+                LogUtil.d(TAG, "Unable to obtain a BluetoothAdapter.");
                 return false;
             }
         }
@@ -97,7 +97,7 @@ public class MyBlueService extends Service {
         }
 
         if (bluetoothAddress != null && address.equals(bluetoothAddress) && bluetoothGatt != null) {
-            LogUtil.i(TAG,"Trying to use an existing mBluetoothGatt for connection.");
+            LogUtil.i(TAG, "Trying to use an existing mBluetoothGatt for connection.");
             if (bluetoothGatt.connect()) {
                 connectStatus = STATE_CONNECTING;
                 return true;
@@ -113,11 +113,11 @@ public class MyBlueService extends Service {
         }
         // android 6.0 connectGatt
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            bluetoothGatt = device.connectGatt(this, false, gattCallback,BluetoothDevice.TRANSPORT_LE);
-        }else {
-            bluetoothGatt = device.connectGatt(this,false,gattCallback);
+            bluetoothGatt = device.connectGatt(this, false, gattCallback, BluetoothDevice.TRANSPORT_LE);
+        } else {
+            bluetoothGatt = device.connectGatt(this, false, gattCallback);
         }
-        LogUtil.i(TAG,"Trying to create a new connection.");
+        LogUtil.i(TAG, "Trying to create a new connection.");
         bluetoothAddress = address;
         connectStatus = STATE_CONNECTING;
         return true;
@@ -177,8 +177,8 @@ public class MyBlueService extends Service {
     }
 
     public void writeRXCharacteristic(byte[] values) {
-        if (bluetoothGatt == null){
-            LogUtil.i(TAG,"xzx blue gatt is null");
+        if (bluetoothGatt == null) {
+            LogUtil.i(TAG, "xzx blue gatt is null");
             return;
         }
         BluetoothGattService rxService = bluetoothGatt.getService(RX_SERVICE_UUID);
@@ -232,7 +232,7 @@ public class MyBlueService extends Service {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             String intentAction;
-            LogUtil.i(TAG,"onConnectionStateChange states:"+newState);
+            LogUtil.i(TAG, "onConnectionStateChange states:" + newState);
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 intentAction = BroadCastAction.ACTION_GATT_CONNECTED;
                 connectStatus = STATE_CONNECTED;
@@ -242,6 +242,7 @@ public class MyBlueService extends Service {
                 intentAction = BroadCastAction.ACTION_GATT_DISCONNECTED;
                 connectStatus = STATE_DISCONNECTED;
                 broadcastUpdate(intentAction);
+                close();  // xzx add 建议：在onConnectionStateChange()回调中判断，若state非0(连接断开)，调用gatt.close()，手动释放掉gatt相关资源
                 LogUtil.i(TAG, "disconnect form gatt server");
             }
         }

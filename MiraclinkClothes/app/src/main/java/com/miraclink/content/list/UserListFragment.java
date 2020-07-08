@@ -89,6 +89,7 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
                 if (intent.getAction().equals(BroadCastAction.USER_LIST_DATA)){
                     users = intent.<User>getParcelableArrayListExtra("DATA");
                     userAdapter.setData(users);
+                    SharePreUtils.setCurrentID(getContext(),users.get(0).getID()); // init select 0
                 }
             }
         };

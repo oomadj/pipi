@@ -17,6 +17,13 @@ public class SharePreUtils {
     //
     public static String getCurrentID(Context context) {
         SharedPreferences sp = context.getSharedPreferences(PRENAME, Context.MODE_PRIVATE);
-        return sp.getString("Current_ID", "null");
+        return sp.getString("Current_ID", "");
+    }
+
+    //
+    public static void removeCurrentID(Context context){
+        SharedPreferences.Editor editor = context.getSharedPreferences(PRENAME,Context.MODE_PRIVATE).edit();
+        editor.remove("Current_ID");
+        editor.apply();
     }
 }

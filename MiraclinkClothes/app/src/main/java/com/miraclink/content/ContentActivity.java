@@ -3,7 +3,6 @@ package com.miraclink.content;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -11,8 +10,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
@@ -25,19 +22,19 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.miraclink.R;
 import com.miraclink.base.BaseActivity;
-import com.miraclink.base.BaseCallback;
-import com.miraclink.base.CheckCallback;
 import com.miraclink.bluetooth.MyBlueService;
 import com.miraclink.content.check.UserCheckFragment;
 import com.miraclink.content.info.UserInfoFragment;
 import com.miraclink.content.list.UserListFragment;
 import com.miraclink.content.setting.SettingsFragment;
+import com.miraclink.database.IUserDatabaseManager;
+import com.miraclink.database.UserDatabaseManager;
+import com.miraclink.utils.AppExecutors;
 import com.miraclink.utils.BroadCastAction;
-import com.miraclink.utils.ByteUtils;
 import com.miraclink.utils.LogUtil;
-import com.miraclink.utils.Utils;
+import com.miraclink.utils.SharePreUtils;
 
-public class ContentActivity extends BaseActivity implements View.OnClickListener{
+public class ContentActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = ContentActivity.class.getSimpleName();
     private FrameLayout frameLayout;
     private UserCheckFragment checkFragment;
@@ -46,6 +43,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     private SettingsFragment settingsFragment;
     private BroadcastReceiver receiver;
     private BluetoothAdapter bluetoothAdapter;
+    private IUserDatabaseManager iUserDatabaseManager;
 
     private Button btList;
     private Button btInfo;
@@ -83,9 +81,13 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         setTabSelection(0);
     }
 
+    public MyBlueService getBlueService() {
+        return blueService;
+    }
 
     @Override
     protected void initParam() {
+        iUserDatabaseManager = UserDatabaseManager.getInstance(this, AppExecutors.getInstance());
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         bindIntent = new Intent(this, MyBlueService.class);
         fragmentManager = getSupportFragmentManager();
@@ -99,7 +101,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
                     LogUtil.d(TAG, "Unable to initialize Bluetooth");
                     finish();
                 }
-                presenter.getBlueService(blueService);
             }
 
             @Override
@@ -197,7 +198,9 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         blueService.stopSelf();
         blueService = null;
         unregisterReceiver(receiver);
-
+        presenter.onDestroy();
+        //remove saved user id
+        SharePreUtils.removeCurrentID(this);
     }
 
     private void setTabSelection(int page) {
@@ -227,7 +230,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
             case 2:
                 if (checkFragment == null) {
                     checkFragment = new UserCheckFragment();
-                    presenter.getCheckFragment(checkFragment);
                     transaction.add(R.id.layoutContentActivityContent, checkFragment);
                 } else {
                     transaction.show(checkFragment);
@@ -300,7 +302,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
                 break;
         }
     }
-
 
 
 }
