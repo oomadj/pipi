@@ -242,7 +242,7 @@ public class MyBlueService extends Service {
                 intentAction = BroadCastAction.ACTION_GATT_DISCONNECTED;
                 connectStatus = STATE_DISCONNECTED;
                 broadcastUpdate(intentAction);
-                close();  // xzx add 建议：在onConnectionStateChange()回调中判断，若state非0(连接断开)，调用gatt.close()，手动释放掉gatt相关资源
+                //close();  // xzx add 建议：在onConnectionStateChange()回调中判断，若state非0(连接断开)，调用gatt.close()，手动释放掉gatt相关资源
                 LogUtil.i(TAG, "disconnect form gatt server");
             }
         }

@@ -114,5 +114,6 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
     public void onQueried(List<User> userList) {
         users = (ArrayList<User>) userList;
         userAdapter.setData(users);
+        SharePreUtils.setCurrentID(getContext(),users.get(0).getID()); // init select 0
     }
 }

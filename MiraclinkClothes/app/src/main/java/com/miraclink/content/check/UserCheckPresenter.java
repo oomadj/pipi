@@ -75,9 +75,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
 
     @Override
     public void getUserInfo(String id) {
-        iUserDatabaseManager.queryUserByID(user -> {
-            iView.setInfoText(user);
-        }, id);
+        getUserInfoToDatabase(id);
     }
 
     @Override
@@ -88,10 +86,10 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
                 @Override
                 public void run() {
                     // timer cmd
-                    myCountDownTimer = new MyCountDownTimer(pauseTime, 1000);
+                    myCountDownTimer = new MyCountDownTimer(pauseTime, 990);
                     myCountDownTimer.start();
                 }
-            }, 1000);
+            }, 500);
         } else if (checkStatus == 1) {
             if (myCountDownTimer != null) {
                 myCountDownTimer.cancel();
@@ -276,6 +274,12 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         blueService.writeRXCharacteristic(ByteUtils.getRateCmd(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo, 1));
     }
 
+    private void getUserInfoToDatabase(String id){
+        iUserDatabaseManager.queryUserByID(user -> {
+            iView.setInfoText(user);
+        }, id);
+    }
+
     //每秒钟发送一次心跳包
     class MyCountDownTimer extends CountDownTimer {
 
@@ -286,6 +290,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         @Override
         public void onTick(long millisUntilFinished) {
             if (blueService != null) {
+                LogUtil.i(TAG,"handler -+++++-write rx");
                 blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x07, 0xE3, 0xEA));
                 pauseTime = millisUntilFinished;
                 iView.setTimeText(Utils.formatTime(millisUntilFinished));

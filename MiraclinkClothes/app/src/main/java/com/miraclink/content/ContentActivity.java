@@ -269,15 +269,19 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btContentActivityUserList:
+                sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  //refresh page data
                 setTabSelection(0);
                 break;
             case R.id.btbtContentActivityUserInfo:
+                sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  //refresh page data
                 setTabSelection(1);
                 break;
             case R.id.btContentActivityUserCheck:
+                sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  //refresh page data
                 setTabSelection(2);
                 break;
             case R.id.btContentActivitySettings:
+                sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  //refresh page data
                 setTabSelection(3);
                 break;
             default:

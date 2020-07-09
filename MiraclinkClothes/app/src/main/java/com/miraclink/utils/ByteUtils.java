@@ -92,7 +92,7 @@ public class ByteUtils {
         byte b = 0;
         switch (i) {
             case 10:
-                b = 0x1A;
+                b = 0x0A;
                 break;
             case 20:
                 b = 0x14;

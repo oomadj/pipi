@@ -17,7 +17,7 @@ import okhttp3.RequestBody;
 // created by xuzhixin on 20/6/16
 public class NetworkController {
     public static final String TAG = NetworkController.class.getSimpleName();
-    public static final boolean isDebug = true;
+    public static final boolean isDebug = true;  //TODO is test
 
     private static NetworkController INSTANCE;
     private Context context;

@@ -71,6 +71,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(BroadCastAction.USER_CHANGED);
+        filter.addAction(BroadCastAction.ACTION_GATT_DISCONNECTED);
         getContext().registerReceiver(receiver, filter);
     }
 
@@ -90,6 +91,9 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(BroadCastAction.USER_CHANGED)) {
                     presenter.onUserChanged();
+                    presenter.getUserInfo(SharePreUtils.getCurrentID(getContext()));
+                }else if (intent.getAction().equals(BroadCastAction.ACTION_GATT_DISCONNECTED)){
+
                 }
             }
         };
@@ -267,8 +271,13 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void setInfoText(User user) {
-        tvName.setText(user.getName());
-        tvId.setText(user.getID());
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                tvName.setText(user.getName());
+                tvId.setText(user.getID());
+            }
+        });
     }
 
 }
