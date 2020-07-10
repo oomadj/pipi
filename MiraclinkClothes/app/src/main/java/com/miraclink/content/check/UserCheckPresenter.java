@@ -38,6 +38,10 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
     private int rearIo = ioRate;
     private int strong;
 
+    private String lastAddress;
+    private int replayCount = 100;
+    private boolean isReplay = false;
+
     public UserCheckPresenter(UserCheckContract.IView iView, IUserDatabaseManager iUserDatabaseManager) {
         this.iView = iView;
         this.iUserDatabaseManager = iUserDatabaseManager;
@@ -47,6 +51,12 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
     public void getBlueService(MyBlueService service) {
         blueService = service;
         blueService.setCallback(this);
+    }
+
+    @Override
+    public void getBleAddress(String string) {
+        LogUtil.i(TAG,"last address:"+string);
+        lastAddress = string;
     }
 
     @Override
@@ -193,9 +203,22 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         }
     }
 
+    //TODO rePlay Connected ---
     @Override
     public void onDisconnected() {
         myCountDownTimer.cancel();
+        blueService.close();
+        LogUtil.i(TAG,"on disconnected:"+lastAddress);
+        if (lastAddress != null && blueService != null){
+            LogUtil.i(TAG,"is replay connect:"+replayCount);
+            if (replayCount >0){
+                replayCount --;
+                boolean isConnected = blueService.connect(lastAddress);
+                if (isConnected){
+                    isReplay = true;
+                }
+            }
+        }
     }
 
     private void checkAdd() {

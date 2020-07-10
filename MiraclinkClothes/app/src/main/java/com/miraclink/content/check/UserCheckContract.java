@@ -7,6 +7,7 @@ import com.miraclink.model.User;
 public interface UserCheckContract {
     interface Presenter{
         void getBlueService(MyBlueService service);
+        void getBleAddress(String string);
         void onDestroy();
         void getUserInfo(String id);
 
@@ -32,7 +33,6 @@ public interface UserCheckContract {
 
         void onUserChanged();
 
-        void onDisconnected();
     }
 
     interface IView{

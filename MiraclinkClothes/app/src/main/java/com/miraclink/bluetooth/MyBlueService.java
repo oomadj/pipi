@@ -196,7 +196,7 @@ public class MyBlueService extends Service {
         }
         rxCharacteristic.setValue(values);
 
-        // xzx add
+        // xzx add test
         if ((rxCharacteristic.getProperties() & BluetoothGattCharacteristic.PROPERTY_WRITE) == 0
                 && (rxCharacteristic.getProperties()
                 & BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE) == 0) {
@@ -221,9 +221,7 @@ public class MyBlueService extends Service {
         final Intent intent = new Intent(action);
         if (TX_CHAR_UUID.equals(characteristic.getUuid())) {
             intent.putExtra(BroadCastAction.EXTRA_DATA, characteristic.getValue());
-            //LogUtil.i(TAG, "received 1 char value:" + characteristic.getValue());
         } else {
-            //LogUtil.i(TAG, "recevied 2 char value:" + characteristic.getValue());
         }
         this.sendBroadcast(intent);
     }
@@ -244,6 +242,7 @@ public class MyBlueService extends Service {
                 broadcastUpdate(intentAction);
                 //close();  // xzx add 建议：在onConnectionStateChange()回调中判断，若state非0(连接断开)，调用gatt.close()，手动释放掉gatt相关资源
                 LogUtil.i(TAG, "disconnect form gatt server");
+                baseCallback.onDisconnected();
             }
         }
 
@@ -260,19 +259,19 @@ public class MyBlueService extends Service {
                         if ((charProp & BluetoothGattCharacteristic.PROPERTY_WRITE) > 0) {
                             RX_SERVICE_UUID = services.get(i).getUuid();
                             RX_CHAR_UUID = characteristics.get(b).getUuid();
-                            LogUtil.i(TAG, "write uuid: service:" + RX_SERVICE_UUID + ": rx char:" + RX_CHAR_UUID);
+                            //LogUtil.i(TAG, "write uuid: service:" + RX_SERVICE_UUID + ": rx char:" + RX_CHAR_UUID);
                         }
 
                         if ((charProp & BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE) > 0) {
                             RX_SERVICE_UUID = services.get(i).getUuid();
                             RX_CHAR_UUID = characteristics.get(b).getUuid();
-                            Log.i(TAG, "xzx-write no response-uuid: service:" + RX_SERVICE_UUID + ":rx char:" + RX_CHAR_UUID);
+                            //Log.i(TAG, "xzx-write no response-uuid: service:" + RX_SERVICE_UUID + ":rx char:" + RX_CHAR_UUID);
                         }
 
                         if ((charProp & BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
                             RX_SERVICE_UUID = services.get(i).getUuid();
                             TX_CHAR_UUID = characteristics.get(b).getUuid();
-                            Log.i(TAG, "xzx-notify-uuid: service" + RX_SERVICE_UUID + ":tx char:" + TX_CHAR_UUID);
+                            //Log.i(TAG, "xzx-notify-uuid: service" + RX_SERVICE_UUID + ":tx char:" + TX_CHAR_UUID);
                         }
 
                     }

@@ -71,8 +71,9 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(BroadCastAction.USER_CHANGED);
-        filter.addAction(BroadCastAction.ACTION_GATT_DISCONNECTED);
         getContext().registerReceiver(receiver, filter);
+        presenter.getBleAddress(activity.getBleAddress());
+
     }
 
     @Override
@@ -92,8 +93,6 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
                 if (intent.getAction().equals(BroadCastAction.USER_CHANGED)) {
                     presenter.onUserChanged();
                     presenter.getUserInfo(SharePreUtils.getCurrentID(getContext()));
-                }else if (intent.getAction().equals(BroadCastAction.ACTION_GATT_DISCONNECTED)){
-                    presenter.onDisconnected();
                 }
             }
         };

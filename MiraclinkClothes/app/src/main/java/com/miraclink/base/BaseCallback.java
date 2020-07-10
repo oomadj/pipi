@@ -5,4 +5,5 @@ import android.bluetooth.BluetoothGattCharacteristic;
 public interface BaseCallback {
     void onDeviceChange( BluetoothGattCharacteristic bluetoothGattCharacteristic);
 
+    void onDisconnected();
 }

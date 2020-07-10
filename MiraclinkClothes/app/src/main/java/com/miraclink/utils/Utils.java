@@ -14,6 +14,7 @@ public class Utils {
     public static final byte[] startBackByte ={(byte) 0xAE,0x04, (byte) 0xA2, (byte) 0xA6};
     public static final byte[] stopBackByte ={(byte) 0xAE,0x06, (byte) 0xA3, (byte) 0xA9};
     public static final byte[] addOrCutBackByte = {(byte) 0xAE,0x02, (byte) 0xA1, (byte) 0xA3};
+    public static final byte[] timerBackByte = {(byte) 0xAE,0x08, (byte) 0xA4, (byte) 0xAC};
 
     public static final String startStringBack = "[ae,04,a2,a6]";
     public static final String stopStringBack = "[ae,06,a3,a9]";

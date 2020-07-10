@@ -85,6 +85,10 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         return blueService;
     }
 
+    public String getBleAddress(){
+        return bleAddress;
+    }
+
     @Override
     protected void initParam() {
         iUserDatabaseManager = UserDatabaseManager.getInstance(this, AppExecutors.getInstance());
