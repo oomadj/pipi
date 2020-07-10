@@ -193,6 +193,11 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         }
     }
 
+    @Override
+    public void onDisconnected() {
+        myCountDownTimer.cancel();
+    }
+
     private void checkAdd() {
         if (isArmChecked) {
             if (0 <= armIo && armIo <= 9) {

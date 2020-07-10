@@ -93,7 +93,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
                     presenter.onUserChanged();
                     presenter.getUserInfo(SharePreUtils.getCurrentID(getContext()));
                 }else if (intent.getAction().equals(BroadCastAction.ACTION_GATT_DISCONNECTED)){
-
+                    presenter.onDisconnected();
                 }
             }
         };

@@ -31,6 +31,8 @@ public interface UserCheckContract {
         void onCheckRearClick();
 
         void onUserChanged();
+
+        void onDisconnected();
     }
 
     interface IView{
