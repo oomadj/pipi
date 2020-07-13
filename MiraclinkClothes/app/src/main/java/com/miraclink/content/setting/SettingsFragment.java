@@ -34,24 +34,24 @@ import com.miraclink.widget.SlideHorizontalView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsFragment extends Fragment implements View.OnClickListener , ScrollerLayout.OnSelectPositionClick {
+public class SettingsFragment extends Fragment implements View.OnClickListener, ScrollerLayout.OnSelectPositionClick, SettingsContract.IView {
     private static final String TAG = SettingsFragment.class.getSimpleName();
-    private String[] strongs = {"10", "20", "30", "40", "50", "60","70","80","90","100"};
+    private String[] strongs = {"10", "20", "30", "40", "50", "60", "70", "80", "90", "100"};
     private List<String> strongsList;
     private SlideHorizontalView slideHorizontalViewRate;
     private SlideHorizontalView slideHorizontalViewStrong;
     private SlideViewTimeAdapter adapterRate;
     private SlideViewTimeAdapter adapterStrong;
     private ScrollerLayout scrollerLayout;
+    private SettingsContract.Presenter presenter;
 
-    private String [] rates ={"1","2","3","4","5","6","7","8","9","10","11"};
+    private String[] rates = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
     private List<String> ratesList;
 
     private Button btSelectDevice;
     private Button btSaveSettings;
     private IUserDatabaseManager iUserDatabaseManager;
     private BroadcastReceiver receiver;
-    //private Context context;
     private User userSettings;
 
     @Nullable
@@ -79,8 +79,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener ,
         super.onStart();
         IntentFilter filter = new IntentFilter();
         filter.addAction(BroadCastAction.USER_CHANGED);
-        getContext().registerReceiver(receiver,filter);
-        setUserRateView();
+        getContext().registerReceiver(receiver, filter);
+        presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
     }
 
     @Override
@@ -89,13 +89,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener ,
         getContext().unregisterReceiver(receiver);
     }
 
-    private void initParam(){
+    private void initParam() {
         iUserDatabaseManager = UserDatabaseManager.getInstance(getContext(), AppExecutors.getInstance());
+        presenter = new SettingsPresenter(this);
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(BroadCastAction.USER_CHANGED)){
-                    setUserRateView();
+                if (intent.getAction().equals(BroadCastAction.USER_CHANGED)) {
+                    presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
                 }
             }
         };
@@ -107,7 +108,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener ,
             strongsList.add(time);
         }
         ratesList = new ArrayList<>();
-        for (String rate:rates){
+        for (String rate : rates) {
             ratesList.add(rate);
         }
 
@@ -152,7 +153,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener ,
                 getActivity().startActivityForResult(intent, ContentActivity.REQUEST_SELECT_DEVICE);
                 break;
             case R.id.btSettingsFragmentSave:
-                scrollerLayout.scrollTo(scrollerLayout.getLayoutLong()/5,0);
+                scrollerLayout.scrollTo(scrollerLayout.getLayoutLong() / 5, 0);
                 break;
             default:
                 break;
@@ -161,33 +162,32 @@ public class SettingsFragment extends Fragment implements View.OnClickListener ,
 
     @Override
     public void onGetSelectPosition(int position) {
-        LogUtil.i(TAG,"scoller position:"+position);
+        LogUtil.i(TAG, "scoller position:" + position);
     }
 
-    private void setUserRateView(){
-        iUserDatabaseManager.queryUserByID(user -> {
-            userSettings = user;
-            LogUtil.i(TAG,"test move:"+userSettings.getStrong());
-            //slideHorizontalViewStrong.moveToPosition(userSettings.getStrong()/10-1);
-            //slideHorizontalViewRate.moveToPosition(userSettings.getRate()-1);
-            slideHorizontalViewRate.setInitPos(userSettings.getRate()-1);
-            slideHorizontalViewStrong.setInitPos(userSettings.getStrong()/10-1);
-            setTimeInit(userSettings.getTime()-1);
-        }, SharePreUtils.getCurrentID(getContext()));
-    }
-
-    private void setTimeInit(int i){
+    private void setTimeInit(int i) {
         int b;
-        if (i <= 0){
+        if (i <= 0) {
             i = 10;    //default time
         }
-        b = i/10;
+        b = i / 10;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                scrollerLayout.scrollTo(scrollerLayout.getLayoutLong()*b/5 ,0);
+                scrollerLayout.scrollTo(scrollerLayout.getLayoutLong() * b / 5, 0);
             }
         });
 
+    }
+
+    @Override
+    public void setUserView(User user) {
+        userSettings = user;
+        LogUtil.i(TAG, "test move:" + userSettings.getStrong());
+        //slideHorizontalViewStrong.moveToPosition(userSettings.getStrong()/10-1);
+        //slideHorizontalViewRate.moveToPosition(userSettings.getRate()-1);
+        slideHorizontalViewRate.setInitPos(userSettings.getRate() - 1);
+        slideHorizontalViewStrong.setInitPos(userSettings.getStrong() / 10 - 1);
+        setTimeInit(userSettings.getTime() - 1);
     }
 }

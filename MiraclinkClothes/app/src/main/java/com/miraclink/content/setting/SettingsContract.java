@@ -1,7 +1,14 @@
 package com.miraclink.content.setting;
 
-public interface SettingsContract {
-    interface Presenter{}
+import com.miraclink.database.IUserDatabaseManager;
+import com.miraclink.model.User;
 
-    interface IView{}
+public interface SettingsContract {
+    interface Presenter {
+        void queryUser(IUserDatabaseManager iUserDatabaseManager, String id);
+    }
+
+    interface IView {
+        void setUserView(User user);
+    }
 }

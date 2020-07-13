@@ -31,7 +31,7 @@ import com.miraclink.utils.Utils;
 
 
 // info page
-public class UserInfoFragment extends Fragment implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
+public class UserInfoFragment extends Fragment implements RadioGroup.OnCheckedChangeListener, View.OnClickListener, UserInfoContract.IView {
     private static final String TAG = UserInfoFragment.class.getSimpleName();
     private TextView textAdd;
     private EditText editId, editName, editAge, editHeight, editWeight;
@@ -40,8 +40,8 @@ public class UserInfoFragment extends Fragment implements RadioGroup.OnCheckedCh
     private RadioButton rbMen, rbWomen;
 
     private IUserDatabaseManager iUserDatabaseManager;
-    private User user;
     private BroadcastReceiver receiver;
+    private UserInfoContract.Presenter presenter;
 
     private int sex = 0;
 
@@ -64,8 +64,8 @@ public class UserInfoFragment extends Fragment implements RadioGroup.OnCheckedCh
         super.onStart();
         IntentFilter filter = new IntentFilter();
         filter.addAction(BroadCastAction.USER_CHANGED);
-        getContext().registerReceiver(receiver,filter);
-        setUserEditView();
+        getContext().registerReceiver(receiver, filter);
+        presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
     }
 
     @Override
@@ -75,13 +75,14 @@ public class UserInfoFragment extends Fragment implements RadioGroup.OnCheckedCh
     }
 
     private void initParam() {
-        LogUtil.i(TAG,"xzxinfo-get id:"+SharePreUtils.getCurrentID(getContext()));
+        LogUtil.i(TAG, "xzxinfo-get id:" + SharePreUtils.getCurrentID(getContext()));
         iUserDatabaseManager = UserDatabaseManager.getInstance(getContext(), AppExecutors.getInstance());
+        presenter = new UserInfoPresenter(this);
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(BroadCastAction.USER_CHANGED)){
-                    setUserEditView();
+                if (intent.getAction().equals(BroadCastAction.USER_CHANGED)) {
+                    presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
                 }
             }
         };
@@ -96,39 +97,11 @@ public class UserInfoFragment extends Fragment implements RadioGroup.OnCheckedCh
         textAdd = view.findViewById(R.id.textUserInfoFragmentAdd);
         btSave = view.findViewById(R.id.btUserInfoFragmentSave);
         btSave.setOnClickListener(this);
-
         rgSelectSex = view.findViewById(R.id.rgUserInfoFragmentSex);
         rgSelectSex.setOnCheckedChangeListener(this);
         rbMen = view.findViewById(R.id.rbUserInfoFragmentMen);
         rbWomen = view.findViewById(R.id.rbUserInfoFragmentWomen);
 
-    }
-
-    // update user info
-    private void setUserEditView(){
-        iUserDatabaseManager.queryUserByID(user1 -> {
-            user = user1;
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (user != null){
-                        editId.setText(user.getID()+"");
-                        editName.setText(user.getName()+"");
-                        editAge.setText(user.getAge()+"");
-                        editHeight.setText(user.getHeight()+"");
-                        editWeight.setText(user.getWeight()+"");
-                        if (user.getSex() == 0){
-                            sex = 0;
-                            rbMen.setChecked(true);
-                        }else {
-                            sex = 1;
-                            rbWomen.setChecked(true);
-                        }
-                    }
-                }
-            });
-
-        },SharePreUtils.getCurrentID(getContext()));
     }
 
     @Override
@@ -143,18 +116,36 @@ public class UserInfoFragment extends Fragment implements RadioGroup.OnCheckedCh
     //TODO save user data to net and database
     @Override
     public void onClick(View v) {
-        if (NetworkUtil.getConnectivityEnable(getContext())){
+        if (NetworkUtil.getConnectivityEnable(getContext())) {
 
-        }else {
-            LogUtil.i(TAG,"test name:"+editName.getEditableText().toString());
-            User update = new User();
-            update.setID(editId.getEditableText().toString());
-            update.setName(editName.getEditableText().toString());
-            update.setAge(Integer.valueOf(editAge.getText().toString()));
-            //iUserDatabaseManager.updateUser(user);
-            iUserDatabaseManager.updateUser(editName.getEditableText().toString(),Integer.valueOf(editAge.getText().toString()),sex,
-                    Integer.valueOf(editHeight.getEditableText().toString()),Integer.valueOf(editWeight.getEditableText().toString()),editId.getEditableText().toString());
+        } else {
+            LogUtil.i(TAG, "test name:" + editName.getEditableText().toString());
+            presenter.updateUser(iUserDatabaseManager, editName.getEditableText().toString(), Integer.valueOf(editAge.getText().toString()), sex,
+                    Integer.valueOf(editHeight.getEditableText().toString()), Integer.valueOf(editWeight.getEditableText().toString()), editId.getEditableText().toString());
         }
 
+    }
+
+    @Override
+    public void setUserInfoView(User user) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (user != null) {
+                    editId.setText(user.getID() + "");
+                    editName.setText(user.getName() + "");
+                    editAge.setText(user.getAge() + "");
+                    editHeight.setText(user.getHeight() + "");
+                    editWeight.setText(user.getWeight() + "");
+                    if (user.getSex() == 0) {
+                        sex = 0;
+                        rbMen.setChecked(true);
+                    } else {
+                        sex = 1;
+                        rbWomen.setChecked(true);
+                    }
+                }
+            }
+        });
     }
 }
