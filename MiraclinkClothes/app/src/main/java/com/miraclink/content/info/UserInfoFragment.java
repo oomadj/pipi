@@ -43,6 +43,8 @@ public class UserInfoFragment extends Fragment implements RadioGroup.OnCheckedCh
     private User user;
     private BroadcastReceiver receiver;
 
+    private int sex = 0;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -116,8 +118,10 @@ public class UserInfoFragment extends Fragment implements RadioGroup.OnCheckedCh
                         editHeight.setText(user.getHeight()+"");
                         editWeight.setText(user.getWeight()+"");
                         if (user.getSex() == 0){
+                            sex = 0;
                             rbMen.setChecked(true);
                         }else {
+                            sex = 1;
                             rbWomen.setChecked(true);
                         }
                     }
@@ -130,9 +134,9 @@ public class UserInfoFragment extends Fragment implements RadioGroup.OnCheckedCh
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (group.getCheckedRadioButtonId() == R.id.rbUserInfoFragmentMen) {
-
+            sex = 0;
         } else {
-
+            sex = 1;
         }
     }
 
@@ -144,9 +148,12 @@ public class UserInfoFragment extends Fragment implements RadioGroup.OnCheckedCh
         }else {
             LogUtil.i(TAG,"test name:"+editName.getEditableText().toString());
             User update = new User();
+            update.setID(editId.getEditableText().toString());
             update.setName(editName.getEditableText().toString());
             update.setAge(Integer.valueOf(editAge.getText().toString()));
-            iUserDatabaseManager.updateUser(user);
+            //iUserDatabaseManager.updateUser(user);
+            iUserDatabaseManager.updateUser(editName.getEditableText().toString(),Integer.valueOf(editAge.getText().toString()),sex,
+                    Integer.valueOf(editHeight.getEditableText().toString()),Integer.valueOf(editWeight.getEditableText().toString()),editId.getEditableText().toString());
         }
 
     }

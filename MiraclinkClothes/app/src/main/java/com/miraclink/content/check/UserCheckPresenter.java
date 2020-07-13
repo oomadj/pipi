@@ -207,6 +207,8 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
     @Override
     public void onDisconnected() {
         myCountDownTimer.cancel();
+        checkStatus = 0;
+        iView.refreshStartButtonText(checkStatus);
         blueService.close();
         LogUtil.i(TAG,"on disconnected:"+lastAddress);
         if (lastAddress != null && blueService != null){
@@ -227,13 +229,11 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
                 armIo++;
             }
         }
-
         if (isChestChecked) {
             if (0 <= chestIo && chestIo <= 9) {
                 chestIo++;
             }
         }
-
         if (isStomachChecked) {
             if (0 <= stomachIo && stomachIo <= 9) {
                 stomachIo++;
@@ -268,7 +268,6 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
                 armIo--;
             }
         }
-
         if (isChestChecked) {
             if (1 <= chestIo && chestIo <= 10) {
                 chestIo--;

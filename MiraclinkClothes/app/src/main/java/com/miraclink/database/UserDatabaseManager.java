@@ -13,18 +13,18 @@ public class UserDatabaseManager implements IUserDatabaseManager {
     private AppExecutors executors;
     private UserDatabase database;
 
-    public static UserDatabaseManager getInstance(Context context,AppExecutors appExecutors){
-        if (INSTANCE == null){
-            synchronized (UserDatabaseManager.class){
-                if (INSTANCE == null){
-                    INSTANCE = new UserDatabaseManager(context,appExecutors);
+    public static UserDatabaseManager getInstance(Context context, AppExecutors appExecutors) {
+        if (INSTANCE == null) {
+            synchronized (UserDatabaseManager.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new UserDatabaseManager(context, appExecutors);
                 }
             }
         }
         return INSTANCE;
     }
 
-    private UserDatabaseManager(Context context,AppExecutors executors){
+    private UserDatabaseManager(Context context, AppExecutors executors) {
         this.context = context;
         this.executors = executors;
         database = UserDatabase.getInstance(context);
@@ -52,7 +52,7 @@ public class UserDatabaseManager implements IUserDatabaseManager {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-               database.getUserDao().insert(userList.toArray(new User[0]));
+                database.getUserDao().insert(userList.toArray(new User[0]));
             }
         };
         executors.diskIO().execute(runnable);
@@ -81,7 +81,18 @@ public class UserDatabaseManager implements IUserDatabaseManager {
     }
 
     @Override
-    public void queryUserByID(QueryUserByIDCallback callback,String ID) {
+    public void updateUser(String name, int age, int sex, int height, int weight, String id) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                database.getUserDao().update(name, age, sex, height, weight, id);
+            }
+        };
+        executors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public void queryUserByID(QueryUserByIDCallback callback, String ID) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {

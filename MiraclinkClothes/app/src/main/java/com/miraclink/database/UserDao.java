@@ -21,14 +21,14 @@ public interface UserDao {
     User queryUserByID(String ID);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(User...users);
+    void insert(User... users);
 
     @Update
-    void update(User...users);
+    void update(User... users);
 
     @Delete
-    void delete(User...users);
+    void delete(User... users);
 
-    @Query("UPDATE user SET name = :name AND age =:age WHERE ID = :ID")
-    void update(String name,String age,String ID);
+    @Query("UPDATE user SET name = :name,age =:age,sex =:sex,height =:height,weight =:weight WHERE ID = :ID")
+    void update(String name, int age, int sex, int height, int weight, String ID);
 }

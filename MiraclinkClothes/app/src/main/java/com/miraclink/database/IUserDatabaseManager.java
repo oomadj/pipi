@@ -5,11 +5,11 @@ import com.miraclink.model.User;
 import java.util.List;
 
 public interface IUserDatabaseManager {
-    interface QueryAllUserCallback{
+    interface QueryAllUserCallback {
         void onQueried(List<User> userList);
     }
 
-    interface QueryUserByIDCallback{
+    interface QueryUserByIDCallback {
         void onQueried(User user);
     }
 
@@ -21,6 +21,8 @@ public interface IUserDatabaseManager {
 
     void updateUser(User user);
 
-    void queryUserByID(QueryUserByIDCallback callback,String ID);
+    void updateUser(String name, int age, int sex, int height, int weight, String id);
+
+    void queryUserByID(QueryUserByIDCallback callback, String ID);
     //User queryUserByID(String ID);
 }
