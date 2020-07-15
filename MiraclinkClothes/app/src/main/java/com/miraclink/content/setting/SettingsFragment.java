@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ import com.miraclink.content.ContentActivity;
 import com.miraclink.database.IUserDatabaseManager;
 import com.miraclink.database.UserDatabaseManager;
 import com.miraclink.model.User;
+import com.miraclink.networks.NetworkUtil;
 import com.miraclink.utils.AppExecutors;
 import com.miraclink.utils.BroadCastAction;
 import com.miraclink.utils.LogUtil;
@@ -34,7 +37,7 @@ import com.miraclink.widget.SlideHorizontalView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingsFragment extends Fragment implements View.OnClickListener, ScrollerLayout.OnSelectPositionClick, SettingsContract.IView {
+public class SettingsFragment extends Fragment implements View.OnClickListener, ScrollerLayout.OnSelectPositionClick, SettingsContract.IView, RadioGroup.OnCheckedChangeListener {
     private static final String TAG = SettingsFragment.class.getSimpleName();
     private String[] strongs = {"10", "20", "30", "40", "50", "60", "70", "80", "90", "100"};
     private List<String> strongsList;
@@ -44,6 +47,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     private SlideViewTimeAdapter adapterStrong;
     private ScrollerLayout scrollerLayout;
     private SettingsContract.Presenter presenter;
+    private RadioGroup rgCompose, rgMode;
+    private RadioButton rbCompose1, rbCompose2, rbCompose3, rbCompose4, rbCompose5;
+    private RadioButton rbMode1, rbMode2, rbMode3, rbMode4, rbMode5;
 
     private String[] rates = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
     private List<String> ratesList;
@@ -53,6 +59,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     private IUserDatabaseManager iUserDatabaseManager;
     private BroadcastReceiver receiver;
     private User userSettings;
+
+    private int time;
+    private int strong;
+    private int rate;
+    private int compose;
+    private int mode;
 
     @Nullable
     @Override
@@ -87,6 +99,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     public void onStop() {
         super.onStop();
         getContext().unregisterReceiver(receiver);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
     }
 
     private void initParam() {
@@ -127,11 +145,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             @Override
             public void selectedPositionChanged(int pos) {
                 Toast.makeText(getContext(), "pos 1:" + pos, Toast.LENGTH_SHORT).show();
+                strong = pos * 10;
             }
         });
         scrollerLayout = view.findViewById(R.id.scrollerSettingsFragmentTime);
         scrollerLayout.setOnSelectPositionClick(this);
-
         slideHorizontalViewStrong = view.findViewById(R.id.slideSettingsFragmentStrong);
         LinearLayoutManager linearLayoutManagerStrong = new LinearLayoutManager(getContext());
         linearLayoutManagerStrong.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -140,9 +158,24 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         slideHorizontalViewStrong.setOnSelectedPositionChangedListener(new SlideHorizontalView.OnSelectedPositionChangedListener() {
             @Override
             public void selectedPositionChanged(int pos) {
-                Toast.makeText(getContext(), "pos 2:" + pos, Toast.LENGTH_SHORT).show();
+                rate = pos;
             }
         });
+
+        rgCompose = view.findViewById(R.id.rgSettingsFragmentCompose);
+        rgCompose.setOnCheckedChangeListener(this);
+        rgMode = view.findViewById(R.id.rgSettingsFragmentMode);
+        rgMode.setOnCheckedChangeListener(this);
+        rbCompose1 = view.findViewById(R.id.rbSettingsFragment1);
+        rbCompose2 = view.findViewById(R.id.rbSettingsFragment2);
+        rbCompose3 = view.findViewById(R.id.rbSettingsFragment3);
+        rbCompose4 = view.findViewById(R.id.rbSettingsFragment4);
+        rbCompose5 = view.findViewById(R.id.rbSettingsFragment5);
+        rbMode1 = view.findViewById(R.id.rbSettingsFragmentMode1);
+        rbMode2 = view.findViewById(R.id.rbSettingsFragmentMode2);
+        rbMode3 = view.findViewById(R.id.rbSettingsFragmentMode3);
+        rbMode4 = view.findViewById(R.id.rbSettingsFragmentMode4);
+        rbMode5 = view.findViewById(R.id.rbSettingsFragmentMode5);
     }
 
     @Override
@@ -153,7 +186,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 getActivity().startActivityForResult(intent, ContentActivity.REQUEST_SELECT_DEVICE);
                 break;
             case R.id.btSettingsFragmentSave:
-                scrollerLayout.scrollTo(scrollerLayout.getLayoutLong() / 5, 0);
+                if (NetworkUtil.getConnectivityEnable(getContext())) {
+
+                } else {
+                    presenter.updateUserSettings(iUserDatabaseManager, time, strong, rate, compose, mode, SharePreUtils.getCurrentID(getContext()));
+                }
                 break;
             default:
                 break;
@@ -163,6 +200,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onGetSelectPosition(int position) {
         LogUtil.i(TAG, "scoller position:" + position);
+        time = position * 10;
     }
 
     private void setTimeInit(int i) {
@@ -177,17 +215,110 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 scrollerLayout.scrollTo(scrollerLayout.getLayoutLong() * b / 5, 0);
             }
         });
+    }
 
+    private void setComposeInit(int i) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (i == 1) {
+                    compose = 1;
+                    rbCompose1.setChecked(true);
+                } else if (i == 2) {
+                    compose = 2;
+                    rbCompose2.setChecked(true);
+                } else if (i == 3) {
+                    compose = 3;
+                    rbCompose3.setChecked(true);
+                } else if (i == 4) {
+                    compose = 4;
+                    rbCompose4.setChecked(true);
+                } else if (i == 5) {
+                    compose = 5;
+                    rbCompose5.setChecked(true);
+                }
+            }
+        });
+    }
+
+    private void setModeInit(int i) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (i == 1) {
+                    mode = 1;
+                    rbMode1.setChecked(true);
+                } else if (i == 2) {
+                    mode = 2;
+                    rbMode2.setChecked(true);
+                } else if (i == 3) {
+                    mode = 3;
+                    rbMode3.setChecked(true);
+                } else if (i == 4) {
+                    mode = 4;
+                    rbMode4.setChecked(true);
+                } else if (i == 5) {
+                    mode = 5;
+                    rbMode5.setChecked(true);
+                }
+            }
+        });
     }
 
     @Override
     public void setUserView(User user) {
         userSettings = user;
         LogUtil.i(TAG, "test move:" + userSettings.getStrong());
-        //slideHorizontalViewStrong.moveToPosition(userSettings.getStrong()/10-1);
-        //slideHorizontalViewRate.moveToPosition(userSettings.getRate()-1);
-        slideHorizontalViewRate.setInitPos(userSettings.getRate() - 1);
-        slideHorizontalViewStrong.setInitPos(userSettings.getStrong() / 10 - 1);
+        slideHorizontalViewRate.setInitPos(userSettings.getRate());
+        slideHorizontalViewStrong.setInitPos(userSettings.getStrong() / 10);
         setTimeInit(userSettings.getTime() - 1);
+        setComposeInit(userSettings.getCompose());
+        setModeInit(userSettings.getMode());
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        if (group == rgCompose) {
+            switch (checkedId) {
+                case R.id.rbSettingsFragment1:
+                    compose = 1;
+                    break;
+                case R.id.rbSettingsFragment2:
+                    compose = 2;
+                    break;
+                case R.id.rbSettingsFragment3:
+                    compose = 3;
+                    break;
+                case R.id.rbSettingsFragment4:
+                    compose = 4;
+                    break;
+                case R.id.rbSettingsFragment5:
+                    compose = 5;
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            switch (checkedId) {
+                case R.id.rbSettingsFragmentMode1:
+                    mode = 1;
+                    break;
+                case R.id.rbSettingsFragmentMode2:
+                    mode = 2;
+                    break;
+                case R.id.rbSettingsFragmentMode3:
+                    mode = 3;
+                    break;
+                case R.id.rbSettingsFragmentMode4:
+                    mode = 4;
+                    break;
+                case R.id.rbSettingsFragmentMode5:
+                    mode = 5;
+                    break;
+                default:
+                    break;
+            }
+
+        }
     }
 }

@@ -76,6 +76,16 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
         getContext().unregisterReceiver(receiver);
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (NetworkUtil.getConnectivityEnable(getContext())){
+            presenter.getUserList(NetworkController.getInstance());
+        }else {
+            presenter.queryAllUser(iUserDatabaseManager,this);
+        }
+    }
+
     private void initParam() {
         iUserDatabaseManager = UserDatabaseManager.getInstance(getContext(), AppExecutors.getInstance());
         presenter = new UserListPresenter();
@@ -89,7 +99,9 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
                 if (intent.getAction().equals(BroadCastAction.USER_LIST_DATA)){
                     users = intent.<User>getParcelableArrayListExtra("DATA");
                     userAdapter.setData(users);
-                    SharePreUtils.setCurrentID(getContext(),users.get(0).getID()); // init select 0
+                    if (SharePreUtils.getCurrentID(getContext()).isEmpty()){
+                        SharePreUtils.setCurrentID(getContext(),users.get(0).getID()); // init select 0
+                    }
                 }
             }
         };
@@ -114,6 +126,8 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
     public void onQueried(List<User> userList) {
         users = (ArrayList<User>) userList;
         userAdapter.setData(users);
-        SharePreUtils.setCurrentID(getContext(),users.get(0).getID()); // init select 0
+        if (SharePreUtils.getCurrentID(getContext()).isEmpty()){
+            SharePreUtils.setCurrentID(getContext(),users.get(0).getID()); // init select 0
+        }
     }
 }

@@ -188,36 +188,31 @@ public class ScrollerLayout extends ConstraintLayout {
             layoutLong = -startW+rightBorder;
             if (scroller.getCurrX()<=(-startW+rightBorder)){
                 scrollTo(-startW+rightBorder,0);
-                onSelectPositionClick.onGetSelectPosition(5);
+                onSelectPositionClick.onGetSelectPosition(6);
             }else if (scroller.getCurrX()>=0){
                 scrollTo(0,0);
-                onSelectPositionClick.onGetSelectPosition(0);
+                onSelectPositionClick.onGetSelectPosition(1);
             }else{
                 if (scroller.getCurrX()>=(layoutLong*3/10) && scroller.getCurrX()<(layoutLong/10)){
                     scrollTo(layoutLong/5,0);
-                    onSelectPositionClick.onGetSelectPosition(1);
+                    onSelectPositionClick.onGetSelectPosition(2);
                 }else if (scroller.getCurrX()>=(layoutLong*5/10) && scroller.getCurrX()<(layoutLong*3/10)){
                     scrollTo(layoutLong*2/5,0);
-                    onSelectPositionClick.onGetSelectPosition(2);
+                    onSelectPositionClick.onGetSelectPosition(3);
                 }else if(scroller.getCurrX()>=(layoutLong*7/10) && scroller.getCurrX()<(layoutLong*5/10)){
                     scrollTo(layoutLong*3/5,0);
-                    onSelectPositionClick.onGetSelectPosition(3);
+                    onSelectPositionClick.onGetSelectPosition(4);
                 }else if(scroller.getCurrX()>=(layoutLong*9/10) && scroller.getCurrX()<(layoutLong*7/10)){
                     scrollTo(layoutLong*4/5,0);
-                    onSelectPositionClick.onGetSelectPosition(4);
+                    onSelectPositionClick.onGetSelectPosition(5);
                 }else if(scroller.getCurrX()>=(layoutLong/10)){
                     scrollTo(0,0);
-                    onSelectPositionClick.onGetSelectPosition(0);
+                    onSelectPositionClick.onGetSelectPosition(1);
                 }else if(scroller.getCurrX()<(layoutLong*9/10)){
                     scrollTo(-startW+rightBorder,0);
-                    onSelectPositionClick.onGetSelectPosition(5);
+                    onSelectPositionClick.onGetSelectPosition(6);
                 }
             }
-
-            //else {
-            //    scrollTo(scroller.getCurrX(), scroller.getCurrY());
-            //}
-            //LogUtil.i("Sc","xzx--copmpute scroll scroller.getCurrX():"+scroller.getCurrX()+"::"+(layoutLong*2/6)+"::"+(layoutLong/6));
             invalidate();
         }
 

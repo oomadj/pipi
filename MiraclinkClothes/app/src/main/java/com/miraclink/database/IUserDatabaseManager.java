@@ -23,6 +23,8 @@ public interface IUserDatabaseManager {
 
     void updateUser(String name, int age, int sex, int height, int weight, String id);
 
+    void updateUserSettings(int time,int strong,int rate,int compose,int mode,String id);
+
     void queryUserByID(QueryUserByIDCallback callback, String ID);
     //User queryUserByID(String ID);
 }

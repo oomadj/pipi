@@ -31,4 +31,7 @@ public interface UserDao {
 
     @Query("UPDATE user SET name = :name,age =:age,sex =:sex,height =:height,weight =:weight WHERE ID = :ID")
     void update(String name, int age, int sex, int height, int weight, String ID);
+
+    @Query("UPDATE user SET time = :time,strong =:strong,rate =:rate,compose =:compose,mode =:mode WHERE ID = :ID")
+    void update(int time,int strong,int rate,int compose,int mode,String ID);
 }

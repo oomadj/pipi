@@ -6,6 +6,7 @@ import com.miraclink.model.User;
 public interface SettingsContract {
     interface Presenter {
         void queryUser(IUserDatabaseManager iUserDatabaseManager, String id);
+        void updateUserSettings(IUserDatabaseManager iUserDatabaseManager,int time,int strong,int rate,int compose,int mode,String id);
     }
 
     interface IView {

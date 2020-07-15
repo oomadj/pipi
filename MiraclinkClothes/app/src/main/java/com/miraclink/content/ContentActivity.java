@@ -85,7 +85,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         return blueService;
     }
 
-    public String getBleAddress(){
+    public String getBleAddress() {
         return bleAddress;
     }
 
@@ -187,6 +187,12 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(receiver);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         if (!bluetoothAdapter.isEnabled()) {
@@ -201,7 +207,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         unbindService(serviceConnection);
         blueService.stopSelf();
         blueService = null;
-        unregisterReceiver(receiver);
         presenter.onDestroy();
         //remove saved user id
         SharePreUtils.removeCurrentID(this);

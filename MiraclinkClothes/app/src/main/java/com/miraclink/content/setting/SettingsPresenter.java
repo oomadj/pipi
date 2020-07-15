@@ -15,4 +15,9 @@ public class SettingsPresenter implements SettingsContract.Presenter {
             iView.setUserView(user);
         }, id);
     }
+
+    @Override
+    public void updateUserSettings(IUserDatabaseManager iUserDatabaseManager, int time, int strong, int rate, int compose, int mode,String id) {
+        iUserDatabaseManager.updateUserSettings(time,strong,rate,compose,mode,id);
+    }
 }

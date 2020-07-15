@@ -92,6 +92,17 @@ public class UserDatabaseManager implements IUserDatabaseManager {
     }
 
     @Override
+    public void updateUserSettings(int time, int strong, int rate, int compose, int mode, String id) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                database.getUserDao().update(time, strong, rate, compose, mode, id);
+            }
+        };
+        executors.diskIO().execute(runnable);
+    }
+
+    @Override
     public void queryUserByID(QueryUserByIDCallback callback, String ID) {
         Runnable runnable = new Runnable() {
             @Override

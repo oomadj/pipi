@@ -42,7 +42,6 @@ public class UserInfoFragment extends Fragment implements RadioGroup.OnCheckedCh
     private IUserDatabaseManager iUserDatabaseManager;
     private BroadcastReceiver receiver;
     private UserInfoContract.Presenter presenter;
-
     private int sex = 0;
 
     @Nullable
