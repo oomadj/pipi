@@ -273,8 +273,10 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                tvName.setText(user.getName());
-                tvId.setText(user.getID());
+                if (user != null){
+                    tvName.setText(user.getName());
+                    tvId.setText(user.getID());
+                }
             }
         });
     }

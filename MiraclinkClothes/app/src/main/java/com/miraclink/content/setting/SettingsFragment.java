@@ -268,6 +268,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void setUserView(User user) {
         userSettings = user;
+        if (userSettings == null){
+            return;
+        }
         LogUtil.i(TAG, "test move:" + userSettings.getStrong());
         slideHorizontalViewRate.setInitPos(userSettings.getRate());
         slideHorizontalViewStrong.setInitPos(userSettings.getStrong() / 10);

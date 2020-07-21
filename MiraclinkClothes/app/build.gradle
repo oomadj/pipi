@@ -35,9 +35,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    compile 'com.vise.xiaoyaoyou:baseble:2.0.6'
 
     implementation('androidx.recyclerview:recyclerview:1.1.0')
+
+    // screen adapter
+    implementation 'me.jessyan:autosize:1.2.1'
 
     // Room
     implementation 'androidx.room:room-runtime:2.2.2'

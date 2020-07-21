@@ -12,6 +12,8 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
@@ -43,7 +45,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     private SettingsFragment settingsFragment;
     private BroadcastReceiver receiver;
     private BluetoothAdapter bluetoothAdapter;
-    private IUserDatabaseManager iUserDatabaseManager;
 
     private Button btList;
     private Button btInfo;
@@ -69,12 +70,11 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
 
     public static int mState = UART_PROFILE_DISCONNECTED;
 
-    public int ioRate = 1; // io 功率
-    public int strong = 1; //strong
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //hideBottom();
         setContentView(R.layout.activity_content);
         initParam();
         intiView();
@@ -91,7 +91,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initParam() {
-        iUserDatabaseManager = UserDatabaseManager.getInstance(this, AppExecutors.getInstance());
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         bindIntent = new Intent(this, MyBlueService.class);
         fragmentManager = getSupportFragmentManager();
@@ -296,6 +295,13 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
             default:
                 break;
         }
+    }
+
+    private void hideBottom() {
+        Window window = getWindow();
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
+        window.setAttributes(params);
     }
 
     @Override

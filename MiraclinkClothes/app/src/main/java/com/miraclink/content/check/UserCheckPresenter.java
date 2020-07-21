@@ -259,7 +259,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
                 rearIo++;
             }
         }
-        blueService.writeRXCharacteristic(ByteUtils.getRateCmd(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo, 1));
+        blueService.writeRXCharacteristic(ByteUtils.getRateCmd(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo, 0x01));
     }
 
     private void checkCut() {
@@ -298,7 +298,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
                 rearIo--;
             }
         }
-        blueService.writeRXCharacteristic(ByteUtils.getRateCmd(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo, 1));
+        blueService.writeRXCharacteristic(ByteUtils.getRateCmd(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo, 0x01));
     }
 
     private void getUserInfoToDatabase(String id){

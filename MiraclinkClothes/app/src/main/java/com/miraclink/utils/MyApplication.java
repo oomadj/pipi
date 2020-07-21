@@ -2,7 +2,6 @@ package com.miraclink.utils;
 
 import android.app.Application;
 
-import com.vise.baseble.ViseBle;
 
 public class MyApplication extends Application {
     private static MyApplication application;

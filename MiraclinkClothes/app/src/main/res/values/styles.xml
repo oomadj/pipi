@@ -7,6 +7,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="LaunchTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/bg_launch</item>
+    </style>
 
     <style name="DeviceListActivityTranslucent" parent="Theme.AppCompat.Light.NoActionBar">　
         <item name="android:windowIsTranslucent">true</item>
