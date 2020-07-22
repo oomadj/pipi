@@ -23,7 +23,8 @@
 
         </activity>
         <activity android:name=".bluetooth.DeviceListActivity" android:theme="@style/DeviceListActivityTranslucent"></activity>
-        <activity android:name=".content.ContentActivity">
+        <activity android:name=".content.ContentActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,7 +35,7 @@
 
         <meta-data
             android:name="design_width_in_dp"
-            android:value="680"/>
+            android:value="380"/>
     </application>
 
 </manifest>

@@ -3,222 +3,125 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="50dp">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutUserInfoFragmentTitle"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textUserInfoFragmentId"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="50dp"
-            android:gravity="center"
-            android:text="@string/user_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_info"
+            android:textColor="@color/title_color"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/editUserInfoFragmentId"
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutUserInfoFragmentTitle">
+
+        <com.miraclink.widget.EditLineLayout
+            android:id="@+id/layoutUserInfoFragmentId"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginStart="@dimen/info_start_layout_margin"
-            android:background="@drawable/bg_info_edit"
-            android:inputType="number"
-            android:padding="5dp"
-            app:layout_constraintBottom_toBottomOf="@id/textUserInfoFragmentId"
-            app:layout_constraintStart_toEndOf="@id/textUserInfoFragmentId"
-            app:layout_constraintTop_toTopOf="@id/textUserInfoFragmentId"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_marginTop="20dp"
+            app:functionText="@string/user_id"
+            app:initInfoText="@string/init_edit_id"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textUserInfoFragmentName"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/info_top_layout_margin"
-            android:gravity="center"
-            android:text="@string/user_name"
-            app:layout_constraintEnd_toEndOf="@id/textUserInfoFragmentId"
-            app:layout_constraintStart_toStartOf="@id/textUserInfoFragmentId"
-            app:layout_constraintTop_toBottomOf="@id/textUserInfoFragmentId" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/editUserInfoFragmentName"
+        <com.miraclink.widget.EditLineLayout
+            android:id="@+id/layoutUserInfoFragmentName"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginStart="@dimen/info_start_layout_margin"
-            android:background="@drawable/bg_info_edit"
-            app:layout_constraintBottom_toBottomOf="@id/textUserInfoFragmentName"
-            app:layout_constraintStart_toEndOf="@id/textUserInfoFragmentName"
-            app:layout_constraintTop_toTopOf="@id/textUserInfoFragmentName"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:functionText="@string/user_name"
+            app:initInfoText="@string/init_edit_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutUserInfoFragmentId" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textUserInfoFragmentAge"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/info_top_layout_margin"
-            android:gravity="center"
-            android:text="@string/user_age"
-            app:layout_constraintEnd_toEndOf="@id/textUserInfoFragmentName"
-            app:layout_constraintStart_toStartOf="@id/textUserInfoFragmentName"
-            app:layout_constraintTop_toBottomOf="@id/textUserInfoFragmentName" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/editUserInfoFragmentAge"
+        <com.miraclink.widget.EditLineLayout
+            android:id="@+id/layoutUserInfoFragmentAge"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginStart="@dimen/info_start_layout_margin"
-            android:background="@drawable/bg_info_edit"
-            android:inputType="number"
-            app:layout_constraintBottom_toBottomOf="@id/textUserInfoFragmentAge"
-            app:layout_constraintStart_toEndOf="@id/textUserInfoFragmentAge"
-            app:layout_constraintTop_toTopOf="@id/textUserInfoFragmentAge"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:functionText="@string/user_age"
+            app:initInfoText="@string/init_edit_age"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutUserInfoFragmentName"
+            app:numType="num" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textUserInfoFragmentSex"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/info_top_layout_margin"
-            android:gravity="center"
-            android:text="@string/user_sex"
-            app:layout_constraintEnd_toEndOf="@id/textUserInfoFragmentAge"
-            app:layout_constraintStart_toStartOf="@id/textUserInfoFragmentAge"
-            app:layout_constraintTop_toBottomOf="@id/textUserInfoFragmentAge" />
-
-        <RadioGroup
-            android:id="@+id/rgUserInfoFragmentSex"
+        <com.miraclink.widget.EditLineLayout
+            android:id="@+id/layoutUserInfoFragmentSex"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginStart="@dimen/info_start_layout_margin"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/textUserInfoFragmentSex"
-            app:layout_constraintStart_toEndOf="@id/textUserInfoFragmentSex"
-            app:layout_constraintTop_toTopOf="@id/textUserInfoFragmentSex"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:functionText="@string/user_sex"
+            app:imageMore="1"
+            app:initInfoText="@string/init_edit_sex"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutUserInfoFragmentAge" />
 
-            <RadioButton
-                android:id="@+id/rbUserInfoFragmentMen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@color/black" />
-
-            <RadioButton
-                android:id="@+id/rbUserInfoFragmentWomen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="#df5698" />
-        </RadioGroup>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textUserInfoFragmentHeight"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/info_top_layout_margin"
-            android:gravity="center"
-            android:text="@string/user_height"
-            app:layout_constraintEnd_toEndOf="@id/textUserInfoFragmentSex"
-            app:layout_constraintStart_toStartOf="@id/textUserInfoFragmentSex"
-            app:layout_constraintTop_toBottomOf="@id/textUserInfoFragmentSex" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/editUserInfoFragmentHeight"
+        <com.miraclink.widget.EditLineLayout
+            android:id="@+id/layoutUserInfoFragmentHeight"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginStart="@dimen/info_start_layout_margin"
-            android:background="@drawable/bg_info_edit"
-            android:inputType="number"
-            app:layout_constraintBottom_toBottomOf="@id/textUserInfoFragmentHeight"
-            app:layout_constraintStart_toEndOf="@id/textUserInfoFragmentHeight"
-            app:layout_constraintTop_toTopOf="@id/textUserInfoFragmentHeight"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:functionText="@string/user_height"
+            app:initInfoText="@string/init_edit_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutUserInfoFragmentSex"
+            app:numType="num" />
 
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textUserInfoFragmentWeight"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/info_top_layout_margin"
-            android:gravity="center"
-            android:text="@string/user_weight"
-            app:layout_constraintEnd_toEndOf="@id/textUserInfoFragmentHeight"
-            app:layout_constraintStart_toStartOf="@id/textUserInfoFragmentHeight"
-            app:layout_constraintTop_toBottomOf="@id/textUserInfoFragmentHeight"
-            />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/editUserInfoFragmentWeight"
+        <com.miraclink.widget.EditLineLayout
+            android:id="@+id/layoutUserInfoFragmentWeight"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginStart="@dimen/info_start_layout_margin"
-            android:background="@drawable/bg_info_edit"
-            android:inputType="number"
-            app:layout_constraintBottom_toBottomOf="@id/textUserInfoFragmentWeight"
-            app:layout_constraintStart_toEndOf="@id/textUserInfoFragmentWeight"
-            app:layout_constraintTop_toTopOf="@id/textUserInfoFragmentWeight"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:functionText="@string/user_weight"
+            app:initInfoText="@string/init_edit_weight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutUserInfoFragmentHeight"
+            app:numType="num" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textUserInfoFragmentDeviceId"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/info_top_layout_margin"
-            android:gravity="center"
-            android:text="@string/device_id"
-            app:layout_constraintEnd_toEndOf="@id/textUserInfoFragmentWeight"
-            app:layout_constraintStart_toStartOf="@id/textUserInfoFragmentWeight"
-            app:layout_constraintTop_toBottomOf="@id/textUserInfoFragmentWeight" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/editUserInfoFragmentDeviceId"
+        <com.miraclink.widget.EditLineLayout
+            android:id="@+id/layoutUserInfoFragmentDeviceId"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginStart="@dimen/info_start_layout_margin"
-            android:background="@drawable/bg_info_edit"
-            app:layout_constraintBottom_toBottomOf="@id/textUserInfoFragmentDeviceId"
-            app:layout_constraintStart_toEndOf="@id/textUserInfoFragmentDeviceId"
-            app:layout_constraintTop_toTopOf="@id/textUserInfoFragmentDeviceId"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:functionText="@string/device_id"
+            app:initInfoText="@string/init_edit_device_id"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutUserInfoFragmentWeight" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textUserInfoFragmentAdd"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:text="@string/add"
-            app:layout_constraintBottom_toBottomOf="@id/editUserInfoFragmentDeviceId"
-            app:layout_constraintEnd_toEndOf="@id/editUserInfoFragmentDeviceId"
-            app:layout_constraintTop_toTopOf="@id/editUserInfoFragmentDeviceId" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btUserInfoFragmentSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="330dp"
+            android:layout_height="35dp"
             android:layout_marginTop="@dimen/info_top_layout_margin"
+            android:background="@drawable/bg_bt_noselect"
             android:text="@string/save"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/enterprise_white"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editUserInfoFragmentDeviceId" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutUserInfoFragmentDeviceId" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

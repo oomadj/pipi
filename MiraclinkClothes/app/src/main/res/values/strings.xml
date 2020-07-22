@@ -7,10 +7,10 @@
     <string name="paired">paired</string>
     <string name="scan">scan</string>
     <string name="cancel">cancel</string>
-    <string name="user_list">List</string>
-    <string name="user_info">Info</string>
-    <string name="user_check">Check</string>
-    <string name="settings">Settings</string>
+    <string name="user_list">记录</string>
+    <string name="user_info">患者</string>
+    <string name="user_check">训练</string>
+    <string name="settings">设置</string>
     
     <string name="user_id">I D</string>
     <string name="user_name">姓名</string>
@@ -47,4 +47,14 @@
     <string name="backback">back:%d</string>
     <string name="rear">rear:%d</string>
     <string name="rate_text">频率:%d</string>
+    
+    <string name="init_edit_id">请输入ID号</string>
+    <string name="init_edit_name">请输入患者姓名</string>
+    <string name="init_edit_age">请输入患者年龄</string>
+    <string name="init_edit_sex">男</string>
+    <string name="init_edit_height">单位cm</string>
+    <string name="init_edit_weight">单位kg</string>
+    <string name="init_edit_device_id">请选择ID号</string>
+    <string name="man">男</string>
+    <string name="woman">女</string>
 </resources>

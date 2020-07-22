@@ -74,7 +74,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //hideBottom();
+        hideBottom();
         setContentView(R.layout.activity_content);
         initParam();
         intiView();
@@ -152,7 +152,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     protected void intiView() {
         btList = findViewById(R.id.btContentActivityUserList);
         btList.setOnClickListener(this);
-        btInfo = findViewById(R.id.btbtContentActivityUserInfo);
+        btInfo = findViewById(R.id.btContentActivityUserInfo);
         btInfo.setOnClickListener(this);
         btCheck = findViewById(R.id.btContentActivityUserCheck);
         btCheck.setOnClickListener(this);
@@ -214,23 +214,23 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     private void setTabSelection(int page) {
         transaction = fragmentManager.beginTransaction();
         hideFragment(transaction);
-        if (listFragment == null) {
-            listFragment = new UserListFragment();
-            transaction.add(R.id.layoutContentActivityContent, listFragment);
+        if (infoFragment == null) {
+            infoFragment = new UserInfoFragment();
+            transaction.add(R.id.layoutContentActivityContent, infoFragment);
         }
 
         switch (page) {
-            case 0:
+            case 3:
                 if (listFragment == null) {
                     listFragment = new UserListFragment();
+                    transaction.add(R.id.layoutContentActivityContent,listFragment);
                 } else {
                     transaction.show(listFragment);
                 }
                 break;
-            case 1:
+            case 0:
                 if (infoFragment == null) {
                     infoFragment = new UserInfoFragment();
-                    transaction.add(R.id.layoutContentActivityContent, infoFragment);
                 } else {
                     transaction.show(infoFragment);
                 }
@@ -243,7 +243,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
                     transaction.show(checkFragment);
                 }
                 break;
-            case 3:
+            case 1:
                 if (settingsFragment == null) {
                     settingsFragment = new SettingsFragment();
                     transaction.add(R.id.layoutContentActivityContent, settingsFragment);
@@ -278,11 +278,11 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.btContentActivityUserList:
                 sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  //refresh page data
-                setTabSelection(0);
+                setTabSelection(3);
                 break;
-            case R.id.btbtContentActivityUserInfo:
+            case R.id.btContentActivityUserInfo:
                 sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  //refresh page data
-                setTabSelection(1);
+                setTabSelection(0);
                 break;
             case R.id.btContentActivityUserCheck:
                 sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  //refresh page data
@@ -290,7 +290,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.btContentActivitySettings:
                 sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  //refresh page data
-                setTabSelection(3);
+                setTabSelection(1);
                 break;
             default:
                 break;

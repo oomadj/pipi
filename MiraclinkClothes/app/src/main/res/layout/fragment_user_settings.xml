@@ -3,92 +3,80 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="20dp">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutUserSettingsFragmentTitle"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textSettingsFragmentDeviceSelect"
-            android:layout_width="80dp"
-            android:layout_height="@dimen/fragment_text_height"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="50dp"
-            android:gravity="center"
-            android:text="@string/device_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings"
+            android:textColor="@color/title_color"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btSettingsFragmentSelect"
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutUserSettingsFragmentTitle">
+
+        <com.miraclink.widget.SettingLineLayout
+            android:id="@+id/layoutUserSettingFragmentDeviceSelect"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="@dimen/info_start_layout_margin"
-            android:layout_marginEnd="@dimen/info_start_layout_margin"
-            app:layout_constraintBottom_toBottomOf="@id/textSettingsFragmentDeviceSelect"
-            app:layout_constraintStart_toEndOf="@id/textSettingsFragmentDeviceSelect"
-            app:layout_constraintTop_toTopOf="@id/textSettingsFragmentDeviceSelect"
-            app:layout_constraintEnd_toStartOf="@id/btSettingsFragmentSave"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btSettingsFragmentSave"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="@dimen/info_start_layout_margin"
-            android:text="@string/save"
-            app:layout_constraintBottom_toBottomOf="@id/btSettingsFragmentSelect"
-            app:layout_constraintTop_toTopOf="@id/btSettingsFragmentSelect"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textSettingsFragmentStrong"
-            android:layout_width="@dimen/fragment_text_height"
-            android:layout_height="@dimen/fragment_text_weight"
-            android:gravity="center"
-            android:text="@string/strong"
-            android:layout_marginTop="@dimen/info_top_layout_margin"
-            app:layout_constraintEnd_toEndOf="@id/textSettingsFragmentTime"
-            app:layout_constraintStart_toStartOf="@id/textSettingsFragmentDeviceSelect"
-            app:layout_constraintTop_toBottomOf="@id/textSettingsFragmentDeviceSelect" />
-
-        <com.miraclink.widget.SlideHorizontalView
-            android:id="@+id/slideSettingsFragmentStrong"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="70dp"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@id/textSettingsFragmentStrong"
-            app:layout_constraintStart_toEndOf="@id/textSettingsFragmentStrong"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            app:funText="@string/device_select"
+            app:imageMoreSetting="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textSettingsFragmentStrong" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.miraclink.widget.SettingLineLayout
+            android:id="@+id/layoutUserSettingFragmentTimeSelect"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            app:funText="@string/time"
+            app:imageMoreSetting="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutUserSettingFragmentDeviceSelect" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textSettingsFragmentTime"
-            android:layout_width="@dimen/fragment_text_weight"
-            android:layout_height="@dimen/fragment_text_height"
-            android:gravity="center"
-            android:text="@string/time"
-            android:layout_marginTop="@dimen/info_top_layout_margin"
-            app:layout_constraintStart_toStartOf="@id/textSettingsFragmentStrong"
-            app:layout_constraintTop_toBottomOf="@id/textSettingsFragmentStrong" />
+            android:id="@+id/textUserSettingFragmentStrong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:layout_marginTop="10dp"
+            android:text="@string/strong"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutUserSettingFragmentTimeSelect" />
 
         <com.miraclink.widget.ScrollerLayout
-            android:id="@+id/scrollerSettingsFragmentTime"
+            android:id="@+id/scrollerUserSettingsFragmentStrong"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="@dimen/info_start_layout_margin"
             android:background="@drawable/bg_time_scroller"
-            app:layout_constraintBottom_toBottomOf="@id/textSettingsFragmentTime"
-            app:layout_constraintStart_toEndOf="@id/textSettingsFragmentTime"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textSettingsFragmentTime">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textUserSettingFragmentStrong">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="30dp"
@@ -99,137 +87,229 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </com.miraclink.widget.ScrollerLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textSettingsFragmentRate"
-            android:layout_width="@dimen/fragment_text_weight"
-            android:layout_height="@dimen/fragment_text_height"
-            android:gravity="center"
-            android:text="@string/rate"
-            android:layout_marginTop="@dimen/info_top_layout_margin"
-            app:layout_constraintEnd_toEndOf="@id/textSettingsFragmentTime"
-            app:layout_constraintStart_toStartOf="@id/textSettingsFragmentTime"
-            app:layout_constraintTop_toBottomOf="@id/textSettingsFragmentTime" />
-
-        <com.miraclink.widget.SlideHorizontalView
-            android:id="@+id/slideSettingsFragmentRate"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="70dp"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@id/textSettingsFragmentRate"
-            app:layout_constraintStart_toEndOf="@id/textSettingsFragmentRate"
+        <View
+            android:id="@+id/viewUserSettingFragmentLine1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/enterprise_blue"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textSettingsFragmentRate" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scrollerUserSettingsFragmentStrong" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textSettingsFragmentCompose"
-            android:layout_width="@dimen/fragment_text_weight"
-            android:layout_height="@dimen/fragment_text_height"
-            android:gravity="center"
-            android:text="@string/compose"
-            android:layout_marginTop="@dimen/info_top_layout_margin"
-            app:layout_constraintEnd_toEndOf="@id/textSettingsFragmentRate"
-            app:layout_constraintStart_toStartOf="@id/textSettingsFragmentRate"
-            app:layout_constraintTop_toBottomOf="@id/textSettingsFragmentRate" />
+            android:id="@+id/textUserSettingFragmentRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:layout_marginTop="10dp"
+            android:text="@string/rate"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewUserSettingFragmentLine1" />
 
         <RadioGroup
-            android:id="@+id/rgSettingsFragmentCompose"
+            android:id="@+id/rgUserSettingFragmentRate"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="35dp"
             android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:layout_marginEnd="@dimen/info_start_layout_margin"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/textSettingsFragmentCompose"
-            app:layout_constraintStart_toEndOf="@id/textSettingsFragmentCompose"
-            app:layout_constraintTop_toTopOf="@id/textSettingsFragmentCompose">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textUserSettingFragmentRate">
 
             <RadioButton
-                android:id="@+id/rbSettingsFragment1"
+                android:id="@+id/rbUserSettingFragmentRate1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
+                android:text="1" />
+
+            <RadioButton
+                android:id="@+id/rbUserSettingFragmentRate2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="120dp"
+                android:text="2" />
+
+            <RadioButton
+                android:id="@+id/rbUserSettingFragmentRate3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="120dp"
+                android:text="3" />
+
+        </RadioGroup>
+
+        <View
+            android:id="@+id/viewUserSettingFragmentLine2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/enterprise_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rgUserSettingFragmentRate" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textUserSettingFragmentCompose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:layout_marginTop="10dp"
+            android:text="@string/compose"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewUserSettingFragmentLine2" />
+
+        <RadioGroup
+            android:id="@+id/rgUserSettingFragmentCompose"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:layout_marginEnd="@dimen/info_start_layout_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textUserSettingFragmentCompose">
+
+            <RadioButton
+                android:id="@+id/rbUserSettingFragmentCompose1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-20dp"
                 android:text="@string/compose_alone" />
 
             <RadioButton
-                android:id="@+id/rbSettingsFragment2"
+                android:id="@+id/rbUserSettingFragmentCompose2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="-20dp"
                 android:text="@string/compose1" />
 
             <RadioButton
-                android:id="@+id/rbSettingsFragment3"
+                android:id="@+id/rbUserSettingFragmentCompose3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="-20dp"
                 android:text="@string/compose2" />
 
             <RadioButton
-                android:id="@+id/rbSettingsFragment4"
+                android:id="@+id/rbUserSettingFragmentCompose4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="-150dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/compose3" />
 
             <RadioButton
-                android:id="@+id/rbSettingsFragment5"
+                android:id="@+id/rbUserSettingFragmentCompose5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="-199dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/compose4" />
+
         </RadioGroup>
 
+        <View
+            android:id="@+id/viewUserSettingFragmentLine3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/enterprise_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rgUserSettingFragmentCompose" />
+
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textSettingsFragmentMode"
-            android:layout_width="@dimen/fragment_text_weight"
-            android:layout_height="@dimen/fragment_text_height"
-            android:gravity="center"
+            android:id="@+id/textUserSettingFragmentMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:layout_marginTop="10dp"
             android:text="@string/mode"
-            android:layout_marginTop="@dimen/info_top_layout_margin"
-            app:layout_constraintEnd_toEndOf="@id/textSettingsFragmentCompose"
-            app:layout_constraintStart_toStartOf="@id/textSettingsFragmentCompose"
-            app:layout_constraintTop_toBottomOf="@id/textSettingsFragmentCompose" />
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewUserSettingFragmentLine3" />
 
         <RadioGroup
-            android:id="@+id/rgSettingsFragmentMode"
+            android:id="@+id/rgUserSettingFragmentMode"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="70dp"
             android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:layout_marginEnd="@dimen/info_start_layout_margin"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/textSettingsFragmentMode"
-            app:layout_constraintStart_toEndOf="@id/textSettingsFragmentMode"
-            app:layout_constraintTop_toTopOf="@id/textSettingsFragmentMode">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textUserSettingFragmentMode">
 
             <RadioButton
-                android:id="@+id/rbSettingsFragmentMode1"
+                android:id="@+id/rbUserSettingFragmentMode1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
+                android:layout_marginTop="-20dp"
                 android:text="@string/mode1" />
 
             <RadioButton
-                android:id="@+id/rbSettingsFragmentMode2"
+                android:id="@+id/rbUserSettingFragmentMode2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="-20dp"
                 android:text="@string/mode2" />
 
             <RadioButton
-                android:id="@+id/rbSettingsFragmentMode3"
+                android:id="@+id/rbUserSettingFragmentMode3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="-20dp"
                 android:text="@string/mode3" />
 
             <RadioButton
-                android:id="@+id/rbSettingsFragmentMode4"
+                android:id="@+id/rbUserSettingFragmentMode4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="-150dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/mode4" />
 
             <RadioButton
-                android:id="@+id/rbSettingsFragmentMode5"
+                android:id="@+id/rbUserSettingFragmentMode5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="-260dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/mode5" />
         </RadioGroup>
+
+        <View
+            android:id="@+id/viewUserSettingFragmentLine4"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/enterprise_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rgUserSettingFragmentMode" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btSettingsFragmentSave"
+            android:layout_width="330dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_bt_noselect"
+            android:text="@string/save"
+            android:textColor="@color/enterprise_white"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewUserSettingFragmentLine4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

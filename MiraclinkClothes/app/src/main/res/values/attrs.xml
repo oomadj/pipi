@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <declare-styleable name="EditLineLayout">
+        <attr name="functionText" format="string" />
+        <attr name="infoText" format="string" />
+        <attr name="initInfoText" format="string"/>
+        <attr name="topLine" format="boolean" />
+        <attr name="bottom" format="boolean" />
+        <attr name="numType" format="string"/>
+        <attr name="imageMore" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="SettingLineLayout">
+        <attr name="funText" format="string" />
+        <attr name="topLineView" format="boolean" />
+        <attr name="imageMoreSetting" format="integer"/>
+    </declare-styleable>
+
+</resources>
