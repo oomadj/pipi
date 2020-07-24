@@ -5,136 +5,321 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textUserCheckFragmentTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="00:00"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textUserCheckFragmentRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/rate_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentTimer" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btUserCheckFragmentArm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/arm"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentRate" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btUserCheckFragmentChest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/chest"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentRate" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btUserCheckFragmentStomach"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/stomach"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentRate" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btUserCheckFragmentLeg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/leg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btUserCheckFragmentChest" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btUserCheckFragmentNeck"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/neck"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btUserCheckFragmentLeg" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btUserCheckFragmentBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/backback"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btUserCheckFragmentLeg" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btUserCheckFragmentRear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/rear"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btUserCheckFragmentLeg" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btUserCheckFragmentStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="start"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btUserCheckFragmentAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="add"
-        app:layout_constraintBottom_toBottomOf="@id/btUserCheckFragmentStart"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btUserCheckFragmentStart" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btUserCheckFragmentCut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="cut"
-        app:layout_constraintBottom_toBottomOf="@id/btUserCheckFragmentStart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btUserCheckFragmentStart" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="180dp"
-        android:layout_height="100dp"
-        android:background="@drawable/bg_info_edit"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/layoutUserCheckFragmentTitle"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btUserCheckFragmentStart">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textUserCheckFragmentName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/user_check"
+            android:textColor="@color/title_color"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textUserCheckFragmentId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutUserCheckFragmentTitle">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textUserCheckFragmentName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/check_text_blue"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textUserCheckFragmentId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/check_text_blue"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textUserCheckFragmentCompose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/check_text_blue"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentId" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textUserCheckFragmentMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/check_text_blue"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/textUserCheckFragmentCompose"
+                app:layout_constraintStart_toEndOf="@id/textUserCheckFragmentCompose"
+                app:layout_constraintTop_toTopOf="@id/textUserCheckFragmentCompose" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textUserCheckFragmentTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="20dp"
+                android:text="00:00"
+                android:textColor="@color/check_text_blue"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textUserCheckFragmentRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:text="@string/rate_text"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentTimer" />
+
+            <HorizontalScrollView
+                android:id="@+id/scrollViewUserCheckFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="390dp"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="390dp"
+                    android:orientation="horizontal">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="390dp"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="171dp"
+                            android:layout_height="303dp"
+                            android:background="@drawable/bg_user_check1"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imgUserCheckFragmentChangeBody1"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/icon_right_sliding"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btUserCheckFragmentArm"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="110dp"
+                            android:layout_marginTop="90dp"
+                            android:background="@drawable/bg_bt_noselect"
+                            android:text="@string/arm_text"
+                            android:textColor="@color/enterprise_white"
+                            android:textSize="8sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btUserCheckFragmentArmZero"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="110dp"
+                            android:background="@drawable/bg_bt_noselect"
+                            android:text="@string/arm_zero"
+                            android:textColor="@color/enterprise_white"
+                            android:textSize="8sp"
+                            app:layout_constraintStart_toEndOf="@id/btUserCheckFragmentArm"
+                            app:layout_constraintTop_toTopOf="@id/btUserCheckFragmentArm" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btUserCheckFragmentChest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="90dp"
+                            android:background="@drawable/bg_bt_noselect"
+                            android:text="@string/chest"
+                            android:textColor="@color/enterprise_white"
+                            android:textSize="8sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btUserCheckFragmentStomach"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginTop="50dp"
+                            android:background="@drawable/bg_bt_noselect"
+                            android:text="@string/stomach"
+                            android:textColor="@color/enterprise_white"
+                            android:textSize="8sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/btUserCheckFragmentChest" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btUserCheckFragmentLeg"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="160dp"
+                            android:layout_marginEnd="60dp"
+                            android:background="@drawable/bg_bt_noselect"
+                            android:text="@string/leg_text"
+                            android:textColor="@color/enterprise_white"
+                            android:textSize="8sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/btUserCheckFragmentChest" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btUserCheckFragmentLegZero"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="60dp"
+                            android:layout_marginTop="160dp"
+                            android:background="@drawable/bg_bt_noselect"
+                            android:text="@string/arm_zero"
+                            android:textColor="@color/enterprise_white"
+                            android:textSize="8sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/btUserCheckFragmentChest" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="390dp"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="171dp"
+                            android:layout_height="303dp"
+                            android:background="@drawable/bg_user_check2"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btUserCheckFragmentNeck"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="60dp"
+                            android:background="@drawable/bg_bt_noselect"
+                            android:text="@string/neck"
+                            android:textColor="@color/enterprise_white"
+                            android:textSize="8sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btUserCheckFragmentBack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginTop="130dp"
+                            android:background="@drawable/bg_bt_noselect"
+                            android:text="@string/backback"
+                            android:textColor="@color/enterprise_white"
+                            android:textSize="8sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btUserCheckFragmentRear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="230dp"
+                            android:background="@drawable/bg_bt_noselect"
+                            android:text="@string/rear"
+                            android:textColor="@color/enterprise_white"
+                            android:textSize="8sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btUserCheckFragmentStart"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:background="@drawable/icon_start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/scrollViewUserCheckFragment" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/imgUserCheckFragmentAdd"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/icon_add"
+                app:layout_constraintBottom_toBottomOf="@id/btUserCheckFragmentStart"
+                app:layout_constraintEnd_toStartOf="@id/btUserCheckFragmentStart"
+                app:layout_constraintTop_toTopOf="@id/btUserCheckFragmentStart" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/imgUserCheckFragmentCut"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="32dp"
+                android:background="@drawable/icon_cut"
+                app:layout_constraintBottom_toBottomOf="@id/btUserCheckFragmentStart"
+                app:layout_constraintStart_toEndOf="@id/btUserCheckFragmentStart"
+                app:layout_constraintTop_toTopOf="@id/btUserCheckFragmentStart" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <LinearLayout
+            android:layout_width="220dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/enterprise_blue">
+
+        </LinearLayout>
+
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

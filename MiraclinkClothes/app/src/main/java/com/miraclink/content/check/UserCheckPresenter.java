@@ -55,7 +55,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
 
     @Override
     public void getBleAddress(String string) {
-        LogUtil.i(TAG,"last address:"+string);
+        LogUtil.i(TAG, "last address:" + string);
         lastAddress = string;
     }
 
@@ -129,7 +129,27 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
     }
 
     @Override
+    public void onCheckLegZeroClick() {
+        if (isLegChecked) {
+            isLegChecked = false;
+        } else {
+            isLegChecked = true;
+        }
+        iView.setButtonBackground(4, isLegChecked);
+    }
+
+    @Override
     public void onCheckArmClick() {
+        if (isArmChecked) {
+            isArmChecked = false;
+        } else {
+            isArmChecked = true;
+        }
+        iView.setButtonBackground(1, isArmChecked);
+    }
+
+    @Override
+    public void onCheckArmZeroClick() {
         if (isArmChecked) {
             isArmChecked = false;
         } else {
@@ -198,8 +218,8 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         isBackChecked = true;
         isRearChecked = true;
         iView.refreshCheckButtonText(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo);
-        for (int i = 1;i <= 7;i++){
-            iView.setButtonBackground(i,true);
+        for (int i = 1; i <= 7; i++) {
+            iView.setButtonBackground(i, true);
         }
     }
 
@@ -210,13 +230,13 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         checkStatus = 0;
         iView.refreshStartButtonText(checkStatus);
         blueService.close();
-        LogUtil.i(TAG,"on disconnected:"+lastAddress);
-        if (lastAddress != null && blueService != null){
-            LogUtil.i(TAG,"is replay connect:"+replayCount);
-            if (replayCount >0){
-                replayCount --;
+        LogUtil.i(TAG, "on disconnected:" + lastAddress);
+        if (lastAddress != null && blueService != null) {
+            LogUtil.i(TAG, "is replay connect:" + replayCount);
+            if (replayCount > 0) {
+                replayCount--;
                 boolean isConnected = blueService.connect(lastAddress);
-                if (isConnected){
+                if (isConnected) {
                     isReplay = true;
                 }
             }
@@ -301,7 +321,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         blueService.writeRXCharacteristic(ByteUtils.getRateCmd(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo, 0x01));
     }
 
-    private void getUserInfoToDatabase(String id){
+    private void getUserInfoToDatabase(String id) {
         iUserDatabaseManager.queryUserByID(user -> {
             iView.setInfoText(user);
         }, id);
@@ -317,7 +337,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         @Override
         public void onTick(long millisUntilFinished) {
             if (blueService != null) {
-                LogUtil.i(TAG,"handler -+++++-write rx");
+                LogUtil.i(TAG, "handler -+++++-write rx");
                 blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x07, 0xE3, 0xEA));
                 pauseTime = millisUntilFinished;
                 iView.setTimeText(Utils.formatTime(millisUntilFinished));

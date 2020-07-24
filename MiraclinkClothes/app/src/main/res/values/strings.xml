@@ -39,10 +39,13 @@
     <string name="mode4">肌肉模式</string>
     <string name="mode5">脂肪加速燃烧模式</string>
 
+    <string name="arm_text">arm</string>
+    <string name="arm_zero">0%</string>
     <string name="arm">arm:%d</string>
     <string name="chest">chest:%d</string>
     <string name="stomach">stomach:%d</string>
     <string name="leg">leg:%d</string>
+    <string name="leg_text">leg</string>
     <string name="neck">neck:%d</string>
     <string name="backback">back:%d</string>
     <string name="rear">rear:%d</string>

@@ -24,6 +24,7 @@
         </activity>
         <activity android:name=".bluetooth.DeviceListActivity" android:theme="@style/DeviceListActivityTranslucent"></activity>
         <activity android:name=".content.ContentActivity"
+            android:theme="@style/LaunchTheme"
             android:windowSoftInputMode="adjustUnspecified|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

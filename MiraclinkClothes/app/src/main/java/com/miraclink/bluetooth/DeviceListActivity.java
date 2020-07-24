@@ -137,9 +137,9 @@ public class DeviceListActivity extends BaseActivity implements View.OnClickList
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (device.getName() != null && device.getName().contains("SMC")) { // get SMC(Miraclink) name ble
+                    //if (device.getName() != null && device.getName().contains("SMC")) { // get SMC(Miraclink) name ble
                         addDevice(device, rssi);
-                    }
+                    //}
                 }
             });
         }

@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,10 +34,13 @@ import com.miraclink.utils.Utils;
 public class UserCheckFragment extends Fragment implements View.OnClickListener, UserCheckContract.IView {
     private static final String TAG = UserCheckFragment.class.getSimpleName();
     private Button btStart;
-    private Button btLeg, btNeck, btArm, btChest, btStomach, btBack, btRear;
+    private Button btLeg, btLegZero, btNeck, btArm, btArmZero, btChest, btStomach, btBack, btRear;
     private TextView tvTime;
-    private Button btAdd, btCut;
+    private ImageButton btAdd, btCut;
     private TextView tvName, tvId;
+
+    private HorizontalScrollView horizontalScrollView;
+    private ImageView imgChangeBody1;
 
     private UserCheckContract.Presenter presenter;
     ContentActivity activity;
@@ -106,15 +112,19 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         btNeck = view.findViewById(R.id.btUserCheckFragmentNeck);
         btLeg.setOnClickListener(this);
         btNeck.setOnClickListener(this);
-        btAdd = view.findViewById(R.id.btUserCheckFragmentAdd);
+        btAdd = view.findViewById(R.id.imgUserCheckFragmentAdd);
         btAdd.setOnClickListener(this);
-        btCut = view.findViewById(R.id.btUserCheckFragmentCut);
+        btCut = view.findViewById(R.id.imgUserCheckFragmentCut);
         btCut.setOnClickListener(this);
         btArm = view.findViewById(R.id.btUserCheckFragmentArm);
+        btArmZero = view.findViewById(R.id.btUserCheckFragmentArmZero);
+        btArmZero.setOnClickListener(this);
         btChest = view.findViewById(R.id.btUserCheckFragmentChest);
         btStomach = view.findViewById(R.id.btUserCheckFragmentStomach);
         btBack = view.findViewById(R.id.btUserCheckFragmentBack);
         btRear = view.findViewById(R.id.btUserCheckFragmentRear);
+        btLegZero = view.findViewById(R.id.btUserCheckFragmentLegZero);
+        btLegZero.setOnClickListener(this);
         btArm.setOnClickListener(this);
         btStomach.setOnClickListener(this);
         btBack.setOnClickListener(this);
@@ -122,6 +132,9 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         btRear.setOnClickListener(this);
         tvName = view.findViewById(R.id.textUserCheckFragmentName);
         tvId = view.findViewById(R.id.textUserCheckFragmentId);
+        imgChangeBody1 = view.findViewById(R.id.imgUserCheckFragmentChangeBody1);
+        imgChangeBody1.setOnClickListener(this);
+        horizontalScrollView = view.findViewById(R.id.scrollViewUserCheckFragment);
     }
 
     @Override
@@ -138,20 +151,26 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
                     }
                 }
                 break;
-            case R.id.btUserCheckFragmentAdd:
+            case R.id.imgUserCheckFragmentAdd:
                 presenter.onCheckRateAdd();
                 break;
-            case R.id.btUserCheckFragmentCut:
+            case R.id.imgUserCheckFragmentCut:
                 presenter.onCheckRateCut();
                 break;
             case R.id.btUserCheckFragmentLeg:
                 presenter.onCheckLegClick();
+                break;
+            case R.id.btUserCheckFragmentLegZero:
+                presenter.onCheckLegZeroClick();
                 break;
             case R.id.btUserCheckFragmentNeck:
                 presenter.onCheckNeckClick();
                 break;
             case R.id.btUserCheckFragmentArm:
                 presenter.onCheckArmClick();
+                break;
+            case R.id.btUserCheckFragmentArmZero:
+                presenter.onCheckArmZeroClick();
                 break;
             case R.id.btUserCheckFragmentChest:
                 presenter.onCheckChestClick();
@@ -165,6 +184,9 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
             case R.id.btUserCheckFragmentRear:
                 presenter.onCheckRearClick();
                 break;
+            case R.id.imgUserCheckFragmentChangeBody1:
+                horizontalScrollView.smoothScrollTo(Utils.dpToPx(getContext(), 380), 0);
+                break;
             default:
                 break;
         }
@@ -176,8 +198,10 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
             case 1:
                 if (isCheck) {
                     btArm.setBackgroundResource(R.drawable.bg_bt_selcet);
+                    btArmZero.setBackgroundResource(R.drawable.bg_bt_selcet);
                 } else {
                     btArm.setBackgroundResource(R.drawable.bg_bt_noselect);
+                    btArmZero.setBackgroundResource(R.drawable.bg_bt_noselect);
                 }
                 break;
             case 2:
@@ -197,8 +221,10 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
             case 4:
                 if (isCheck) {
                     btLeg.setBackgroundResource(R.drawable.bg_bt_selcet);
+                    btLegZero.setBackgroundResource(R.drawable.bg_bt_selcet);
                 } else {
                     btLeg.setBackgroundResource(R.drawable.bg_bt_noselect);
+                    btLegZero.setBackgroundResource(R.drawable.bg_bt_noselect);
                 }
                 break;
             case 5:
@@ -242,10 +268,10 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                btArm.setText(String.format(getContext().getString(R.string.arm), armIo * 10) + "%");
+                btArmZero.setText(armIo * 10 + "%");
                 btChest.setText(String.format(getContext().getString(R.string.chest), chestIo * 10) + "%");
                 btStomach.setText(String.format(getContext().getString(R.string.stomach), stomachIo * 10) + "%");
-                btLeg.setText(String.format(getContext().getString(R.string.leg), legIo * 10) + "%");
+                btLegZero.setText(legIo * 10 + "%");
                 btNeck.setText(String.format(getContext().getString(R.string.neck), neckIo * 10) + "%");
                 btBack.setText(String.format(getContext().getString(R.string.backback), backIo * 10) + "%");
                 btRear.setText(String.format(getContext().getString(R.string.rear), rearIo * 10) + "%");
@@ -260,9 +286,9 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
             @Override
             public void run() {
                 if (status == 0) {
-                    btStart.setText("start");
+                    btStart.setBackgroundResource(R.drawable.icon_start);
                 } else {
-                    btStart.setText("stop");
+                    btStart.setBackgroundResource(R.drawable.icon_pause);
                 }
             }
         });
@@ -273,7 +299,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (user != null){
+                if (user != null) {
                     tvName.setText(user.getName());
                     tvId.setText(user.getID());
                 }

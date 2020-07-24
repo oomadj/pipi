@@ -19,7 +19,11 @@ public interface UserCheckContract {
 
         void onCheckLegClick();
 
+        void onCheckLegZeroClick();
+
         void onCheckArmClick();
+
+        void onCheckArmZeroClick();
 
         void onCheckChestClick();
 
