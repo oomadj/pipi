@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,7 @@ import com.miraclink.widget.UserListRecyclerDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserListFragment extends Fragment implements UserListAdapter.OnUserListItemClick, IUserDatabaseManager.QueryAllUserCallback {
+public class UserListFragment extends Fragment implements UserListAdapter.OnUserListItemClick, IUserDatabaseManager.QueryAllUserCallback, View.OnClickListener {
     private static final String TAG = UserListFragment.class.getSimpleName();
     private RecyclerView recyclerUser;
     private UserListAdapter userAdapter;
@@ -41,6 +42,8 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
     private UserListContract.Presenter presenter;
     private BroadcastReceiver receiver;
     private IUserDatabaseManager iUserDatabaseManager;
+
+    private ImageView imgNew;
 
     @Nullable
     @Override
@@ -113,6 +116,8 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
         recyclerUser.setLayoutManager(linearLayoutManager);
         recyclerUser.setAdapter(userAdapter);
         recyclerUser.addItemDecoration(decoration);
+        imgNew = view.findViewById(R.id.imgUserListFragmentNew);
+        imgNew.setOnClickListener(this);
     }
 
     @Override
@@ -129,5 +134,11 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
         if (SharePreUtils.getCurrentID(getContext()).isEmpty() && users.size() != 0){
             SharePreUtils.setCurrentID(getContext(),users.get(0).getID()); // init select 0
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        ContentActivity activity = (ContentActivity) getActivity();
+        activity.setTabSelection(0,true);
     }
 }

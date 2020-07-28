@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -52,10 +53,10 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     private BroadcastReceiver receiver;
     private BluetoothAdapter bluetoothAdapter;
 
-    private Button btList;
-    private Button btInfo;
-    private Button btCheck;
-    private Button btSettings;
+    private ConstraintLayout btList;
+    private ConstraintLayout btInfo;
+    private ConstraintLayout btCheck;
+    private ConstraintLayout btSettings;
 
     private ImageView ivInfo, ivSetting, ivCheck, ivList;
     private TextView textInfo, textSetting, textCheck, textList;
@@ -79,6 +80,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
 
     public static int mState = UART_PROFILE_DISCONNECTED;
 
+    public boolean isNewBuild = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,7 +89,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_content);
         initParam();
         intiView();
-        setTabSelection(0);
+        setTabSelection(0, false);
     }
 
     public MyBlueService getBlueService() {
@@ -167,6 +169,14 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         btCheck.setOnClickListener(this);
         btSettings = findViewById(R.id.btContentActivitySettings);
         btSettings.setOnClickListener(this);
+        ivInfo = findViewById(R.id.imageContentActivityUserInfo);
+        ivSetting = findViewById(R.id.imageContentActivitySettings);
+        ivCheck = findViewById(R.id.imageContentActivityUserCheck);
+        ivList = findViewById(R.id.imageContentActivityUserList);
+        textInfo = findViewById(R.id.textContentActivityUserInfo);
+        textSetting = findViewById(R.id.textContentActivityUserSetting);
+        textCheck = findViewById(R.id.textContentActivityUserCheck);
+        textList = findViewById(R.id.textContentActivityUserList);
     }
 
     @Override
@@ -178,7 +188,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         i = savedInstanceState.getInt("position");
-        setTabSelection(i);
+        setTabSelection(i, false);
         super.onRestoreInstanceState(savedInstanceState);
     }
 
@@ -221,13 +231,14 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         SharePreUtils.removeCurrentID(this);
     }
 
-    private void setTabSelection(int page) {
+    public void setTabSelection(int page, boolean isJump) {
         transaction = fragmentManager.beginTransaction();
         hideFragment(transaction);
-        if (infoFragment == null) {
-            infoFragment = new UserInfoFragment();
-            transaction.add(R.id.layoutContentActivityContent, infoFragment);
-        }
+        resetImageViewAndTextView();
+        //if (infoFragment == null) {
+         //   infoFragment = new UserInfoFragment();
+         //   transaction.add(R.id.layoutContentActivityContent, infoFragment);
+       // }
 
         switch (page) {
             case 3:
@@ -237,13 +248,20 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     transaction.show(listFragment);
                 }
+                ivList.setImageResource(R.drawable.icon_user_list_check);
+                textList.setTextColor(getResources().getColor(R.color.check_text_blue));
                 break;
             case 0:
                 if (infoFragment == null) {
                     infoFragment = new UserInfoFragment();
+                    infoFragment.addValues(isJump);
+                    transaction.add(R.id.layoutContentActivityContent, infoFragment);
                 } else {
+                    infoFragment.addValues(isJump);
                     transaction.show(infoFragment);
                 }
+                ivInfo.setImageResource(R.drawable.icon_user_info_check);
+                textInfo.setTextColor(getResources().getColor(R.color.check_text_blue));
                 break;
             case 2:
                 if (checkFragment == null) {
@@ -252,6 +270,8 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     transaction.show(checkFragment);
                 }
+                ivCheck.setImageResource(R.drawable.icon_user_check_check);
+                textCheck.setTextColor(getResources().getColor(R.color.check_text_blue));
                 break;
             case 1:
                 if (settingsFragment == null) {
@@ -260,6 +280,8 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     transaction.show(settingsFragment);
                 }
+                ivSetting.setImageResource(R.drawable.icon_setting_check);
+                textSetting.setTextColor(getResources().getColor(R.color.check_text_blue));
                 break;
             default:
                 break;
@@ -288,19 +310,19 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.btContentActivityUserList:
                 sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  //refresh page data
-                setTabSelection(3);
+                setTabSelection(3, false);
                 break;
             case R.id.btContentActivityUserInfo:
                 sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  //refresh page data
-                setTabSelection(0);
+                setTabSelection(0, false);
                 break;
             case R.id.btContentActivityUserCheck:
                 sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  //refresh page data
-                setTabSelection(2);
+                setTabSelection(2, false);
                 break;
             case R.id.btContentActivitySettings:
                 sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  //refresh page data
-                setTabSelection(1);
+                setTabSelection(1, false);
                 break;
             default:
                 break;
@@ -315,7 +337,14 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void resetImageViewAndTextView() {
-
+        ivInfo.setImageResource(R.drawable.icon_user_info);
+        ivSetting.setImageResource(R.drawable.icon_setting);
+        ivCheck.setImageResource(R.drawable.icon_user_check);
+        ivList.setImageResource(R.drawable.icon_user_list);
+        textInfo.setTextColor(getResources().getColor(R.color.bottom_text_color));
+        textSetting.setTextColor(getResources().getColor(R.color.bottom_text_color));
+        textCheck.setTextColor(getResources().getColor(R.color.bottom_text_color));
+        textList.setTextColor(getResources().getColor(R.color.bottom_text_color));
     }
 
     @Override
@@ -339,7 +368,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     private final int ACCESS_LOCATION = 1;
 
     private void getPermission() {
-        LogUtil.i(TAG,"sdk version:"+Build.VERSION.SDK_INT);
+        LogUtil.i(TAG, "sdk version:" + Build.VERSION.SDK_INT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int permissionCheck = 0;
             permissionCheck = this.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);

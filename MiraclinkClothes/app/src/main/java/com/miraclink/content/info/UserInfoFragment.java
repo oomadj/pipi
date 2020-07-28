@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.miraclink.R;
+import com.miraclink.content.ContentActivity;
 import com.miraclink.database.IUserDatabaseManager;
 import com.miraclink.database.UserDatabaseManager;
 import com.miraclink.model.User;
@@ -45,6 +46,26 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     private UserInfoContract.Presenter presenter;
     private int sex = 0;
     private AlertDialog alertDialog;
+    ContentActivity activity;
+    private boolean isNewBuild = false;  //new build user
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        activity = (ContentActivity) getActivity();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (isNewBuild) {
+            editLineLayoutId.getInfoEditText().setText("");
+            editLineLayoutName.getInfoEditText().setText("");
+            editLineLayoutAge.getInfoEditText().setText("");
+            editLineLayoutWeight.getInfoEditText().setText("");
+            editLineLayoutHeight.getInfoEditText().setText("");
+        }
+    }
 
     @Nullable
     @Override
@@ -108,13 +129,29 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btUserInfoFragmentSave:
-                if (NetworkUtil.getConnectivityEnable(getContext())) {
+                //TODO save or update user to network
+                //if (NetworkUtil.getConnectivityEnable(getContext())) {
 
+                //} else {
+                if (isNewBuild) {
+                    User user = new User();
+                    user.setID(editLineLayoutId.getInfoEditText().getEditableText().toString());
+                    user.setName(editLineLayoutName.getInfoEditText().getEditableText().toString());
+                    user.setAge(Integer.valueOf(editLineLayoutAge.getInfoEditText().getText().toString()));
+                    user.setSex(sex);
+                    user.setHeight(Integer.valueOf(editLineLayoutHeight.getInfoEditText().getEditableText().toString()));
+                    user.setWeight(Integer.valueOf(editLineLayoutWeight.getInfoEditText().getEditableText().toString()));
+                    presenter.insertUser(iUserDatabaseManager, user);
+
+                    activity.setTabSelection(1, false);
                 } else {
                     presenter.updateUser(iUserDatabaseManager, editLineLayoutName.getInfoEditText().getEditableText().toString(), Integer.valueOf(editLineLayoutAge.getInfoEditText().getText().toString()), sex,
                             Integer.valueOf(editLineLayoutHeight.getInfoEditText().getEditableText().toString()), Integer.valueOf(editLineLayoutWeight.getInfoEditText().getEditableText().toString()),
                             editLineLayoutId.getInfoEditText().getEditableText().toString());
+
+                    activity.setTabSelection(1, false);
                 }
+                //}
                 break;
             case R.id.layoutUserInfoFragmentSex:
                 showList();
@@ -137,6 +174,11 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
         alertDialog.show();
     }
 
+    public void addValues(boolean b) {
+        isNewBuild = b;
+
+    }
+
     @Override
     public void setUserInfoView(User user) {
         getActivity().runOnUiThread(new Runnable() {
@@ -155,6 +197,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
                         sex = 1;
                     }
                 }
+
             }
         });
     }

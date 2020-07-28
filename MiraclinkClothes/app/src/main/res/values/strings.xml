@@ -18,7 +18,7 @@
     <string name="user_sex">性别</string>
     <string name="user_height">身高</string>
     <string name="user_weight">体重</string>
-    <string name="device_id">设备ID</string>
+    <string name="device_id">设备ID:</string>
     <string name="save">保存</string>
     <string name="add">添加</string>
     
@@ -60,4 +60,8 @@
     <string name="init_edit_device_id">请选择ID号</string>
     <string name="man">男</string>
     <string name="woman">女</string>
+
+    <string name="program">方案</string>
+    <string name="class_hour">课时</string>
+    <string name="balance">余额</string>
 </resources>

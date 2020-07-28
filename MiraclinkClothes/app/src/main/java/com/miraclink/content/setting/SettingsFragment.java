@@ -3,7 +3,6 @@ package com.miraclink.content.setting;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,7 +23,6 @@ import com.miraclink.content.ContentActivity;
 import com.miraclink.database.IUserDatabaseManager;
 import com.miraclink.database.UserDatabaseManager;
 import com.miraclink.model.User;
-import com.miraclink.networks.NetworkUtil;
 import com.miraclink.utils.AppExecutors;
 import com.miraclink.utils.BroadCastAction;
 import com.miraclink.utils.LogUtil;
@@ -33,13 +30,10 @@ import com.miraclink.utils.SharePreUtils;
 import com.miraclink.widget.ScrollerLayout;
 import com.miraclink.widget.SettingLineLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener, ScrollerLayout.OnSelectPositionClick, SettingsContract.IView, RadioGroup.OnCheckedChangeListener {
     private static final String TAG = SettingsFragment.class.getSimpleName();
-    private String[] strongs = {"0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"};
-    private List<String> strongsList;
 
     private ScrollerLayout scrollerLayout;
     private SettingsContract.Presenter presenter;
@@ -63,6 +57,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     private int rate;
     private int compose;
     private int mode;
+    ContentActivity activity;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        activity = (ContentActivity) getActivity();
+    }
 
     @Nullable
     @Override
@@ -135,10 +136,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         rgMode = view.findViewById(R.id.rgUserSettingFragmentMode);
         rgMode.setOnCheckedChangeListener(this);
         rbCompose1 = view.findViewById(R.id.rbUserSettingFragmentCompose1);
-        rbCompose2 = view.findViewById(R.id.rbUserSettingFragmentCompose1);
-        rbCompose3 = view.findViewById(R.id.rbUserSettingFragmentCompose1);
-        rbCompose4 = view.findViewById(R.id.rbUserSettingFragmentCompose1);
-        rbCompose5 = view.findViewById(R.id.rbUserSettingFragmentCompose1);
+        rbCompose2 = view.findViewById(R.id.rbUserSettingFragmentCompose2);
+        rbCompose3 = view.findViewById(R.id.rbUserSettingFragmentCompose3);
+        rbCompose4 = view.findViewById(R.id.rbUserSettingFragmentCompose4);
+        rbCompose5 = view.findViewById(R.id.rbUserSettingFragmentCompose5);
         rbMode1 = view.findViewById(R.id.rbUserSettingFragmentMode1);
         rbMode2 = view.findViewById(R.id.rbUserSettingFragmentMode2);
         rbMode3 = view.findViewById(R.id.rbUserSettingFragmentMode3);
@@ -153,11 +154,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btSettingsFragmentSave:
-                if (NetworkUtil.getConnectivityEnable(getContext())) {
+                //TODO net
+                //if (NetworkUtil.getConnectivityEnable(getContext())) {
 
-                } else {
-                    presenter.updateUserSettings(iUserDatabaseManager, time, strong, rate, compose, mode, SharePreUtils.getCurrentID(getContext()));
-                }
+                //} else {
+                LogUtil.i(TAG,"click user: time:"+time+"strong:"+strong+"rate:"+rate+"compose:"+compose+"mode:"+mode);
+                presenter.updateUserSettings(iUserDatabaseManager, time, strong, rate, compose, mode, SharePreUtils.getCurrentID(getContext()));
+                activity.setTabSelection(2,false);
+                //}
                 break;
             default:
                 break;
@@ -179,11 +183,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     };
 
     public void showTimeList() {
-        final String[] items = {"10","20","30","40","50","60"};
+        final String[] items = {"10", "20", "30", "40", "50", "60"};
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
         //alertBuilder.setTitle("test");
         alertBuilder.setItems(items, (dialogInterface, i) -> {
-            time = i;
+            time = (i + 1) * 10;
             lineLayoutTimeSelect.getTextInfo().setText(items[i]);
             alertDialog.dismiss();
         });
@@ -194,10 +198,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onGetSelectPosition(int position) {
         LogUtil.i(TAG, "scoller position:" + position);
-        time = position * 10;
+        strong = position * 10;
     }
 
-    private void setTimeInit(int i) {
+    private void setStrongInit(int i) {
+        strong = i;
         int b;
         if (i <= 0) {
             i = 10;    //default time
@@ -206,7 +211,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                scrollerLayout.scrollTo(scrollerLayout.getLayoutLong() * b / 5, 0);
+                scrollerLayout.scrollTo(scrollerLayout.getLayoutLong() * b / 10, 0);
             }
         });
     }
@@ -283,12 +288,17 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         if (userSettings == null) {
             return;
         }
-        LogUtil.i(TAG, "test move:" + userSettings.getStrong());
-        //slideHorizontalViewRate.setInitPos(userSettings.getRate());
-        //slideHorizontalViewStrong.setInitPos(userSettings.getStrong() / 10);
-        //setTimeInit(userSettings.getTime() - 1);
-        //setComposeInit(userSettings.getCompose());
-        //setModeInit(userSettings.getMode());
+        LogUtil.i(TAG, "user: time" + userSettings.getTime() + "strong:" + userSettings.getStrong() + "rate:" + userSettings.getRate() + "compose:" + userSettings.getCompose()+"mode:"+userSettings.getMode());
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                lineLayoutTimeSelect.getTextInfo().setText(String.valueOf(userSettings.getTime()));
+                setStrongInit(userSettings.getStrong());
+                setRateInit(userSettings.getRate());
+                setComposeInit(userSettings.getCompose());
+                setModeInit(userSettings.getMode());
+            }
+        });
     }
 
     @Override

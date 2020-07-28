@@ -24,11 +24,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btContentActivityUserInfo"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="@string/user_info"
             android:background="@color/enterprise_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,6 +38,7 @@
             android:id="@+id/imageContentActivityUserInfo"
             android:layout_width="22dp"
             android:layout_height="22dp"
+            android:layout_marginTop="3dp"
             android:src="@drawable/icon_user_info"
             app:layout_constraintStart_toStartOf="@id/btContentActivityUserInfo"
             app:layout_constraintEnd_toEndOf="@id/btContentActivityUserInfo"
@@ -53,12 +53,11 @@
             app:layout_constraintStart_toStartOf="@id/imageContentActivityUserInfo"
             app:layout_constraintTop_toBottomOf="@id/imageContentActivityUserInfo" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btContentActivitySettings"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="@string/settings"
             android:background="@color/enterprise_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/btContentActivityUserInfo"
@@ -67,13 +66,13 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageContentActivitySettings"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="3dp"
             android:src="@drawable/icon_setting"
-            app:layout_constraintStart_toEndOf="@id/imageContentActivityUserInfo"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.25" />
+            app:layout_constraintStart_toStartOf="@id/btContentActivitySettings"
+            app:layout_constraintEnd_toEndOf="@id/btContentActivitySettings"
+            app:layout_constraintTop_toTopOf="@id/btContentActivitySettings"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textContentActivityUserSetting"
@@ -84,7 +83,7 @@
             app:layout_constraintStart_toStartOf="@id/imageContentActivitySettings"
             app:layout_constraintTop_toBottomOf="@id/imageContentActivitySettings" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btContentActivityUserCheck"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -98,13 +97,13 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageContentActivityUserCheck"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="3dp"
             android:src="@drawable/icon_user_check"
-            app:layout_constraintStart_toEndOf="@id/imageContentActivitySettings"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.25" />
+            app:layout_constraintStart_toStartOf="@id/btContentActivityUserCheck"
+            app:layout_constraintEnd_toEndOf="@id/btContentActivityUserCheck"
+            app:layout_constraintTop_toTopOf="@id/btContentActivityUserCheck" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textContentActivityUserCheck"
@@ -115,11 +114,10 @@
             app:layout_constraintStart_toStartOf="@id/imageContentActivityUserCheck"
             app:layout_constraintTop_toBottomOf="@id/imageContentActivityUserCheck" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btContentActivityUserList"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="@string/user_list"
             android:background="@color/enterprise_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -128,12 +126,13 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageContentActivityUserList"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="3dp"
             android:src="@drawable/icon_user_list"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.25" />
+            app:layout_constraintStart_toStartOf="@id/btContentActivityUserList"
+            app:layout_constraintEnd_toEndOf="@id/btContentActivityUserList"
+            app:layout_constraintTop_toTopOf="@id/btContentActivityUserList" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textContentActivityUserList"
