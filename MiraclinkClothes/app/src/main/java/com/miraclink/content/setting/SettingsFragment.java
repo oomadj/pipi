@@ -47,6 +47,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     private RadioButton rbCompose1, rbCompose2, rbCompose3, rbCompose4, rbCompose5;
     private RadioButton rbMode1, rbMode2, rbMode3, rbMode4, rbMode5;
     private RadioButton rbRate1, rbRate2, rbRate3;
+    private AlertDialog alertDialog;
 
     private SettingLineLayout lineLayoutDeviceSelect;
     private SettingLineLayout lineLayoutTimeSelect;
@@ -173,9 +174,22 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     private View.OnClickListener timeSelectClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            showTimeList();
         }
     };
+
+    public void showTimeList() {
+        final String[] items = {"10","20","30","40","50","60"};
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+        //alertBuilder.setTitle("test");
+        alertBuilder.setItems(items, (dialogInterface, i) -> {
+            time = i;
+            lineLayoutTimeSelect.getTextInfo().setText(items[i]);
+            alertDialog.dismiss();
+        });
+        alertDialog = alertBuilder.create();
+        alertDialog.show();
+    }
 
     @Override
     public void onGetSelectPosition(int position) {

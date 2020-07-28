@@ -18,7 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutContentActivityBottom"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:background="@drawable/bg_layout_bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,12 +28,30 @@
             android:id="@+id/btContentActivityUserInfo"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:text="@string/user_info"
+            android:background="@color/enterprise_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.25" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageContentActivityUserInfo"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/icon_user_info"
+            app:layout_constraintStart_toStartOf="@id/btContentActivityUserInfo"
+            app:layout_constraintEnd_toEndOf="@id/btContentActivityUserInfo"
+            app:layout_constraintTop_toTopOf="@id/btContentActivityUserInfo" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textContentActivityUserInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_info"
+            app:layout_constraintEnd_toEndOf="@id/imageContentActivityUserInfo"
+            app:layout_constraintStart_toStartOf="@id/imageContentActivityUserInfo"
+            app:layout_constraintTop_toBottomOf="@id/imageContentActivityUserInfo" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btContentActivitySettings"
@@ -41,10 +59,30 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="@string/settings"
+            android:background="@color/enterprise_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/btContentActivityUserInfo"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.25" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageContentActivitySettings"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@drawable/icon_setting"
+            app:layout_constraintStart_toEndOf="@id/imageContentActivityUserInfo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.25" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textContentActivityUserSetting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings"
+            app:layout_constraintEnd_toEndOf="@id/imageContentActivitySettings"
+            app:layout_constraintStart_toStartOf="@id/imageContentActivitySettings"
+            app:layout_constraintTop_toBottomOf="@id/imageContentActivitySettings" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btContentActivityUserCheck"
@@ -52,20 +90,59 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="@string/user_check"
+            android:background="@color/enterprise_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/btContentActivitySettings"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.25" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageContentActivityUserCheck"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@drawable/icon_user_check"
+            app:layout_constraintStart_toEndOf="@id/imageContentActivitySettings"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.25" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textContentActivityUserCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_check"
+            app:layout_constraintEnd_toEndOf="@id/imageContentActivityUserCheck"
+            app:layout_constraintStart_toStartOf="@id/imageContentActivityUserCheck"
+            app:layout_constraintTop_toBottomOf="@id/imageContentActivityUserCheck" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btContentActivityUserList"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="@string/user_list"
+            android:background="@color/enterprise_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.25" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageContentActivityUserList"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icon_user_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.25" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textContentActivityUserList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_list"
+            app:layout_constraintEnd_toEndOf="@id/imageContentActivityUserList"
+            app:layout_constraintStart_toStartOf="@id/imageContentActivityUserList"
+            app:layout_constraintTop_toBottomOf="@id/imageContentActivityUserList" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

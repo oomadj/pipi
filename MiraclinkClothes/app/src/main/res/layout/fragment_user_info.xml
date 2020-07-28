@@ -109,13 +109,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layoutUserInfoFragmentWeight" />
 
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btUserInfoFragmentSave"
             android:layout_width="330dp"
-            android:layout_height="35dp"
+            android:layout_height="30dp"
             android:layout_marginTop="@dimen/info_top_layout_margin"
-            android:background="@drawable/bg_bt_noselect"
+            android:background="@drawable/bg_bt_save"
             android:text="@string/save"
             android:textColor="@color/enterprise_white"
             android:textSize="15sp"

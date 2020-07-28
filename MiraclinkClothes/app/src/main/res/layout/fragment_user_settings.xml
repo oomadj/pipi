@@ -69,29 +69,160 @@
         <com.miraclink.widget.ScrollerLayout
             android:id="@+id/scrollerUserSettingsFragmentStrong"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="20dp"
             android:layout_marginStart="@dimen/info_start_layout_margin"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="@dimen/info_start_layout_margin"
-            android:background="@drawable/bg_time_scroller"
+            android:background="@drawable/bg_strong"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textUserSettingFragmentStrong">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@color/black"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/icon_strong_round_click"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </com.miraclink.widget.ScrollerLayout>
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingStrong0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="9sp"
+            android:textColor="@color/setting_strong_text"
+            android:layout_marginStart="16dp"
+            app:layout_constraintTop_toBottomOf="@id/scrollerUserSettingsFragmentStrong"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingStrong1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:textSize="9sp"
+            android:textColor="@color/setting_strong_text"
+            android:layout_marginStart="28dp"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong0"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingStrong0"
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong0"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingStrong2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20"
+            android:textSize="9sp"
+            android:textColor="@color/setting_strong_text"
+            android:layout_marginStart="24dp"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong1"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingStrong1"
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong1"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingStrong3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30"
+            android:textSize="9sp"
+            android:textColor="@color/setting_strong_text"
+            android:layout_marginStart="23dp"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong2"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingStrong2"
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong2"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingStrong4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="40"
+            android:textSize="9sp"
+            android:textColor="@color/setting_strong_text"
+            android:layout_marginStart="23dp"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong3"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingStrong3"
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong3"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingStrong5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50"
+            android:textSize="9sp"
+            android:textColor="@color/setting_strong_text"
+            android:layout_marginStart="22dp"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong4"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingStrong4"
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong4"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingStrong6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="60"
+            android:textSize="9sp"
+            android:textColor="@color/setting_strong_text"
+            android:layout_marginStart="23dp"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong5"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingStrong5"
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong5"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingStrong7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="70"
+            android:textSize="9sp"
+            android:textColor="@color/setting_strong_text"
+            android:layout_marginStart="23dp"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong6"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingStrong6"
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong6"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingStrong8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="80"
+            android:textSize="9sp"
+            android:textColor="@color/setting_strong_text"
+            android:layout_marginStart="23dp"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong7"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingStrong7"
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong7"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingStrong9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="90"
+            android:textSize="9sp"
+            android:textColor="@color/setting_strong_text"
+            android:layout_marginStart="23dp"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong8"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingStrong8"
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong8"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textSettingStrong10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:textSize="9sp"
+            android:textColor="@color/setting_strong_text"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong9"
+            app:layout_constraintBottom_toBottomOf="@id/textSettingStrong9"
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong9"/>
+
         <View
             android:id="@+id/viewUserSettingFragmentLine1"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:background="@color/enterprise_blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -124,20 +255,23 @@
                 android:id="@+id/rbUserSettingFragmentRate1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="11sp"
                 android:text="1" />
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentRate2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="120dp"
+                android:layout_marginStart="80dp"
+                android:textSize="11sp"
                 android:text="2" />
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentRate3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="120dp"
+                android:layout_marginStart="80dp"
+                android:textSize="11sp"
                 android:text="3" />
 
         </RadioGroup>
@@ -178,24 +312,27 @@
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentCompose1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="28dp"
                 android:layout_marginTop="-20dp"
+                android:textSize="11sp"
                 android:text="@string/compose_alone" />
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentCompose2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="-20dp"
+                android:textSize="11sp"
                 android:text="@string/compose1" />
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentCompose3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
+                android:layout_marginStart="52dp"
                 android:layout_marginTop="-20dp"
+                android:textSize="11sp"
                 android:text="@string/compose2" />
 
             <RadioButton
@@ -204,6 +341,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="-150dp"
                 android:layout_marginTop="10dp"
+                android:textSize="11sp"
                 android:text="@string/compose3" />
 
             <RadioButton
@@ -212,6 +350,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="-199dp"
                 android:layout_marginTop="10dp"
+                android:textSize="11sp"
                 android:text="@string/compose4" />
 
         </RadioGroup>
@@ -253,22 +392,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-20dp"
+                android:textSize="11sp"
                 android:text="@string/mode1" />
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentMode2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="-20dp"
+                android:textSize="11sp"
                 android:text="@string/mode2" />
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentMode3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="-20dp"
+                android:textSize="11sp"
                 android:text="@string/mode3" />
 
             <RadioButton
@@ -277,6 +419,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="-150dp"
                 android:layout_marginTop="10dp"
+                android:textSize="11sp"
                 android:text="@string/mode4" />
 
             <RadioButton
@@ -285,6 +428,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="-260dp"
                 android:layout_marginTop="10dp"
+                android:textSize="11sp"
                 android:text="@string/mode5" />
         </RadioGroup>
 
@@ -300,10 +444,10 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btSettingsFragmentSave"
             android:layout_width="330dp"
-            android:layout_height="35dp"
+            android:layout_height="30dp"
             android:layout_marginStart="@dimen/info_start_layout_margin"
             android:layout_marginTop="10dp"
-            android:background="@drawable/bg_bt_noselect"
+            android:background="@drawable/bg_bt_save"
             android:text="@string/save"
             android:textColor="@color/enterprise_white"
             android:textSize="15sp"

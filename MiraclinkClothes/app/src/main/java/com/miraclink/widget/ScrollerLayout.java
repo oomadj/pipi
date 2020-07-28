@@ -188,29 +188,45 @@ public class ScrollerLayout extends ConstraintLayout {
             layoutLong = -startW+rightBorder;
             if (scroller.getCurrX()<=(-startW+rightBorder)){
                 scrollTo(-startW+rightBorder,0);
-                onSelectPositionClick.onGetSelectPosition(6);
+                onSelectPositionClick.onGetSelectPosition(10);
             }else if (scroller.getCurrX()>=0){
                 scrollTo(0,0);
-                onSelectPositionClick.onGetSelectPosition(1);
+                onSelectPositionClick.onGetSelectPosition(0);
             }else{
-                if (scroller.getCurrX()>=(layoutLong*3/10) && scroller.getCurrX()<(layoutLong/10)){
-                    scrollTo(layoutLong/5,0);
-                    onSelectPositionClick.onGetSelectPosition(2);
-                }else if (scroller.getCurrX()>=(layoutLong*5/10) && scroller.getCurrX()<(layoutLong*3/10)){
-                    scrollTo(layoutLong*2/5,0);
-                    onSelectPositionClick.onGetSelectPosition(3);
-                }else if(scroller.getCurrX()>=(layoutLong*7/10) && scroller.getCurrX()<(layoutLong*5/10)){
-                    scrollTo(layoutLong*3/5,0);
-                    onSelectPositionClick.onGetSelectPosition(4);
-                }else if(scroller.getCurrX()>=(layoutLong*9/10) && scroller.getCurrX()<(layoutLong*7/10)){
-                    scrollTo(layoutLong*4/5,0);
-                    onSelectPositionClick.onGetSelectPosition(5);
-                }else if(scroller.getCurrX()>=(layoutLong/10)){
-                    scrollTo(0,0);
+                if (scroller.getCurrX()>=(layoutLong*3/20) && scroller.getCurrX()<(layoutLong/20)){
+                    scrollTo(layoutLong/10,0);
                     onSelectPositionClick.onGetSelectPosition(1);
-                }else if(scroller.getCurrX()<(layoutLong*9/10)){
-                    scrollTo(-startW+rightBorder,0);
+                }else if (scroller.getCurrX()>=(layoutLong*5/20) && scroller.getCurrX()<(layoutLong*3/20)){
+                    scrollTo(layoutLong*2/10,0);
+                    onSelectPositionClick.onGetSelectPosition(2);
+                }else if(scroller.getCurrX()>=(layoutLong*7/20) && scroller.getCurrX()<(layoutLong*5/20)){
+                    scrollTo(layoutLong*3/10,0);
+                    onSelectPositionClick.onGetSelectPosition(3);
+                }else if(scroller.getCurrX()>=(layoutLong*9/20) && scroller.getCurrX()<(layoutLong*7/20)){
+                    scrollTo(layoutLong*4/10,0);
+                    onSelectPositionClick.onGetSelectPosition(4);
+                }else if (scroller.getCurrX()>=(layoutLong*11/20) && scroller.getCurrX()<(layoutLong*9/20)){
+                    scrollTo(layoutLong*5/10,0);
+                    onSelectPositionClick.onGetSelectPosition(5);
+                }else if (scroller.getCurrX()>=(layoutLong*13/20) && scroller.getCurrX()<(layoutLong*11/20)){
+                    scrollTo(layoutLong*6/10,0);
                     onSelectPositionClick.onGetSelectPosition(6);
+                }else if (scroller.getCurrX()>=(layoutLong*15/20) && scroller.getCurrX()<(layoutLong*13/20)){
+                    scrollTo(layoutLong*7/10,0);
+                    onSelectPositionClick.onGetSelectPosition(7);
+                }else if (scroller.getCurrX()>=(layoutLong*17/20) && scroller.getCurrX()<(layoutLong*15/20)){
+                    scrollTo(layoutLong*8/10,0);
+                    onSelectPositionClick.onGetSelectPosition(8);
+                }else if (scroller.getCurrX()>=(layoutLong*19/20) && scroller.getCurrX()<(layoutLong*17/20)){
+                    scrollTo(layoutLong*9/10,0);
+                    onSelectPositionClick.onGetSelectPosition(9);
+                }
+                else if(scroller.getCurrX()>=(layoutLong/20)){
+                    scrollTo(0,0);
+                    onSelectPositionClick.onGetSelectPosition(0);
+                }else if(scroller.getCurrX()<(layoutLong*19/20)){
+                    scrollTo(-startW+rightBorder,0);
+                    onSelectPositionClick.onGetSelectPosition(10);
                 }
             }
             invalidate();

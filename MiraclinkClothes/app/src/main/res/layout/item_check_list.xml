@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg_user_list"
+    android:layout_height="70dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textItemUserCheckFragmentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/black"
+        android:text="xuzhixin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageItemUserCheckFragmentIcon"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/icon_check_list_male"
+        app:layout_constraintTop_toTopOf="@id/textItemUserCheckFragmentName"
+        app:layout_constraintBottom_toBottomOf="@id/textItemUserCheckFragmentName"
+        app:layout_constraintEnd_toStartOf="@id/imgItemCheckFragmentBle"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgItemCheckFragmentBle"
+        android:layout_width="6dp"
+        android:layout_height="10dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/icon_bluetooth"
+        app:layout_constraintTop_toTopOf="@id/textItemUserCheckFragmentName"
+        app:layout_constraintBottom_toBottomOf="@id/textItemUserCheckFragmentName"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textItemUserCheckFragmentCompose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textSize="9sp"
+        android:text="@string/compose1"
+        app:layout_constraintStart_toStartOf="@id/textItemUserCheckFragmentName"
+        app:layout_constraintTop_toBottomOf="@id/textItemUserCheckFragmentName"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textItemUserCheckFragmentMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mode"
+        android:layout_marginStart="10dp"
+        android:textSize="9sp"
+        app:layout_constraintTop_toTopOf="@id/textItemUserCheckFragmentCompose"
+        app:layout_constraintBottom_toBottomOf="@id/textItemUserCheckFragmentCompose"
+        app:layout_constraintStart_toEndOf="@id/textItemUserCheckFragmentCompose"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textItemUserCheckFragmentId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2020-7-27-16-12"
+        android:layout_marginTop="3dp"
+        android:textSize="9sp"
+        app:layout_constraintTop_toBottomOf="@id/textItemUserCheckFragmentCompose"
+        app:layout_constraintStart_toStartOf="@id/textItemUserCheckFragmentCompose"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

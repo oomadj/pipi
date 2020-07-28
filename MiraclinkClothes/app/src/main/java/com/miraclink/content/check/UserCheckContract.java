@@ -37,6 +37,8 @@ public interface UserCheckContract {
 
         void onUserChanged();
 
+        void queryAllUser(IUserDatabaseManager iUserDatabaseManager, IUserDatabaseManager.QueryAllUserCallback callback);
+
     }
 
     interface IView{

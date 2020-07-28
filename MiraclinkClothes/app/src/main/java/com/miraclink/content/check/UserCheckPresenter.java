@@ -327,6 +327,12 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         }, id);
     }
 
+    //test --
+    @Override
+    public void queryAllUser(IUserDatabaseManager iUserDatabaseManager, IUserDatabaseManager.QueryAllUserCallback callback) {
+        iUserDatabaseManager.queryAllUser(callback);
+    }
+
     //每秒钟发送一次心跳包
     class MyCountDownTimer extends CountDownTimer {
 

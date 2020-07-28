@@ -18,8 +18,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.miraclink.R;
+import com.miraclink.adapter.UserCheckAdapter;
 import com.miraclink.content.ContentActivity;
 import com.miraclink.database.IUserDatabaseManager;
 import com.miraclink.database.UserDatabaseManager;
@@ -29,9 +32,13 @@ import com.miraclink.utils.BroadCastAction;
 import com.miraclink.utils.LogUtil;
 import com.miraclink.utils.SharePreUtils;
 import com.miraclink.utils.Utils;
+import com.miraclink.widget.UserListRecyclerDecoration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class UserCheckFragment extends Fragment implements View.OnClickListener, UserCheckContract.IView {
+public class UserCheckFragment extends Fragment implements View.OnClickListener, UserCheckContract.IView , IUserDatabaseManager.QueryAllUserCallback {
     private static final String TAG = UserCheckFragment.class.getSimpleName();
     private Button btStart;
     private Button btLeg, btLegZero, btNeck, btArm, btArmZero, btChest, btStomach, btBack, btRear;
@@ -41,6 +48,10 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
 
     private HorizontalScrollView horizontalScrollView;
     private ImageView imgChangeBody1;
+    private RecyclerView recyclerView;
+    private UserCheckAdapter userCheckAdapter;
+    private UserListRecyclerDecoration decoration;
+    private ArrayList<User> users;
 
     private UserCheckContract.Presenter presenter;
     ContentActivity activity;
@@ -80,6 +91,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         getContext().registerReceiver(receiver, filter);
         presenter.getBleAddress(activity.getBleAddress());
 
+        presenter.queryAllUser(iUserDatabaseManager,this);
     }
 
     @Override
@@ -91,6 +103,8 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
 
     private void initParam() {
         iUserDatabaseManager = UserDatabaseManager.getInstance(getContext(), AppExecutors.getInstance());
+        userCheckAdapter = new UserCheckAdapter();
+        decoration = new UserListRecyclerDecoration();
         presenter = new UserCheckPresenter(this, iUserDatabaseManager);
         presenter.getBlueService(activity.getBlueService());
         receiver = new BroadcastReceiver() {
@@ -135,6 +149,12 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         imgChangeBody1 = view.findViewById(R.id.imgUserCheckFragmentChangeBody1);
         imgChangeBody1.setOnClickListener(this);
         horizontalScrollView = view.findViewById(R.id.scrollViewUserCheckFragment);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView = view.findViewById(R.id.recyclerUserCheckFragment);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(userCheckAdapter);
+        recyclerView.addItemDecoration(decoration);
     }
 
     @Override
@@ -307,4 +327,9 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         });
     }
 
+    @Override
+    public void onQueried(List<User> userList) {
+        users = (ArrayList<User>) userList;
+        userCheckAdapter.setData(users);
+    }
 }
