@@ -8,7 +8,7 @@
         android:id="@+id/viewSettingLineLayoutTopLine"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:background="@color/enterprise_blue"
+        android:background="@color/line_color"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
         android:id="@+id/viewSettingLineLayoutBottomLine"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:background="@color/enterprise_blue"
+        android:background="@color/line_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

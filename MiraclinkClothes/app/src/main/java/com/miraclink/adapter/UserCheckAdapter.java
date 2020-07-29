@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.miraclink.R;
 import com.miraclink.model.User;
+import com.miraclink.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +37,8 @@ public class UserCheckAdapter extends RecyclerView.Adapter<UserCheckAdapter.Chec
     public void onBindViewHolder(@NonNull CheckHolder holder, int position) {
         User user = users.get(position);
         holder.textName.setText(user.getName());
-        holder.textCompose.setText(getComposeText(user.getCompose()));
-        holder.textMode.setText(getModeText(user.getMode()));
+        holder.textCompose.setText(Utils.getComposeText(context,user.getCompose()));
+        holder.textMode.setText(Utils.getModeText(context,user.getMode()));
         holder.textId.setText(user.getID());
         holder.imgSex.setImageResource(user.getSex() == 0 ? R.drawable.icon_check_list_male : R.drawable.icon_check_list_female);
     }
@@ -68,55 +69,5 @@ public class UserCheckAdapter extends RecyclerView.Adapter<UserCheckAdapter.Chec
             imgSex = itemView.findViewById(R.id.imageItemUserCheckFragmentIcon);
         }
     }
-
-    private String getComposeText(int i) {
-        String text = null;
-        switch (i) {
-            case 1:
-                text = context.getResources().getString(R.string.compose_alone);
-                break;
-            case 2:
-                text = context.getResources().getString(R.string.compose1);
-                break;
-            case 3:
-                text = context.getResources().getString(R.string.compose2);
-                break;
-            case 4:
-                text = context.getResources().getString(R.string.compose3);
-                break;
-            case 5:
-                text = context.getResources().getString(R.string.compose4);
-                break;
-            default:
-                text = context.getResources().getString(R.string.compose_alone);
-                break;
-        }
-        return text;
-    }
-
-    private String getModeText(int i) {
-        String text = null;
-        switch (i) {
-            case 1:
-                text = context.getResources().getString(R.string.mode1);
-                break;
-            case 2:
-                text = context.getResources().getString(R.string.mode2);
-                break;
-            case 3:
-                text = context.getResources().getString(R.string.mode3);
-                break;
-            case 4:
-                text = context.getResources().getString(R.string.mode4);
-                break;
-            case 5:
-                text = context.getResources().getString(R.string.mode5);
-                break;
-            default:
-                break;
-        }
-        return text;
-    }
-
 
 }

@@ -3,6 +3,8 @@ package com.miraclink.utils;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
+import com.miraclink.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -66,5 +68,54 @@ public class Utils {
         }
         lastClickTime = time;
         return false;
+    }
+
+    public static String getComposeText(Context context,int i) {
+        String text = null;
+        switch (i) {
+            case 1:
+                text = context.getResources().getString(R.string.compose_alone);
+                break;
+            case 2:
+                text = context.getResources().getString(R.string.compose1);
+                break;
+            case 3:
+                text = context.getResources().getString(R.string.compose2);
+                break;
+            case 4:
+                text = context.getResources().getString(R.string.compose3);
+                break;
+            case 5:
+                text = context.getResources().getString(R.string.compose4);
+                break;
+            default:
+                text = context.getResources().getString(R.string.compose_alone);
+                break;
+        }
+        return text;
+    }
+
+    public static String getModeText(Context context,int i) {
+        String text = null;
+        switch (i) {
+            case 1:
+                text = context.getResources().getString(R.string.mode1);
+                break;
+            case 2:
+                text = context.getResources().getString(R.string.mode2);
+                break;
+            case 3:
+                text = context.getResources().getString(R.string.mode3);
+                break;
+            case 4:
+                text = context.getResources().getString(R.string.mode4);
+                break;
+            case 5:
+                text = context.getResources().getString(R.string.mode5);
+                break;
+            default:
+                break;
+        }
+        return text;
     }
 }

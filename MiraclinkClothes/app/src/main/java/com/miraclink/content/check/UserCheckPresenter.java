@@ -19,8 +19,9 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
     private UserCheckContract.IView iView;
     private IUserDatabaseManager iUserDatabaseManager;
 
-    private int ioRate = 5; //init rate
-    private long pauseTime = 6 * 60 * 1000;    //init time
+    private int time;
+    private int rate;
+    private long pauseTime; //= 10 * 60 * 1000;    //init time
 
     private boolean isLegChecked;
     private boolean isArmChecked;
@@ -29,14 +30,13 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
     private boolean isNeckChecked;
     private boolean isBackChecked;
     private boolean isRearChecked;
-    private int armIo = ioRate;  //TODO get io to user info
-    private int chestIo = ioRate;
-    private int stomachIo = ioRate;
-    private int legIo = ioRate;
-    private int neckIo = ioRate;
-    private int backIo = ioRate;
-    private int rearIo = ioRate;
-    private int strong;
+    private int armIo;  //TODO get io to user info
+    private int chestIo;
+    private int stomachIo;
+    private int legIo;
+    private int neckIo;
+    private int backIo;
+    private int rearIo;
 
     private String lastAddress;
     private int replayCount = 100;
@@ -235,10 +235,10 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
             LogUtil.i(TAG, "is replay connect:" + replayCount);
             if (replayCount > 0) {
                 replayCount--;
-                boolean isConnected = blueService.connect(lastAddress);
-                if (isConnected) {
-                    isReplay = true;
-                }
+                //boolean isConnected = blueService.connect(lastAddress);
+                //if (isConnected) {
+                //    isReplay = true;
+                //}
             }
         }
     }
@@ -279,7 +279,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
                 rearIo++;
             }
         }
-        blueService.writeRXCharacteristic(ByteUtils.getRateCmd(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo, 0x01));
+        blueService.writeRXCharacteristic(ByteUtils.getRateCmd(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo, intToHex(rate)));
     }
 
     private void checkCut() {
@@ -318,7 +318,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
                 rearIo--;
             }
         }
-        blueService.writeRXCharacteristic(ByteUtils.getRateCmd(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo, 0x01));
+        blueService.writeRXCharacteristic(ByteUtils.getRateCmd(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo, intToHex(rate)));
     }
 
     private void getUserInfoToDatabase(String id) {
@@ -331,6 +331,62 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
     @Override
     public void queryAllUser(IUserDatabaseManager iUserDatabaseManager, IUserDatabaseManager.QueryAllUserCallback callback) {
         iUserDatabaseManager.queryAllUser(callback);
+    }
+
+    @Override
+    public void onInit(int time, int rate, int strong) {
+        this.time = time;
+        this.rate = rate;
+        pauseTime = time;
+        LogUtil.i(TAG, "presenter user:" + strong + "time --:" + time + "rate:" + rate);
+
+        armIo = strong / 10;
+        chestIo = strong / 10;
+        stomachIo = strong / 10;
+        legIo = strong / 10;
+        neckIo = strong / 10;
+        backIo = strong / 10;
+        rearIo = strong / 10;
+    }
+
+    public int intToHex(int i) {
+        int hex = 0;
+        switch (i) {
+            case 1:
+                hex = 0x01;
+                break;
+            case 2:
+                hex = 0x02;
+                break;
+            case 3:
+                hex = 0x03;
+                break;
+            case 4:
+                hex = 0x04;
+                break;
+            case 5:
+                hex = 0x05;
+                break;
+            case 6:
+                hex = 0x06;
+                break;
+            case 7:
+                hex = 0x07;
+                break;
+            case 8:
+                hex = 0x08;
+                break;
+            case 9:
+                hex = 0x09;
+                break;
+            case 10:
+                hex = 0x0a;
+                break;
+            default:
+                break;
+
+        }
+        return hex;
     }
 
     //每秒钟发送一次心跳包
@@ -354,7 +410,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         public void onFinish() {
             myCountDownTimer.cancel();
             blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x05, 0xE2, 0xE7));
-            pauseTime = 6 * 60 * 1000;
+            pauseTime = time;
             iView.setTimeText("00:00");
             iView.setStartText("start");
             //TODO bt start status change

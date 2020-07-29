@@ -27,6 +27,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayoutUserCheckFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
+                android:text="test"
                 android:textColor="@color/check_text_blue"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,10 +56,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:text="202007291432"
                 android:textColor="@color/check_text_blue"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentName" />
+                app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentCompose" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textUserCheckFragmentCompose"
@@ -67,7 +70,7 @@
                 android:textColor="@color/check_text_blue"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentId" />
+                app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentName" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textUserCheckFragmentMode"
@@ -85,12 +88,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="30dp"
                 android:text="00:00"
                 android:textColor="@color/check_text_blue"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="72dp"
+                android:layout_height="38dp"
+                android:src="@drawable/bg_time_case"
+                app:layout_constraintBottom_toBottomOf="@id/textUserCheckFragmentTimer"
+                app:layout_constraintEnd_toEndOf="@id/textUserCheckFragmentTimer"
+                app:layout_constraintStart_toStartOf="@id/textUserCheckFragmentTimer"
+                app:layout_constraintTop_toTopOf="@id/textUserCheckFragmentTimer" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textUserCheckFragmentRate"
@@ -135,10 +147,20 @@
                             android:id="@+id/imgUserCheckFragmentChangeBody1"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_marginEnd="10dp"
+                            android:layout_marginEnd="15dp"
                             android:src="@drawable/icon_right_sliding"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imgUserCheckFragmentSlide"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="15dp"
+                            android:src="@drawable/icon_left_slide"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatButton

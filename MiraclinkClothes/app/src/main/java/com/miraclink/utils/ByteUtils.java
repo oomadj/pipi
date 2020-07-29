@@ -31,11 +31,11 @@ public class ByteUtils {
 
 
     //TODO strong will get
-    public static byte[] getRateCmd(int armIo,int chestIo,int stomachIo,int legIo,int neckIo,int backIo,int rearIo,int strong){
+    public static byte[] getRateCmd(int armIo,int chestIo,int stomachIo,int legIo,int neckIo,int backIo,int rearIo,int rate){
         if (armIo >=0 && armIo <=10){
             byte[] data = new byte[]{(byte) 0xAE, 0x01,intToByte(armIo *10),intToByte(chestIo*10),intToByte(stomachIo*10),intToByte(legIo*10),intToByte(neckIo*10),
-                    intToByte(backIo*10),intToByte(rearIo*10), (byte) strong,(byte) ((intToByte(armIo *10)+ intToByte(chestIo*10)+intToByte(stomachIo*10)+intToByte(legIo*10)+
-                    intToByte(neckIo*10)+intToByte(backIo*10)+intToByte(rearIo*10)+0x01+strong)&0xFF)};
+                    intToByte(backIo*10),intToByte(rearIo*10), (byte) rate,(byte) ((intToByte(armIo *10)+ intToByte(chestIo*10)+intToByte(stomachIo*10)+intToByte(legIo*10)+
+                    intToByte(neckIo*10)+intToByte(backIo*10)+intToByte(rearIo*10)+0x01+rate)&0xFF)};
             return data;
         }else {
             LogUtil.i("ByteUtils","cmd exception");

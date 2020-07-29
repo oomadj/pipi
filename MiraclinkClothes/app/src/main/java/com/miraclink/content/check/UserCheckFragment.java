@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,13 +40,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class UserCheckFragment extends Fragment implements View.OnClickListener, UserCheckContract.IView , IUserDatabaseManager.QueryAllUserCallback {
+public class UserCheckFragment extends Fragment implements View.OnClickListener, UserCheckContract.IView, IUserDatabaseManager.QueryAllUserCallback {
     private static final String TAG = UserCheckFragment.class.getSimpleName();
     private Button btStart;
     private Button btLeg, btLegZero, btNeck, btArm, btArmZero, btChest, btStomach, btBack, btRear;
     private TextView tvTime;
     private ImageButton btAdd, btCut;
-    private TextView tvName, tvId;
+    private TextView tvName, tvId,tvCompose,tvMode;
+    private DrawerLayout drawerLayout;
+    private ImageView imgSlide;
 
     private HorizontalScrollView horizontalScrollView;
     private ImageView imgChangeBody1;
@@ -57,6 +61,10 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
     ContentActivity activity;
     private IUserDatabaseManager iUserDatabaseManager;
     private BroadcastReceiver receiver;
+
+    private int strong;
+    private int rate;
+    private int time;
 
     @Nullable
     @Override
@@ -91,7 +99,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         getContext().registerReceiver(receiver, filter);
         presenter.getBleAddress(activity.getBleAddress());
 
-        presenter.queryAllUser(iUserDatabaseManager,this);
+        presenter.queryAllUser(iUserDatabaseManager, this);
     }
 
     @Override
@@ -146,9 +154,14 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         btRear.setOnClickListener(this);
         tvName = view.findViewById(R.id.textUserCheckFragmentName);
         tvId = view.findViewById(R.id.textUserCheckFragmentId);
+        tvCompose = view.findViewById(R.id.textUserCheckFragmentCompose);
+        tvMode = view.findViewById(R.id.textUserCheckFragmentMode);
         imgChangeBody1 = view.findViewById(R.id.imgUserCheckFragmentChangeBody1);
         imgChangeBody1.setOnClickListener(this);
         horizontalScrollView = view.findViewById(R.id.scrollViewUserCheckFragment);
+        drawerLayout = view.findViewById(R.id.drawerLayoutUserCheckFragment);
+        imgSlide = view.findViewById(R.id.imgUserCheckFragmentSlide);
+        imgSlide.setOnClickListener(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView = view.findViewById(R.id.recyclerUserCheckFragment);
@@ -207,6 +220,8 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
             case R.id.imgUserCheckFragmentChangeBody1:
                 horizontalScrollView.smoothScrollTo(Utils.dpToPx(getContext(), 380), 0);
                 break;
+            case R.id.imgUserCheckFragmentSlide:
+                drawerLayout.openDrawer(Gravity.LEFT);
             default:
                 break;
         }
@@ -280,7 +295,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void setStartText(String text) {
-        btStart.setText(text);
+        //btStart.setText(text);
     }
 
     @Override
@@ -322,6 +337,14 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
                 if (user != null) {
                     tvName.setText(user.getName());
                     tvId.setText(user.getID());
+                    tvCompose.setText(Utils.getComposeText(getContext(),user.getCompose()));
+                    tvMode.setText(Utils.getModeText(getContext(),user.getMode()));
+
+                    presenter.onInit(user.getTime(),user.getRate(),user.getStrong());
+                    time = user.getTime();
+                    rate = user.getRate();
+                    strong = user.getStrong();
+
                 }
             }
         });

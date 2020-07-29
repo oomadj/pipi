@@ -39,6 +39,8 @@ public interface UserCheckContract {
 
         void queryAllUser(IUserDatabaseManager iUserDatabaseManager, IUserDatabaseManager.QueryAllUserCallback callback);
 
+        void onInit(int time,int rate,int strong);
+
     }
 
     interface IView{
