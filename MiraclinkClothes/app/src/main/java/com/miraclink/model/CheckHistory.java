@@ -9,11 +9,21 @@ public class CheckHistory {
 
     @PrimaryKey
     @NonNull
+    private String num; //编号
     private String ID;
     private int mode;
     private int compose;
     private int classHour;
     private int balance;
+
+    @NonNull
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(@NonNull String num) {
+        this.num = num;
+    }
 
     @NonNull
     public String getID() {

@@ -7,8 +7,10 @@ import android.os.Handler;
 import com.miraclink.base.BaseCallback;
 import com.miraclink.bluetooth.MyBlueService;
 import com.miraclink.database.IUserDatabaseManager;
+import com.miraclink.model.CheckHistory;
 import com.miraclink.utils.ByteUtils;
 import com.miraclink.utils.LogUtil;
+import com.miraclink.utils.SharePreUtils;
 import com.miraclink.utils.Utils;
 
 public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCallback {
@@ -350,6 +352,11 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         rearIo = strong / 10;
     }
 
+    @Override
+    public void onInsertCheckHistory(IUserDatabaseManager iUserDatabaseManager,CheckHistory history) {
+        iUserDatabaseManager.insertCheckHistory(history);
+    }
+
     public int intToHex(int i) {
         int hex = 0;
         switch (i) {
@@ -415,6 +422,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
             iView.setTimeText("00:00");
             iView.setStartText("start");
             //TODO bt start status change
+
         }
     }
 }

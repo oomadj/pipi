@@ -2,6 +2,7 @@ package com.miraclink.database;
 
 import android.content.Context;
 
+import com.miraclink.model.CheckHistory;
 import com.miraclink.model.User;
 import com.miraclink.utils.AppExecutors;
 
@@ -110,6 +111,36 @@ public class UserDatabaseManager implements IUserDatabaseManager {
                 User user = database.getUserDao().queryUserByID(ID);
                 callback.onQueried(user);
             }
+        };
+        executors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public void queryCheckHistory(QueryCheckHistoryCallback callback) {
+        //coming later
+    }
+
+    @Override
+    public void queryCheckHistoryById(QueryCheckHistoryByIdCallback callback, String ID) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                List<CheckHistory> histories = database.getHistoryDao().getUserCheckHistory(ID);
+                executors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onQueriedHistory(histories);
+                    }
+                });
+            }
+        };
+        executors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public void insertCheckHistory(CheckHistory history) {
+        Runnable runnable = () -> {
+            database.getHistoryDao().insert(history);
         };
         executors.diskIO().execute(runnable);
     }

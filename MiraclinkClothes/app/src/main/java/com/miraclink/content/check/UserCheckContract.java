@@ -2,6 +2,7 @@ package com.miraclink.content.check;
 
 import com.miraclink.bluetooth.MyBlueService;
 import com.miraclink.database.IUserDatabaseManager;
+import com.miraclink.model.CheckHistory;
 import com.miraclink.model.User;
 
 public interface UserCheckContract {
@@ -40,6 +41,8 @@ public interface UserCheckContract {
         void queryAllUser(IUserDatabaseManager iUserDatabaseManager, IUserDatabaseManager.QueryAllUserCallback callback);
 
         void onInit(int time,int rate,int strong);
+
+        void onInsertCheckHistory(IUserDatabaseManager iUserDatabaseManager,CheckHistory history);
 
     }
 

@@ -14,4 +14,9 @@ public class UserListPresenter implements UserListContract.Presenter {
     public void queryAllUser(IUserDatabaseManager iUserDatabaseManager, IUserDatabaseManager.QueryAllUserCallback callback) {
         iUserDatabaseManager.queryAllUser(callback);
     }
+
+    @Override
+    public void queryCheckHistoryByID(IUserDatabaseManager iUserDatabaseManager, IUserDatabaseManager.QueryCheckHistoryByIdCallback callback, String id) {
+        iUserDatabaseManager.queryCheckHistoryById(callback,id);
+    }
 }

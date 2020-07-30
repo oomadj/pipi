@@ -29,6 +29,7 @@ import com.miraclink.adapter.UserCheckAdapter;
 import com.miraclink.content.ContentActivity;
 import com.miraclink.database.IUserDatabaseManager;
 import com.miraclink.database.UserDatabaseManager;
+import com.miraclink.model.CheckHistory;
 import com.miraclink.model.User;
 import com.miraclink.utils.AppExecutors;
 import com.miraclink.utils.BroadCastAction;
@@ -47,7 +48,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
     private Button btLeg, btLegZero, btNeck, btArm, btArmZero, btChest, btStomach, btBack, btRear;
     private TextView tvTime;
     private ImageButton btAdd, btCut;
-    private TextView tvName, tvId,tvCompose,tvMode;
+    private TextView tvName, tvId, tvCompose, tvMode;
     private DrawerLayout drawerLayout;
     private ImageView imgSlide;
 
@@ -63,9 +64,9 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
     private IUserDatabaseManager iUserDatabaseManager;
     private BroadcastReceiver receiver;
 
-    private int strong;
-    private int rate;
     private int time;
+    private int compose;
+    private int mode;
 
     @Nullable
     @Override
@@ -99,8 +100,8 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         filter.addAction(BroadCastAction.USER_CHANGED);
         getContext().registerReceiver(receiver, filter);
         presenter.getBleAddress(activity.getBleAddress());
-
         presenter.queryAllUser(iUserDatabaseManager, this);
+
     }
 
     @Override
@@ -220,7 +221,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
                 presenter.onCheckRearClick();
                 break;
             case R.id.imgUserCheckFragmentChangeBody1:
-                LogUtil.i(TAG,"getxzx:"+horizontalScrollView.getScrollX()+" view:"+Utils.dpToPx(getContext(),240));
+                LogUtil.i(TAG, "getxzx:" + horizontalScrollView.getScrollX() + " view:" + Utils.dpToPx(getContext(), 240));
                 horizontalScrollView.smoothScrollTo(Utils.dpToPx(getContext(), 380), 0);
                 break;
             case R.id.imgUserCheckFragmentSlide:
@@ -296,9 +297,18 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         tvTime.setText(text);
     }
 
+    //check finished to save check history
     @Override
     public void setStartText(String text) {
         //btStart.setText(text);
+        CheckHistory checkHistory = new CheckHistory();
+        checkHistory.setID(SharePreUtils.getCurrentID(getContext()));
+        checkHistory.setNum(Utils.getDate());
+        checkHistory.setMode(mode);
+        checkHistory.setCompose(compose);
+        checkHistory.setClassHour(5);
+        checkHistory.setBalance(1200);
+        presenter.onInsertCheckHistory(iUserDatabaseManager, checkHistory);
     }
 
     @Override
@@ -340,14 +350,14 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
                 if (user != null) {
                     tvName.setText(user.getName());
                     tvId.setText(user.getID());
-                    tvCompose.setText(Utils.getComposeText(getContext(),user.getCompose()));
-                    tvMode.setText(Utils.getModeText(getContext(),user.getMode()));
+                    tvCompose.setText(Utils.getComposeText(getContext(), user.getCompose()));
+                    tvMode.setText(Utils.getModeText(getContext(), user.getMode()));
 
-                    presenter.onInit(user.getTime(),user.getRate(),user.getStrong());
+                    presenter.onInit(user.getTime(), user.getRate(), user.getStrong());
+
                     time = user.getTime();
-                    rate = user.getRate();
-                    strong = user.getStrong();
-
+                    compose = user.getCompose();
+                    mode = user.getMode();
                 }
             }
         });
@@ -361,11 +371,11 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
-                if (horizontalScrollView.getScrollX() > Utils.dpToPx(getContext(),120)){
+                if (horizontalScrollView.getScrollX() > Utils.dpToPx(getContext(), 120)) {
                     imgChangeBody1.setImageResource(R.drawable.icon_left_sliding);
-                }else {
+                } else {
                     imgChangeBody1.setImageResource(R.drawable.icon_right_sliding);
                 }
                 break;

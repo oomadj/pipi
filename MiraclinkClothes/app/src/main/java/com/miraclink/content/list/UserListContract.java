@@ -8,5 +8,7 @@ public interface UserListContract {
         void getUserList(NetworkController networkController);
 
         void queryAllUser(IUserDatabaseManager iUserDatabaseManager, IUserDatabaseManager.QueryAllUserCallback callback);
+
+        void queryCheckHistoryByID(IUserDatabaseManager iUserDatabaseManager,IUserDatabaseManager.QueryCheckHistoryByIdCallback callback,String id);
     }
 }

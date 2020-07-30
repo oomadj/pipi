@@ -7,6 +7,7 @@ import com.miraclink.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 public class Utils {
@@ -117,5 +118,11 @@ public class Utils {
                 break;
         }
         return text;
+    }
+
+    public static String getDate() {
+        SimpleDateFormat format = new SimpleDateFormat();
+        Date date = new Date();
+        return "20"+format.format(date);
     }
 }

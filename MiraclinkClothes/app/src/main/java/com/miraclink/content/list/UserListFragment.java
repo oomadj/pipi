@@ -18,10 +18,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.miraclink.R;
+import com.miraclink.adapter.CheckHistoryAdapter;
 import com.miraclink.adapter.UserListAdapter;
 import com.miraclink.content.ContentActivity;
 import com.miraclink.database.IUserDatabaseManager;
 import com.miraclink.database.UserDatabaseManager;
+import com.miraclink.model.CheckHistory;
 import com.miraclink.model.User;
 import com.miraclink.networks.NetworkController;
 import com.miraclink.networks.NetworkUtil;
@@ -33,7 +35,7 @@ import com.miraclink.widget.UserListRecyclerDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserListFragment extends Fragment implements UserListAdapter.OnUserListItemClick, IUserDatabaseManager.QueryAllUserCallback, View.OnClickListener {
+public class UserListFragment extends Fragment implements UserListAdapter.OnUserListItemClick, IUserDatabaseManager.QueryAllUserCallback, View.OnClickListener,IUserDatabaseManager.QueryCheckHistoryByIdCallback {
     private static final String TAG = UserListFragment.class.getSimpleName();
     private RecyclerView recyclerUser;
     private UserListAdapter userAdapter;
@@ -44,6 +46,9 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
     private IUserDatabaseManager iUserDatabaseManager;
 
     private ImageView imgNew;
+
+    private RecyclerView recyclerHistory;
+    private CheckHistoryAdapter historyAdapter;
 
     @Nullable
     @Override
@@ -64,13 +69,15 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
         super.onStart();
         IntentFilter filter = new IntentFilter();
         filter.addAction(BroadCastAction.USER_LIST_DATA);
-        getContext().registerReceiver(receiver,filter);
+        getContext().registerReceiver(receiver, filter);
 
-        if (NetworkUtil.getConnectivityEnable(getContext())){
+        if (NetworkUtil.getConnectivityEnable(getContext())) {
             presenter.getUserList(NetworkController.getInstance());
-        }else {
-            presenter.queryAllUser(iUserDatabaseManager,this);
+        } else {
+            presenter.queryAllUser(iUserDatabaseManager, this);
         }
+
+        presenter.queryCheckHistoryByID(iUserDatabaseManager,this,SharePreUtils.getCurrentID(getContext()));
     }
 
     @Override
@@ -82,10 +89,10 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (NetworkUtil.getConnectivityEnable(getContext())){
+        if (NetworkUtil.getConnectivityEnable(getContext())) {
             presenter.getUserList(NetworkController.getInstance());
-        }else {
-            presenter.queryAllUser(iUserDatabaseManager,this);
+        } else {
+            presenter.queryAllUser(iUserDatabaseManager, this);
         }
     }
 
@@ -96,14 +103,16 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
         userAdapter.setOnUserListItemClick(this);
         decoration = new UserListRecyclerDecoration();
 
+        historyAdapter = new CheckHistoryAdapter();
+
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(BroadCastAction.USER_LIST_DATA)){
+                if (intent.getAction().equals(BroadCastAction.USER_LIST_DATA)) {
                     users = intent.<User>getParcelableArrayListExtra("DATA");
                     userAdapter.setData(users);
-                    if (SharePreUtils.getCurrentID(getContext()).isEmpty()){
-                        SharePreUtils.setCurrentID(getContext(),users.get(0).getID()); // init select 0
+                    if (SharePreUtils.getCurrentID(getContext()).isEmpty()) {
+                        SharePreUtils.setCurrentID(getContext(), users.get(0).getID()); // init select 0
                     }
                 }
             }
@@ -118,27 +127,37 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
         recyclerUser.addItemDecoration(decoration);
         imgNew = view.findViewById(R.id.imgUserListFragmentNew);
         imgNew.setOnClickListener(this);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerHistory = view.findViewById(R.id.recyclerUserListFragmentHistory);
+        recyclerHistory.setLayoutManager(layoutManager);
+        recyclerHistory.setAdapter(historyAdapter);
     }
 
     @Override
     public void onItemClick(int position, String id) {
-        Toast.makeText(getContext(),"position"+position,Toast.LENGTH_SHORT).show();
-        SharePreUtils.setCurrentID(getContext(),users.get(position).getID());  // save check user id
+        SharePreUtils.setCurrentID(getContext(), users.get(position).getID());  // save check user id
         getContext().sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  // user changed
+        presenter.queryCheckHistoryByID(iUserDatabaseManager,this,users.get(position).getID());
     }
 
     @Override
     public void onQueried(List<User> userList) {
         users = (ArrayList<User>) userList;
         userAdapter.setData(users);
-        if (SharePreUtils.getCurrentID(getContext()).isEmpty() && users.size() != 0){
-            SharePreUtils.setCurrentID(getContext(),users.get(0).getID()); // init select 0
+        if (SharePreUtils.getCurrentID(getContext()).isEmpty() && users.size() != 0) {
+            SharePreUtils.setCurrentID(getContext(), users.get(0).getID()); // init select 0
         }
     }
 
     @Override
     public void onClick(View v) {
         ContentActivity activity = (ContentActivity) getActivity();
-        activity.setTabSelection(0,true);
+        activity.setTabSelection(0, true);
+    }
+
+    @Override
+    public void onQueriedHistory(List<CheckHistory> historyList) {
+        historyAdapter.setData((ArrayList<CheckHistory>) historyList);
     }
 }
