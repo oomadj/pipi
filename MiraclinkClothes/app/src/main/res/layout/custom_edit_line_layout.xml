@@ -40,6 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="220dp"
         android:background="@null"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

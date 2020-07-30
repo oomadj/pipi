@@ -95,6 +95,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    LogUtil.i(TAG,"xzx user:pause time:"+pauseTime);
                     // timer cmd
                     myCountDownTimer = new MyCountDownTimer(pauseTime, 990);
                     myCountDownTimer.start();
@@ -337,7 +338,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
     public void onInit(int time, int rate, int strong) {
         this.time = time;
         this.rate = rate;
-        pauseTime = time;
+        pauseTime = time * 60 * 1000;
         LogUtil.i(TAG, "presenter user:" + strong + "time --:" + time + "rate:" + rate);
 
         armIo = strong / 10;
@@ -410,7 +411,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         public void onFinish() {
             myCountDownTimer.cancel();
             blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x05, 0xE2, 0xE7));
-            pauseTime = time;
+            pauseTime = time * 60 * 1000;
             iView.setTimeText("00:00");
             iView.setStartText("start");
             //TODO bt start status change

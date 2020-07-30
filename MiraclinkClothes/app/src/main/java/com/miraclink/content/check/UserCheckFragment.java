@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -40,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class UserCheckFragment extends Fragment implements View.OnClickListener, UserCheckContract.IView, IUserDatabaseManager.QueryAllUserCallback {
+public class UserCheckFragment extends Fragment implements View.OnClickListener, UserCheckContract.IView, IUserDatabaseManager.QueryAllUserCallback, View.OnTouchListener {
     private static final String TAG = UserCheckFragment.class.getSimpleName();
     private Button btStart;
     private Button btLeg, btLegZero, btNeck, btArm, btArmZero, btChest, btStomach, btBack, btRear;
@@ -159,6 +160,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         imgChangeBody1 = view.findViewById(R.id.imgUserCheckFragmentChangeBody1);
         imgChangeBody1.setOnClickListener(this);
         horizontalScrollView = view.findViewById(R.id.scrollViewUserCheckFragment);
+        horizontalScrollView.setOnTouchListener(this);
         drawerLayout = view.findViewById(R.id.drawerLayoutUserCheckFragment);
         imgSlide = view.findViewById(R.id.imgUserCheckFragmentSlide);
         imgSlide.setOnClickListener(this);
@@ -218,6 +220,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
                 presenter.onCheckRearClick();
                 break;
             case R.id.imgUserCheckFragmentChangeBody1:
+                LogUtil.i(TAG,"getxzx:"+horizontalScrollView.getScrollX()+" view:"+Utils.dpToPx(getContext(),240));
                 horizontalScrollView.smoothScrollTo(Utils.dpToPx(getContext(), 380), 0);
                 break;
             case R.id.imgUserCheckFragmentSlide:
@@ -354,5 +357,21 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
     public void onQueried(List<User> userList) {
         users = (ArrayList<User>) userList;
         userCheckAdapter.setData(users);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_UP:
+                if (horizontalScrollView.getScrollX() > Utils.dpToPx(getContext(),120)){
+                    imgChangeBody1.setImageResource(R.drawable.icon_left_sliding);
+                }else {
+                    imgChangeBody1.setImageResource(R.drawable.icon_right_sliding);
+                }
+                break;
+            default:
+                break;
+        }
+        return false;
     }
 }

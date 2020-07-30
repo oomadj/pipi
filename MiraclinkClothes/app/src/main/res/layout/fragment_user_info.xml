@@ -109,6 +109,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layoutUserInfoFragmentWeight" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textUserInfoFragmentAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="@string/add"
+            app:layout_constraintBottom_toBottomOf="@id/layoutUserInfoFragmentDeviceId"
+            app:layout_constraintEnd_toEndOf="@id/layoutUserInfoFragmentDeviceId"
+            app:layout_constraintTop_toTopOf="@id/layoutUserInfoFragmentDeviceId" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/line_color"
+            app:layout_constraintBottom_toBottomOf="@id/textUserInfoFragmentAdd"
+            app:layout_constraintEnd_toStartOf="@id/textUserInfoFragmentAdd"
+            app:layout_constraintTop_toTopOf="@id/textUserInfoFragmentAdd" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btUserInfoFragmentSave"
             android:layout_width="330dp"
