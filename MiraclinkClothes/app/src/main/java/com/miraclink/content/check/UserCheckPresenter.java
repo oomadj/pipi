@@ -97,7 +97,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    LogUtil.i(TAG,"xzx user:pause time:"+pauseTime);
+                    LogUtil.i(TAG, "xzx user:pause time:" + pauseTime);
                     // timer cmd
                     myCountDownTimer = new MyCountDownTimer(pauseTime, 990);
                     myCountDownTimer.start();
@@ -337,6 +337,11 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
     }
 
     @Override
+    public void queryCheckUserList(IUserDatabaseManager iUserDatabaseManager, IUserDatabaseManager.QueryUserByCheckIDsCallback callback, String[] ids) {
+        iUserDatabaseManager.queryCheckUserList(callback,ids);
+    }
+
+    @Override
     public void onInit(int time, int rate, int strong) {
         this.time = time;
         this.rate = rate;
@@ -353,7 +358,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
     }
 
     @Override
-    public void onInsertCheckHistory(IUserDatabaseManager iUserDatabaseManager,CheckHistory history) {
+    public void onInsertCheckHistory(IUserDatabaseManager iUserDatabaseManager, CheckHistory history) {
         iUserDatabaseManager.insertCheckHistory(history);
     }
 

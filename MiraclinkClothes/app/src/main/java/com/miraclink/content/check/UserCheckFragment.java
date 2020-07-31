@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class UserCheckFragment extends Fragment implements View.OnClickListener, UserCheckContract.IView, IUserDatabaseManager.QueryAllUserCallback, View.OnTouchListener {
+public class UserCheckFragment extends Fragment implements View.OnClickListener, UserCheckContract.IView, IUserDatabaseManager.QueryAllUserCallback, View.OnTouchListener, IUserDatabaseManager.QueryUserByCheckIDsCallback {
     private static final String TAG = UserCheckFragment.class.getSimpleName();
     private Button btStart;
     private Button btLeg, btLegZero, btNeck, btArm, btArmZero, btChest, btStomach, btBack, btRear;
@@ -67,6 +67,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
     private int time;
     private int compose;
     private int mode;
+    String[] ids;
 
     @Nullable
     @Override
@@ -102,6 +103,8 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         presenter.getBleAddress(activity.getBleAddress());
         presenter.queryAllUser(iUserDatabaseManager, this);
 
+        ids = activity.checkUserIds.toArray(new String[activity.checkUserIds.size()]);
+        presenter.queryCheckUserList(iUserDatabaseManager, this, ids);
     }
 
     @Override
@@ -163,6 +166,28 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         horizontalScrollView = view.findViewById(R.id.scrollViewUserCheckFragment);
         horizontalScrollView.setOnTouchListener(this);
         drawerLayout = view.findViewById(R.id.drawerLayoutUserCheckFragment);
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+                ids = activity.checkUserIds.toArray(new String[activity.checkUserIds.size()]);
+                presenter.queryCheckUserList(iUserDatabaseManager, UserCheckFragment.this, ids);
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
         imgSlide = view.findViewById(R.id.imgUserCheckFragmentSlide);
         imgSlide.setOnClickListener(this);
 
@@ -365,8 +390,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onQueried(List<User> userList) {
-        users = (ArrayList<User>) userList;
-        userCheckAdapter.setData(users);
+
     }
 
     @Override
@@ -383,5 +407,12 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onQueriedCheckUser(List<User> users) {
+        this.users = (ArrayList<User>) users;
+        LogUtil.i(TAG, "check list:" + users.size());
+        userCheckAdapter.setData(this.users);
     }
 }

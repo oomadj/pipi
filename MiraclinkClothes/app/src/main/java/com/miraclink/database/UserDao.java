@@ -34,4 +34,8 @@ public interface UserDao {
 
     @Query("UPDATE user SET time = :time,strong =:strong,rate =:rate,compose =:compose,mode =:mode WHERE ID = :ID")
     void update(int time, int strong, int rate, int compose, int mode, String ID);
+
+    //通过用户id数组查找 训练列表的用户
+    @Query("SELECT * FROM user WHERE ID IN (:ids)")
+    List<User> getCheckListUser(String[] ids);
 }

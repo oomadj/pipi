@@ -35,7 +35,7 @@ import com.miraclink.widget.UserListRecyclerDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserListFragment extends Fragment implements UserListAdapter.OnUserListItemClick, IUserDatabaseManager.QueryAllUserCallback, View.OnClickListener,IUserDatabaseManager.QueryCheckHistoryByIdCallback {
+public class UserListFragment extends Fragment implements UserListAdapter.OnUserListItemClick, IUserDatabaseManager.QueryAllUserCallback, View.OnClickListener, IUserDatabaseManager.QueryCheckHistoryByIdCallback {
     private static final String TAG = UserListFragment.class.getSimpleName();
     private RecyclerView recyclerUser;
     private UserListAdapter userAdapter;
@@ -45,10 +45,18 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
     private BroadcastReceiver receiver;
     private IUserDatabaseManager iUserDatabaseManager;
 
-    private ImageView imgNew;
+    private ImageView imgNew, imgGetUser;
+    private String thisUserId;
 
     private RecyclerView recyclerHistory;
     private CheckHistoryAdapter historyAdapter;
+    ContentActivity activity;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        activity = (ContentActivity) getActivity();
+    }
 
     @Nullable
     @Override
@@ -77,7 +85,7 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
             presenter.queryAllUser(iUserDatabaseManager, this);
         }
 
-        presenter.queryCheckHistoryByID(iUserDatabaseManager,this,SharePreUtils.getCurrentID(getContext()));
+        presenter.queryCheckHistoryByID(iUserDatabaseManager, this, SharePreUtils.getCurrentID(getContext()));
     }
 
     @Override
@@ -114,6 +122,9 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
                     if (SharePreUtils.getCurrentID(getContext()).isEmpty()) {
                         SharePreUtils.setCurrentID(getContext(), users.get(0).getID()); // init select 0
                     }
+                    if (thisUserId.isEmpty()) {
+                        thisUserId = users.get(0).getID();
+                    }
                 }
             }
         };
@@ -127,6 +138,8 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
         recyclerUser.addItemDecoration(decoration);
         imgNew = view.findViewById(R.id.imgUserListFragmentNew);
         imgNew.setOnClickListener(this);
+        imgGetUser = view.findViewById(R.id.imgUserListFragmentGet);
+        imgGetUser.setOnClickListener(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerHistory = view.findViewById(R.id.recyclerUserListFragmentHistory);
@@ -136,9 +149,10 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
 
     @Override
     public void onItemClick(int position, String id) {
+        thisUserId = users.get(position).getID();
         SharePreUtils.setCurrentID(getContext(), users.get(position).getID());  // save check user id
         getContext().sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  // user changed
-        presenter.queryCheckHistoryByID(iUserDatabaseManager,this,users.get(position).getID());
+        presenter.queryCheckHistoryByID(iUserDatabaseManager, this, users.get(position).getID());
     }
 
     @Override
@@ -152,8 +166,17 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
 
     @Override
     public void onClick(View v) {
-        ContentActivity activity = (ContentActivity) getActivity();
-        activity.setTabSelection(0, true);
+        switch (v.getId()) {
+            case R.id.imgUserListFragmentNew:
+                activity.setTabSelection(0, true);
+                break;
+            case R.id.imgUserListFragmentGet:
+                activity.checkUserIds.add(thisUserId);
+                activity.setTabSelection(2, false);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

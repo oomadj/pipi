@@ -11,7 +11,7 @@
     <string name="user_info">患者</string>
     <string name="user_check">训练</string>
     <string name="settings">设置</string>
-    
+
     <string name="user_id">I D</string>
     <string name="user_name">姓名</string>
     <string name="user_age">年龄</string>
@@ -21,7 +21,7 @@
     <string name="device_id">设备ID:</string>
     <string name="save">保存</string>
     <string name="add">添加</string>
-    
+
     <string name="device_select">设备选择</string>
     <string name="time">时间</string>
     <string name="strong">强度</string>
@@ -50,7 +50,7 @@
     <string name="backback">back:%d</string>
     <string name="rear">rear:%d</string>
     <string name="rate_text">频率:%d</string>
-    
+
     <string name="init_edit_id">请输入ID号</string>
     <string name="init_edit_name">请输入患者姓名</string>
     <string name="init_edit_age">请输入患者年龄</string>
@@ -64,4 +64,11 @@
     <string name="program">方案</string>
     <string name="class_hour">课时</string>
     <string name="balance">余额</string>
+
+    <string name="id_null_text">ID不能为空</string>
+    <string name="name_null_text">名字不能为空</string>
+    <string name="age_null_text">年龄不能为空</string>
+    <string name="height_null_text">身高不能为空</string>
+    <string name="weight_null_text">体重不能为空</string>
+
 </resources>

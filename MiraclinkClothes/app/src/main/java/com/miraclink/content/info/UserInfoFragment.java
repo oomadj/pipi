@@ -129,6 +129,9 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btUserInfoFragmentSave:
+                if (checkEditEmpty()){
+                    return;
+                }
                 //TODO save or update user to network
                 //if (NetworkUtil.getConnectivityEnable(getContext())) {
 
@@ -174,9 +177,31 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
         alertDialog.show();
     }
 
+    private boolean checkEditEmpty() {
+        boolean isEmpty = false;
+        String toast = null;
+        if (Utils.isEditEmpty(editLineLayoutId.getInfoEditText())) {
+            toast = getString(R.string.id_null_text);
+            isEmpty = true;
+        } else if (Utils.isEditEmpty(editLineLayoutName.getInfoEditText())) {
+            toast = getString(R.string.name_null_text);
+            isEmpty = true;
+        } else if (Utils.isEditEmpty(editLineLayoutAge.getInfoEditText())) {
+            toast = getString(R.string.age_null_text);
+            isEmpty = true;
+        } else if (Utils.isEditEmpty(editLineLayoutHeight.getInfoEditText())) {
+            toast = getString(R.string.height_null_text);
+            isEmpty = true;
+        } else if (Utils.isEditEmpty(editLineLayoutWeight.getInfoEditText())) {
+            toast = getString(R.string.weight_null_text);
+            isEmpty = true;
+        }
+        Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
+        return isEmpty;
+    }
+
     public void addValues(boolean b) {
         isNewBuild = b;
-
     }
 
     @Override

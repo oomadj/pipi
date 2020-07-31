@@ -159,6 +159,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
                 //} else {
                 LogUtil.i(TAG,"click user: time:"+time+"strong:"+strong+"rate:"+rate+"compose:"+compose+"mode:"+mode);
+                activity.checkUserIds.add("20206290001");
                 presenter.updateUserSettings(iUserDatabaseManager, time, strong, rate, compose, mode, SharePreUtils.getCurrentID(getContext()));
                 activity.setTabSelection(2,false);
                 //}

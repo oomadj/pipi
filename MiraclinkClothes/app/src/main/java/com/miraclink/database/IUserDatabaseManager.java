@@ -29,6 +29,12 @@ public interface IUserDatabaseManager {
     void queryUserByID(QueryUserByIDCallback callback, String ID);
     //User queryUserByID(String ID);
 
+    //通过id列表查找
+    interface QueryUserByCheckIDsCallback {
+        void onQueriedCheckUser(List<User> users);
+    }
+    void queryCheckUserList(QueryUserByCheckIDsCallback callback,String[] ids);
+
     //check history
     interface QueryCheckHistoryCallback {
         void onQueried(List<CheckHistory> historyList);

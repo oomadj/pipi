@@ -2,6 +2,7 @@ package com.miraclink.utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.widget.EditText;
 
 import com.miraclink.R;
 
@@ -124,5 +125,13 @@ public class Utils {
         SimpleDateFormat format = new SimpleDateFormat();
         Date date = new Date();
         return "20"+format.format(date);
+    }
+
+    public static boolean isEditEmpty(EditText editText){
+        if (editText.getText().toString().isEmpty()){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

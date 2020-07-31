@@ -38,10 +38,13 @@ import com.miraclink.content.list.UserListFragment;
 import com.miraclink.content.setting.SettingsFragment;
 import com.miraclink.database.IUserDatabaseManager;
 import com.miraclink.database.UserDatabaseManager;
+import com.miraclink.model.User;
 import com.miraclink.utils.AppExecutors;
 import com.miraclink.utils.BroadCastAction;
 import com.miraclink.utils.LogUtil;
 import com.miraclink.utils.SharePreUtils;
+
+import java.util.ArrayList;
 
 public class ContentActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = ContentActivity.class.getSimpleName();
@@ -81,6 +84,8 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     public static int mState = UART_PROFILE_DISCONNECTED;
 
     public boolean isNewBuild = false;
+
+    public ArrayList<String> checkUserIds = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

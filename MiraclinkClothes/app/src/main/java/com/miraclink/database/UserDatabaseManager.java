@@ -116,6 +116,23 @@ public class UserDatabaseManager implements IUserDatabaseManager {
     }
 
     @Override
+    public void queryCheckUserList(QueryUserByCheckIDsCallback callback, String[] ids) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                List<User> users = database.getUserDao().getCheckListUser(ids);
+                executors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onQueriedCheckUser(users);
+                    }
+                });
+            }
+        };
+        executors.diskIO().execute(runnable);
+    }
+
+    @Override
     public void queryCheckHistory(QueryCheckHistoryCallback callback) {
         //coming later
     }
@@ -126,7 +143,7 @@ public class UserDatabaseManager implements IUserDatabaseManager {
             @Override
             public void run() {
                 List<CheckHistory> histories = database.getHistoryDao().getUserCheckHistory(ID);
-                executors.mainThread().execute(new Runnable() {
+                executors.mainThread().execute(new Runnable() {  //add to avoid CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
                     @Override
                     public void run() {
                         callback.onQueriedHistory(histories);
