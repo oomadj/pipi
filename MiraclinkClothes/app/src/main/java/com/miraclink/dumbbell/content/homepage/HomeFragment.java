@@ -85,6 +85,7 @@ public class HomeFragment extends Fragment {
                 t++;
                 dataList.add(data);
                 showLineChart(dataList, "test", R.color.check_text_blue);
+                lineChart.invalidate();
             }
         });
         lineChart = view.findViewById(R.id.lineChartHomeFragment);

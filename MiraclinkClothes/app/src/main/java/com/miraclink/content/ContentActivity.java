@@ -85,7 +85,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
 
     public boolean isNewBuild = false;
 
-    public ArrayList<String> checkUserIds = new ArrayList<>();
+    public ArrayList<String> checkUserIds = new ArrayList<>(); //训练界面用户id集合
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

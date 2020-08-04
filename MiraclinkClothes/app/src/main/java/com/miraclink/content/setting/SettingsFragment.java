@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -91,7 +92,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         IntentFilter filter = new IntentFilter();
         filter.addAction(BroadCastAction.USER_CHANGED);
         getContext().registerReceiver(receiver, filter);
-        presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
+        //TODO 暂时为只能新建
+        //presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
     }
 
     @Override
@@ -103,7 +105,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
+        //TODO 暂时为只能新建
+        //presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
     }
 
     private void initParam() {
@@ -113,7 +116,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(BroadCastAction.USER_CHANGED)) {
-                    presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
+                    //TODO 暂时为只能新建
+                    //presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
                 }
             }
         };
@@ -154,14 +158,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btSettingsFragmentSave:
+                if (checkSettingEmpty()){
+                    return;
+                }
                 //TODO net
                 //if (NetworkUtil.getConnectivityEnable(getContext())) {
-
                 //} else {
-                LogUtil.i(TAG,"click user: time:"+time+"strong:"+strong+"rate:"+rate+"compose:"+compose+"mode:"+mode);
+                LogUtil.i(TAG, "click user: time:" + time + "strong:" + strong + "rate:" + rate + "compose:" + compose + "mode:" + mode);
                 activity.checkUserIds.add("20206290001");
                 presenter.updateUserSettings(iUserDatabaseManager, time, strong, rate, compose, mode, SharePreUtils.getCurrentID(getContext()));
-                activity.setTabSelection(2,false);
+                activity.setTabSelection(2, false);
                 //}
                 break;
             default:
@@ -283,13 +289,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         });
     }
 
+    //TODO 暂时为只能新建
     @Override
     public void setUserView(User user) {
         userSettings = user;
         if (userSettings == null) {
             return;
         }
-        LogUtil.i(TAG, "user: time" + userSettings.getTime() + "strong:" + userSettings.getStrong() + "rate:" + userSettings.getRate() + "compose:" + userSettings.getCompose()+"mode:"+userSettings.getMode());
+        LogUtil.i(TAG, "user: time" + userSettings.getTime() + "strong:" + userSettings.getStrong() + "rate:" + userSettings.getRate() + "compose:" + userSettings.getCompose() + "mode:" + userSettings.getMode());
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -360,5 +367,30 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                     break;
             }
         }
+    }
+
+    private boolean checkSettingEmpty() {
+        boolean isEmpty = false;
+        String toast = null;
+        if (time == 0) {
+            isEmpty = true;
+            toast = getString(R.string.time_null_text);
+        } else if (strong == 0) {
+            isEmpty = true;
+            toast = getString(R.string.strong_null_text);
+        } else if (rate == 0) {
+            isEmpty = true;
+            toast = getString(R.string.rate_null_text);
+        } else if (compose == 0) {
+            isEmpty = true;
+            toast = getString(R.string.compose_null_text);
+        } else if (mode == 0) {
+            isEmpty = true;
+            toast = getString(R.string.mode_null_text);
+        }
+        if (isEmpty) {
+            Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
+        }
+        return isEmpty;
     }
 }

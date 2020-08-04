@@ -40,7 +40,7 @@ public class ScrollerLayout extends ConstraintLayout {
     //界面可滚动的右边界
     private int rightBorder;
 
-    public int selectPosition = 0; //默认选择的值
+    public int selectPosition = 1; //默认选择的值
 
     public interface OnSelectPositionClick{
         void onGetSelectPosition(int position);

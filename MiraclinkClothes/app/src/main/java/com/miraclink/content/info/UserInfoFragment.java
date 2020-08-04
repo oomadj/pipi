@@ -87,7 +87,8 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
         IntentFilter filter = new IntentFilter();
         filter.addAction(BroadCastAction.USER_CHANGED);
         getContext().registerReceiver(receiver, filter);
-        presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
+        //TODO 暂时为只能新建
+        //presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
     }
 
     @Override
@@ -104,7 +105,9 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(BroadCastAction.USER_CHANGED)) {
-                    presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
+                    //TODO 暂时为只能新建
+
+                    // presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
                 }
             }
         };
@@ -129,7 +132,7 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btUserInfoFragmentSave:
-                if (checkEditEmpty()){
+                if (checkEditEmpty()) {
                     return;
                 }
                 //TODO save or update user to network
@@ -144,6 +147,13 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
                     user.setSex(sex);
                     user.setHeight(Integer.valueOf(editLineLayoutHeight.getInfoEditText().getEditableText().toString()));
                     user.setWeight(Integer.valueOf(editLineLayoutWeight.getInfoEditText().getEditableText().toString()));
+
+                    ////TODO 暂时给个默认设置
+                    user.setTime(10);
+                    user.setStrong(10);
+                    user.setRate(1);
+                    user.setMode(1);
+
                     presenter.insertUser(iUserDatabaseManager, user);
 
                     activity.setTabSelection(1, false);
@@ -196,12 +206,17 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
             toast = getString(R.string.weight_null_text);
             isEmpty = true;
         }
-        Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
+        if (isEmpty) {
+            Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
+        }
         return isEmpty;
     }
 
+
+    //TODO 暂时为只能新建
     public void addValues(boolean b) {
-        isNewBuild = b;
+        //isNewBuild = b;
+        isNewBuild = true;
     }
 
     @Override

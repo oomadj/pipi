@@ -71,4 +71,10 @@
     <string name="height_null_text">身高不能为空</string>
     <string name="weight_null_text">体重不能为空</string>
 
+    <string name="time_null_text">请先选择训练时间</string>
+    <string name="strong_null_text">请选择训练强度</string>
+    <string name="rate_null_text">请先选择训练频率</string>
+    <string name="compose_null_text">请先选择训练组合</string>
+    <string name="mode_null_text">请先选择训练模式</string>
+
 </resources>
