@@ -7,11 +7,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.miraclink.R;
 import com.miraclink.base.BaseActivity;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btFreeLogin, btLogin;
 
     @Override
@@ -22,12 +23,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         intiView();
     }
 
-    @Override
     protected void initParam() {
 
     }
 
-    @Override
     protected void intiView() {
         btLogin = findViewById(R.id.btLoginActivityLogin);
         btLogin.setOnClickListener(this);

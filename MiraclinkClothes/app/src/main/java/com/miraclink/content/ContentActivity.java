@@ -236,14 +236,19 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         SharePreUtils.removeCurrentID(this);
     }
 
+    public void setTabSetting(int page, boolean isJump, String id) {
+        setTabSelection(page, isJump);
+        settingsFragment.setIDString(id);
+    }
+
     public void setTabSelection(int page, boolean isJump) {
         transaction = fragmentManager.beginTransaction();
         hideFragment(transaction);
         resetImageViewAndTextView();
         //if (infoFragment == null) {
-         //   infoFragment = new UserInfoFragment();
-         //   transaction.add(R.id.layoutContentActivityContent, infoFragment);
-       // }
+        //   infoFragment = new UserInfoFragment();
+        //   transaction.add(R.id.layoutContentActivityContent, infoFragment);
+        // }
 
         switch (page) {
             case 3:

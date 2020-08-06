@@ -21,6 +21,8 @@ public interface UserCheckContract {
 
         void onCheckRateCut();
 
+        void onCheckAll();
+
         void onCheckLegClick();
 
         void onCheckLegZeroClick();
@@ -63,5 +65,6 @@ public interface UserCheckContract {
         void refreshStartButtonText(int status);
 
         void setInfoText(User user);
+
     }
 }

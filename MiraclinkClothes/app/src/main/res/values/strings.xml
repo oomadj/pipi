@@ -60,6 +60,10 @@
     <string name="init_edit_device_id">请选择ID号</string>
     <string name="man">男</string>
     <string name="woman">女</string>
+    <string name="age">岁</string>
+    <string name="cm_text">cm</string>
+    <string name="kg_text">kg</string>
+    <string name="id_text">ID:</string>
 
     <string name="program">方案</string>
     <string name="class_hour">课时</string>
@@ -71,10 +75,14 @@
     <string name="height_null_text">身高不能为空</string>
     <string name="weight_null_text">体重不能为空</string>
 
+    <string name="user_null_text">请先新建或选择用户</string>
     <string name="time_null_text">请先选择训练时间</string>
     <string name="strong_null_text">请选择训练强度</string>
     <string name="rate_null_text">请先选择训练频率</string>
     <string name="compose_null_text">请先选择训练组合</string>
     <string name="mode_null_text">请先选择训练模式</string>
+
+    <string name="user_checking">用户使用中</string>
+    <string name="ble_no_connect">设备未连接，请在设置中选择设备</string>
 
 </resources>

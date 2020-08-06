@@ -45,21 +45,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:text="test"
                 android:textColor="@color/check_text_blue"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textUserCheckFragmentId"
+                android:id="@+id/textUserCheckFragmentIdText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="202007291432"
                 android:textColor="@color/check_text_blue"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentCompose" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textUserCheckFragmentId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/check_text_blue"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/textUserCheckFragmentIdText"
                 app:layout_constraintTop_toBottomOf="@id/textUserCheckFragmentCompose" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -193,8 +200,8 @@
                             android:id="@+id/btUserCheckFragmentChest"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
-                            android:layout_marginTop="90dp"
                             android:layout_marginStart="80dp"
+                            android:layout_marginTop="90dp"
                             android:background="@drawable/bg_bt_noselect"
                             android:text="@string/chest"
                             android:textColor="@color/enterprise_white"
@@ -207,8 +214,8 @@
                             android:id="@+id/btUserCheckFragmentStomach"
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
-                            android:layout_marginTop="50dp"
                             android:layout_marginStart="80dp"
+                            android:layout_marginTop="50dp"
                             android:background="@drawable/bg_bt_noselect"
                             android:text="@string/stomach"
                             android:textColor="@color/enterprise_white"
@@ -221,8 +228,8 @@
                             android:id="@+id/btUserCheckFragmentLeg"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:layout_marginTop="160dp"
                             android:layout_marginStart="20dp"
+                            android:layout_marginTop="160dp"
                             android:background="@drawable/bg_bt_noselect"
                             android:text="@string/leg_text"
                             android:textColor="@color/enterprise_white"
@@ -335,6 +342,16 @@
                 android:background="@drawable/icon_cut"
                 app:layout_constraintBottom_toBottomOf="@id/btUserCheckFragmentStart"
                 app:layout_constraintStart_toEndOf="@id/btUserCheckFragmentStart"
+                app:layout_constraintTop_toTopOf="@id/btUserCheckFragmentStart" />
+
+            <ImageView
+                android:id="@+id/imgUserCheckFragmentSelectAll"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/icon_select_check_no"
+                app:layout_constraintBottom_toBottomOf="@id/btUserCheckFragmentStart"
+                app:layout_constraintStart_toEndOf="@id/imgUserCheckFragmentCut"
                 app:layout_constraintTop_toTopOf="@id/btUserCheckFragmentStart" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -53,6 +53,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
     private TextView tvName, tvId, tvCompose, tvMode;
     private DrawerLayout drawerLayout;
     private ImageView imgSlide;
+    private ImageView imgSelectAll;
 
     private HorizontalScrollView horizontalScrollView;
     private ImageView imgChangeBody1;
@@ -94,9 +95,9 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onStart() {
         super.onStart();
-        if (!SharePreUtils.getCurrentID(getContext()).isEmpty()) {
-            LogUtil.i(TAG, "get current id != null" + SharePreUtils.getCurrentID(getContext()));
-            presenter.getUserInfo(SharePreUtils.getCurrentID(getContext()));
+        if (!SharePreUtils.getCheckID(getContext()).isEmpty()) {
+            LogUtil.i(TAG, "get current id != null" + SharePreUtils.getCheckID(getContext()));
+            presenter.getUserInfo(SharePreUtils.getCheckID(getContext()));
         }
 
         IntentFilter filter = new IntentFilter();
@@ -116,6 +117,16 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         getContext().unregisterReceiver(receiver);
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        LogUtil.i(TAG,"check hidden:"+hidden);
+        if (SharePreUtils.getCheckID(getContext()) != null) {
+            presenter.getUserInfo(SharePreUtils.getCheckID(getContext()));
+            presenter.onUserChanged(); //refresh  // no use
+        }
+    }
+
     private void initParam() {
         iUserDatabaseManager = UserDatabaseManager.getInstance(getContext(), AppExecutors.getInstance());
         userCheckAdapter = new UserCheckAdapter();
@@ -127,7 +138,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(BroadCastAction.USER_CHANGED)) {
                     presenter.onUserChanged();
-                    presenter.getUserInfo(SharePreUtils.getCurrentID(getContext()));
+                    presenter.getUserInfo(SharePreUtils.getCheckID(getContext()));
                 }
             }
         };
@@ -198,6 +209,9 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(userCheckAdapter);
         recyclerView.addItemDecoration(decoration);
+
+        imgSelectAll = view.findViewById(R.id.imgUserCheckFragmentSelectAll);
+        imgSelectAll.setOnClickListener(this);
     }
 
     @Override
@@ -210,15 +224,23 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
                     if (ContentActivity.mState == ContentActivity.UART_PROFILE_CONNECTED) {
                         presenter.onCheckStartClick();
                     } else {
-                        Toast.makeText(getContext(), "ble not connected", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "ble not connect", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
             case R.id.imgUserCheckFragmentAdd:
-                presenter.onCheckRateAdd();
+                if (ContentActivity.mState == ContentActivity.UART_PROFILE_CONNECTED) {
+                    presenter.onCheckRateAdd();
+                } else {
+                    Toast.makeText(getContext(), "ble not connect", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.imgUserCheckFragmentCut:
-                presenter.onCheckRateCut();
+                if (ContentActivity.mState == ContentActivity.UART_PROFILE_CONNECTED) {
+                    presenter.onCheckRateCut();
+                } else {
+                    Toast.makeText(getContext(), "ble not connect", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btUserCheckFragmentLeg:
                 presenter.onCheckLegClick();
@@ -248,11 +270,14 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
                 presenter.onCheckRearClick();
                 break;
             case R.id.imgUserCheckFragmentChangeBody1:
-                LogUtil.i(TAG, "getxzx:" + horizontalScrollView.getScrollX() + " view:" + Utils.dpToPx(getContext(), 240));
+                //LogUtil.i(TAG, "getxzx:" + horizontalScrollView.getScrollX() + " view:" + Utils.dpToPx(getContext(), 240));
                 horizontalScrollView.smoothScrollTo(Utils.dpToPx(getContext(), 380), 0);
                 break;
             case R.id.imgUserCheckFragmentSlide:
                 drawerLayout.openDrawer(Gravity.LEFT);
+            case R.id.imgUserCheckFragmentSelectAll:
+                presenter.onCheckAll();
+                break;
             default:
                 break;
         }
@@ -314,6 +339,12 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
                     btRear.setBackgroundResource(R.drawable.bg_bt_noselect);
                 }
                 break;
+            case 8:
+                if (isCheck) {
+                    imgSelectAll.setImageResource(R.drawable.icon_select_check_yes);
+                } else {
+                    imgSelectAll.setImageResource(R.drawable.icon_select_check_no);
+                }
             default:
                 break;
         }
@@ -343,6 +374,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                LogUtil.i(TAG,"check hidden refresh");
                 btArmZero.setText(armIo * 10 + "%");
                 btChest.setText(String.format(getContext().getString(R.string.chest), chestIo * 10) + "%");
                 btStomach.setText(String.format(getContext().getString(R.string.stomach), stomachIo * 10) + "%");
@@ -376,12 +408,10 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
             public void run() {
                 if (user != null) {
                     tvName.setText(user.getName());
-                    tvId.setText(user.getID());
+                    tvId.setText("ID:" + user.getID());
                     tvCompose.setText(Utils.getComposeText(getContext(), user.getCompose()));
                     tvMode.setText(Utils.getModeText(getContext(), user.getMode()));
-
                     presenter.onInit(user.getTime(), user.getRate(), user.getStrong());
-
                     time = user.getTime();
                     compose = user.getCompose();
                     mode = user.getMode();

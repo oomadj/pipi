@@ -16,6 +16,7 @@ import com.miraclink.utils.Utils;
 public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCallback {
     private static final String TAG = UserCheckPresenter.class.getSimpleName();
     public static int checkStatus = 0;   // 0 stop // 1 starting
+    public static boolean userIsChecking = false;                     //user is checking?
     MyBlueService blueService;
     private MyCountDownTimer myCountDownTimer;
     private UserCheckContract.IView iView;
@@ -25,6 +26,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
     private int rate;
     private long pauseTime; //= 10 * 60 * 1000;    //init time
 
+    private boolean isSelectAll = false;
     private boolean isLegChecked;
     private boolean isArmChecked;
     private boolean isChestChecked;
@@ -66,12 +68,13 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         String value = ByteUtils.toHexString(bluetoothGattCharacteristic.getValue());
         LogUtil.i(TAG, "xzx--on device change -values:" + value);
         if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(), Utils.startBackByte)) {
+            userIsChecking = true;
             checkStatus = 1;
-            LogUtil.i(TAG, "checkStatus == 1");
+            //LogUtil.i(TAG, "checkStatus == 1");
             iView.refreshStartButtonText(checkStatus);
         } else if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(), Utils.stopBackByte)) {
             checkStatus = 0;
-            LogUtil.i(TAG, "checkStatus == 0");
+            //LogUtil.i(TAG, "checkStatus == 0");
             iView.refreshStartButtonText(checkStatus);
         } else if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(), Utils.addOrCutBackByte)) {
             iView.refreshCheckButtonText(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo);
@@ -99,7 +102,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
                 public void run() {
                     LogUtil.i(TAG, "xzx user:pause time:" + pauseTime);
                     // timer cmd
-                    myCountDownTimer = new MyCountDownTimer(pauseTime, 990);
+                    myCountDownTimer = new MyCountDownTimer(pauseTime, 1000);
                     myCountDownTimer.start();
                 }
             }, 500);
@@ -119,6 +122,45 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
     @Override
     public void onCheckRateCut() {
         checkCut();
+    }
+
+    @Override
+    public void onCheckAll() {
+        if (isSelectAll) {
+            isSelectAll = false;
+            isArmChecked = false;
+            isChestChecked = false;
+            isStomachChecked = false;
+            isLegChecked = false;
+            isNeckChecked = false;
+            isBackChecked = false;
+            isRearChecked = false;
+            iView.setButtonBackground(1, false);
+            iView.setButtonBackground(2, false);
+            iView.setButtonBackground(3, false);
+            iView.setButtonBackground(4, false);
+            iView.setButtonBackground(5, false);
+            iView.setButtonBackground(6, false);
+            iView.setButtonBackground(7, false);
+            iView.setButtonBackground(8, false);
+        } else {
+            isSelectAll = true;
+            isArmChecked = true;
+            isChestChecked = true;
+            isStomachChecked = true;
+            isLegChecked = true;
+            isNeckChecked = true;
+            isBackChecked = true;
+            isRearChecked = true;
+            iView.setButtonBackground(1, true);
+            iView.setButtonBackground(2, true);
+            iView.setButtonBackground(3, true);
+            iView.setButtonBackground(4, true);
+            iView.setButtonBackground(5, true);
+            iView.setButtonBackground(6, true);
+            iView.setButtonBackground(7, true);
+            iView.setButtonBackground(8, true);
+        }
     }
 
     @Override
@@ -213,23 +255,24 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
 
     @Override
     public void onUserChanged() {
-        isArmChecked = true;
-        isChestChecked = true;
-        isStomachChecked = true;
-        isLegChecked = true;
-        isNeckChecked = true;
-        isBackChecked = true;
-        isRearChecked = true;
-        iView.refreshCheckButtonText(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo);
-        for (int i = 1; i <= 7; i++) {
-            iView.setButtonBackground(i, true);
-        }
+        //isArmChecked = true;
+        //isChestChecked = true;
+        //isStomachChecked = true;
+        //isLegChecked = true;
+        //isNeckChecked = true;
+        //isBackChecked = true;
+        //isRearChecked = true;
+        //iView.refreshCheckButtonText(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo);
+        //for (int i = 1; i <= 7; i++) {
+        //    iView.setButtonBackground(i, true);
+        //}
     }
 
     //TODO rePlay Connected ---
     @Override
     public void onDisconnected() {
         myCountDownTimer.cancel();
+        userIsChecking = false;
         checkStatus = 0;
         iView.refreshStartButtonText(checkStatus);
         blueService.close();
@@ -338,7 +381,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
 
     @Override
     public void queryCheckUserList(IUserDatabaseManager iUserDatabaseManager, IUserDatabaseManager.QueryUserByCheckIDsCallback callback, String[] ids) {
-        iUserDatabaseManager.queryCheckUserList(callback,ids);
+        iUserDatabaseManager.queryCheckUserList(callback, ids);
     }
 
     @Override
@@ -355,6 +398,8 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         neckIo = strong / 10;
         backIo = strong / 10;
         rearIo = strong / 10;
+
+        iView.refreshCheckButtonText(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo); //refresh
     }
 
     @Override
@@ -421,6 +466,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
 
         @Override
         public void onFinish() {
+            userIsChecking = false;
             myCountDownTimer.cancel();
             blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x05, 0xE2, 0xE7));
             pauseTime = time * 60 * 1000;

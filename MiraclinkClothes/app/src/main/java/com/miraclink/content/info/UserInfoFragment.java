@@ -156,7 +156,8 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
 
                     presenter.insertUser(iUserDatabaseManager, user);
 
-                    activity.setTabSelection(1, false);
+                    activity.setTabSetting(1, false, editLineLayoutId.getInfoEditText().getEditableText().toString());
+                    //activity.setTabSelection(1, false);
                 } else {
                     presenter.updateUser(iUserDatabaseManager, editLineLayoutName.getInfoEditText().getEditableText().toString(), Integer.valueOf(editLineLayoutAge.getInfoEditText().getText().toString()), sex,
                             Integer.valueOf(editLineLayoutHeight.getInfoEditText().getEditableText().toString()), Integer.valueOf(editLineLayoutWeight.getInfoEditText().getEditableText().toString()),

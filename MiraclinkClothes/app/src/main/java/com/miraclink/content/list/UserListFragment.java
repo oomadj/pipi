@@ -78,13 +78,12 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
         IntentFilter filter = new IntentFilter();
         filter.addAction(BroadCastAction.USER_LIST_DATA);
         getContext().registerReceiver(receiver, filter);
-
-        if (NetworkUtil.getConnectivityEnable(getContext())) {
-            presenter.getUserList(NetworkController.getInstance());
-        } else {
-            presenter.queryAllUser(iUserDatabaseManager, this);
-        }
-
+        //TODO net
+        //if (NetworkUtil.getConnectivityEnable(getContext())) {
+        //    presenter.getUserList(NetworkController.getInstance());
+        //} else {
+        presenter.queryAllUser(iUserDatabaseManager, this);
+        //}
         presenter.queryCheckHistoryByID(iUserDatabaseManager, this, SharePreUtils.getCurrentID(getContext()));
     }
 
@@ -110,18 +109,16 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
         userAdapter = new UserListAdapter();
         userAdapter.setOnUserListItemClick(this);
         decoration = new UserListRecyclerDecoration();
-
         historyAdapter = new CheckHistoryAdapter();
-
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(BroadCastAction.USER_LIST_DATA)) {
                     users = intent.<User>getParcelableArrayListExtra("DATA");
                     userAdapter.setData(users);
-                    if (SharePreUtils.getCurrentID(getContext()).isEmpty()) {
-                        SharePreUtils.setCurrentID(getContext(), users.get(0).getID()); // init select 0
-                    }
+                    //if (SharePreUtils.getCurrentID(getContext()).isEmpty()) {
+                    //    SharePreUtils.setCurrentID(getContext(), users.get(0).getID()); // init select 0
+                    //}
                     if (thisUserId.isEmpty()) {
                         thisUserId = users.get(0).getID();
                     }
@@ -140,7 +137,6 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
         imgNew.setOnClickListener(this);
         imgGetUser = view.findViewById(R.id.imgUserListFragmentGet);
         imgGetUser.setOnClickListener(this);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerHistory = view.findViewById(R.id.recyclerUserListFragmentHistory);
         recyclerHistory.setLayoutManager(layoutManager);
@@ -150,7 +146,7 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
     @Override
     public void onItemClick(int position, String id) {
         thisUserId = users.get(position).getID();
-        SharePreUtils.setCurrentID(getContext(), users.get(position).getID());  // save check user id
+        //SharePreUtils.setCurrentID(getContext(), users.get(position).getID());  // save check user id
         getContext().sendBroadcast(new Intent(BroadCastAction.USER_CHANGED));  // user changed
         presenter.queryCheckHistoryByID(iUserDatabaseManager, this, users.get(position).getID());
     }
@@ -159,9 +155,9 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
     public void onQueried(List<User> userList) {
         users = (ArrayList<User>) userList;
         userAdapter.setData(users);
-        if (SharePreUtils.getCurrentID(getContext()).isEmpty() && users.size() != 0) {
-            SharePreUtils.setCurrentID(getContext(), users.get(0).getID()); // init select 0
-        }
+        //if (SharePreUtils.getCurrentID(getContext()).isEmpty() && users.size() != 0) {
+        //    SharePreUtils.setCurrentID(getContext(), users.get(0).getID()); // init select 0
+        //}
     }
 
     @Override
@@ -172,7 +168,7 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
                 break;
             case R.id.imgUserListFragmentGet:
                 activity.checkUserIds.add(thisUserId);
-                activity.setTabSelection(2, false);
+                activity.setTabSetting(1, false, thisUserId);
                 break;
             default:
                 break;

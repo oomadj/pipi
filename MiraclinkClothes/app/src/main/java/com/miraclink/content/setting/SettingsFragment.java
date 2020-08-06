@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.miraclink.R;
 import com.miraclink.bluetooth.DeviceListActivity;
 import com.miraclink.content.ContentActivity;
+import com.miraclink.content.check.UserCheckPresenter;
 import com.miraclink.database.IUserDatabaseManager;
 import com.miraclink.database.UserDatabaseManager;
 import com.miraclink.model.User;
@@ -52,6 +53,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     private IUserDatabaseManager iUserDatabaseManager;
     private BroadcastReceiver receiver;
     private User userSettings;
+    private String id;
 
     private int time;
     private int strong;
@@ -94,6 +96,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         getContext().registerReceiver(receiver, filter);
         //TODO 暂时为只能新建
         //presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
+        presenter.queryUser(iUserDatabaseManager, id);
     }
 
     @Override
@@ -107,6 +110,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         super.onHiddenChanged(hidden);
         //TODO 暂时为只能新建
         //presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
+        presenter.queryUser(iUserDatabaseManager, id);
     }
 
     private void initParam() {
@@ -158,21 +162,30 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btSettingsFragmentSave:
-                if (checkSettingEmpty()){
+                if (checkSettingEmpty()) {
+                    return;
+                }
+                if (UserCheckPresenter.checkStatus == 1) {
+                    Toast.makeText(getContext(), R.string.user_checking, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //TODO net
                 //if (NetworkUtil.getConnectivityEnable(getContext())) {
                 //} else {
                 LogUtil.i(TAG, "click user: time:" + time + "strong:" + strong + "rate:" + rate + "compose:" + compose + "mode:" + mode);
-                activity.checkUserIds.add("20206290001");
-                presenter.updateUserSettings(iUserDatabaseManager, time, strong, rate, compose, mode, SharePreUtils.getCurrentID(getContext()));
+                activity.checkUserIds.add(id);
+                SharePreUtils.setCheckID(getContext(), id);
+                presenter.updateUserSettings(iUserDatabaseManager, time, strong, rate, compose, mode, id);
                 activity.setTabSelection(2, false);
                 //}
                 break;
             default:
                 break;
         }
+    }
+
+    public void setIDString(String idString) {
+        id = idString;
     }
 
     private View.OnClickListener deviceSelectClick = new View.OnClickListener() {
@@ -301,6 +314,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             @Override
             public void run() {
                 lineLayoutTimeSelect.getTextInfo().setText(String.valueOf(userSettings.getTime()));
+                time = userSettings.getTime();
                 setStrongInit(userSettings.getStrong());
                 setRateInit(userSettings.getRate());
                 setComposeInit(userSettings.getCompose());
@@ -372,6 +386,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     private boolean checkSettingEmpty() {
         boolean isEmpty = false;
         String toast = null;
+        if (id == null) {
+            isEmpty = true;
+            toast = getString(R.string.user_null_text);
+        }
         if (time == 0) {
             isEmpty = true;
             toast = getString(R.string.time_null_text);

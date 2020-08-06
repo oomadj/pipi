@@ -1,12 +1,14 @@
 package com.miraclink.dumbbell.content.homepage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,14 +28,20 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.miraclink.R;
+import com.miraclink.bluetooth.DeviceListActivity;
+import com.miraclink.dumbbell.content.BellActivity;
+import com.miraclink.dumbbell.model.PracticeSizeData;
+import com.miraclink.utils.LogUtil;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = HomeFragment.class.getSimpleName();
     private LineChart lineChart;
     private XAxis xAxis;                //X轴
     private YAxis leftYAxis;            //左侧Y轴
@@ -42,6 +50,9 @@ public class HomeFragment extends Fragment {
 
     private Button btAdd;
     private List<PracticeSizeData> dataList;
+    private Button btAddBle;
+    public TextView tvCount;
+    public TextView tvKey;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -74,14 +85,20 @@ public class HomeFragment extends Fragment {
     }
 
     int t = 1;
+
     private void initView(View view) {
+        tvKey = view.findViewById(R.id.textBellFragmentKey);
+        tvCount = view.findViewById(R.id.textBellFragmentCount);
+        btAddBle = view.findViewById(R.id.btHomeFragmentAddDevice);
+        btAddBle.setOnClickListener(this);
         btAdd = view.findViewById(R.id.btHomeFragmentBle);
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LogUtil.i(TAG, "time:" + getDate());
                 PracticeSizeData data = new PracticeSizeData();
-                data.setTime("2020102"+t);
-                data.setValue(t+5);
+                data.setTime("2020/10/2" + t);
+                data.setValue(t + 5);
                 t++;
                 dataList.add(data);
                 showLineChart(dataList, "test", R.color.check_text_blue);
@@ -239,7 +256,7 @@ public class HomeFragment extends Fragment {
         leftYAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return ((int) (value * 100))+"";
+                return ((int) (value * 100)) + "";
             }
         });
 
@@ -260,29 +277,15 @@ public class HomeFragment extends Fragment {
         lineChart.setData(lineData);
     }
 
-    class PracticeSizeData {
-        private String time;
-        private int value;
-
-        public String getTime() {
-            return time;
-        }
-
-        public void setTime(String time) {
-            this.time = time;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public void setValue(int value) {
-            this.value = value;
-        }
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(getActivity(), DeviceListActivity.class);
+        getActivity().startActivityForResult(intent, BellActivity.REQUEST_SELECT_DEVICE);
     }
 
+
     public static String formatDateToMD(String str) {
-        SimpleDateFormat sf1 = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sf1 = new SimpleDateFormat("yyyy/MM/dd");
         SimpleDateFormat sf2 = new SimpleDateFormat("MM-dd");
         String formatStr = "";
         try {
@@ -291,6 +294,12 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
         return formatStr;
+    }
+
+    public static String getDate() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        Date date = new Date();
+        return format.format(date);
     }
 
     public static String formatDateToYMD(String str) {
