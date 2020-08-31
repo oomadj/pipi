@@ -44,7 +44,6 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
 
     private String lastAddress;
     private int replayCount = 100;
-    private boolean isReplay = false;
 
     public UserCheckPresenter(UserCheckContract.IView iView, IUserDatabaseManager iUserDatabaseManager) {
         this.iView = iView;
@@ -59,7 +58,6 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
 
     @Override
     public void getBleAddress(String string) {
-        LogUtil.i(TAG, "last address:" + string);
         lastAddress = string;
     }
 
@@ -70,11 +68,9 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(), Utils.startBackByte)) {
             userIsChecking = true;
             checkStatus = 1;
-            //LogUtil.i(TAG, "checkStatus == 1");
             iView.refreshStartButtonText(checkStatus);
         } else if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(), Utils.stopBackByte)) {
             checkStatus = 0;
-            //LogUtil.i(TAG, "checkStatus == 0");
             iView.refreshStartButtonText(checkStatus);
         } else if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(), Utils.addOrCutBackByte)) {
             iView.refreshCheckButtonText(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo);
@@ -268,7 +264,6 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         //}
     }
 
-    //TODO rePlay Connected ---
     @Override
     public void onDisconnected() {
         myCountDownTimer.cancel();
@@ -276,15 +271,13 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         checkStatus = 0;
         iView.refreshStartButtonText(checkStatus);
         blueService.close();
+
+        //TODO rePlay Connected ---
         LogUtil.i(TAG, "on disconnected:" + lastAddress);
         if (lastAddress != null && blueService != null) {
             LogUtil.i(TAG, "is replay connect:" + replayCount);
             if (replayCount > 0) {
                 replayCount--;
-                //boolean isConnected = blueService.connect(lastAddress);
-                //if (isConnected) {
-                //    isReplay = true;
-                //}
             }
         }
     }

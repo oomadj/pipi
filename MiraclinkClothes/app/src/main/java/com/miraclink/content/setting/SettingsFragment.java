@@ -176,7 +176,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 activity.checkUserIds.add(id);
                 SharePreUtils.setCheckID(getContext(), id);
                 presenter.updateUserSettings(iUserDatabaseManager, time, strong, rate, compose, mode, id);
-                activity.setTabSelection(2, false);
+                activity.setTabSelection(2, true);
                 //}
                 break;
             default:

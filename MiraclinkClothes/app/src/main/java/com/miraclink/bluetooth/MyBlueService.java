@@ -148,19 +148,19 @@ public class MyBlueService extends Service {
         bluetoothGatt.readCharacteristic(characteristic);
     }
 
-    public void enableTXNotification() {
+    public boolean enableTXNotification() {
         BluetoothGattService rxService = bluetoothGatt.getService(RX_SERVICE_UUID);
         if (rxService == null) {
             LogUtil.d(TAG, "rxServce = null");
             broadcastUpdate(BroadCastAction.DEVICE_DOES_NOT_SUPPORT_UART);
-            return;
+            return false;
         }
 
         BluetoothGattCharacteristic txCharacteristic = rxService.getCharacteristic(TX_CHAR_UUID);
         if (txCharacteristic == null) {
             LogUtil.d(TAG, "txChar = null");
             broadcastUpdate(BroadCastAction.DEVICE_DOES_NOT_SUPPORT_UART);
-            return;
+            return false;
         }
 
         boolean b = bluetoothGatt.setCharacteristicNotification(txCharacteristic, true);
@@ -174,6 +174,7 @@ public class MyBlueService extends Service {
         descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
         boolean isDescriptor = bluetoothGatt.writeDescriptor(descriptor);
         LogUtil.i(TAG, "id descriptor:" + isDescriptor);
+        return isDescriptor;
     }
 
     public void writeRXCharacteristic(byte[] values) {

@@ -13,6 +13,7 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.view.View;
 import android.view.Window;
@@ -41,6 +42,7 @@ import com.miraclink.database.UserDatabaseManager;
 import com.miraclink.model.User;
 import com.miraclink.utils.AppExecutors;
 import com.miraclink.utils.BroadCastAction;
+import com.miraclink.utils.ByteUtils;
 import com.miraclink.utils.LogUtil;
 import com.miraclink.utils.SharePreUtils;
 
@@ -82,8 +84,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     public static final int UART_PROFILE_DISCONNECTED = 21;
 
     public static int mState = UART_PROFILE_DISCONNECTED;
-
-    public boolean isNewBuild = false;
 
     public ArrayList<String> checkUserIds = new ArrayList<>(); //训练界面用户id集合
 
@@ -134,12 +134,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
                     String action = intent.getAction();
                     final Intent mIntent = intent;
                     if (action.equals(BroadCastAction.ACTION_GATT_CONNECTED)) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mState = UART_PROFILE_CONNECTED;
-                            }
-                        });
+                        mState = UART_PROFILE_CONNECTED;
                     }
 
                     if (action.equals(BroadCastAction.ACTION_GATT_DISCONNECTED)) {
@@ -148,11 +143,18 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
                     }
 
                     if (action.equals(BroadCastAction.ACTION_GATT_SERVICES_DISCOVERED)) {
-                        blueService.enableTXNotification();
+                        if (blueService.enableTXNotification()) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    blueService.writeRXCharacteristic(ByteUtils.getRateCmd(1, 1, 1, 1, 1, 1, 1, 0x01));
+                                }
+                            },1000);
+                        }
                     }
 
                     if (action.equals(BroadCastAction.ACTION_DATA_AVAILABLE)) {
-                        final byte[] values = intent.getByteArrayExtra(BroadCastAction.EXTRA_DATA);
+                        //final byte[] values = intent.getByteArrayExtra(BroadCastAction.EXTRA_DATA);
                     }
 
                     if (action.equals(BroadCastAction.DEVICE_DOES_NOT_SUPPORT_UART)) {
@@ -276,8 +278,10 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
             case 2:
                 if (checkFragment == null) {
                     checkFragment = new UserCheckFragment();
+                    checkFragment.addValue(isJump);
                     transaction.add(R.id.layoutContentActivityContent, checkFragment);
                 } else {
+                    checkFragment.addValue(isJump);
                     transaction.show(checkFragment);
                 }
                 ivCheck.setImageResource(R.drawable.icon_user_check_check);

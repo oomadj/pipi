@@ -2,6 +2,7 @@ package com.miraclink.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ public class EditLineLayout extends ConstraintLayout {
             }
             if ("num".equals(typedArray.getString(R.styleable.EditLineLayout_numType))) {
                 editInfo.setInputType(InputType.TYPE_CLASS_NUMBER);
+                editInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
             }
             boolean topLineIsVisible = typedArray.getBoolean(R.styleable.EditLineLayout_topLine, true);
             boolean bottomLineIsVisible = typedArray.getBoolean(R.styleable.EditLineLayout_bottom, true);
