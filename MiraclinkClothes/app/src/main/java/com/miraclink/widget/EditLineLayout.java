@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.text.method.DigitsKeyListener;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,10 @@ public class EditLineLayout extends ConstraintLayout {
             if ("num".equals(typedArray.getString(R.styleable.EditLineLayout_numType))) {
                 editInfo.setInputType(InputType.TYPE_CLASS_NUMBER);
                 editInfo.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
+            }else if ("eng".equals(typedArray.getString(R.styleable.EditLineLayout_numType))){
+                String digists = "0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                editInfo.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+                editInfo.setKeyListener(DigitsKeyListener.getInstance(digists));
             }
             boolean topLineIsVisible = typedArray.getBoolean(R.styleable.EditLineLayout_topLine, true);
             boolean bottomLineIsVisible = typedArray.getBoolean(R.styleable.EditLineLayout_bottom, true);

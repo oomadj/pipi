@@ -39,6 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
+            app:numType="eng"
             app:functionText="@string/user_id"
             app:initInfoText="@string/init_edit_id"
             app:layout_constraintEnd_toEndOf="parent"
