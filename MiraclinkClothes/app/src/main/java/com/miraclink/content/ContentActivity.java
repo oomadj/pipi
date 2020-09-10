@@ -47,6 +47,8 @@ import com.miraclink.utils.LogUtil;
 import com.miraclink.utils.SharePreUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ContentActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = ContentActivity.class.getSimpleName();
@@ -87,6 +89,8 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
 
     public ArrayList<String> checkUserIds = new ArrayList<>(); //训练界面用户id集合
 
+    public Map<String,String> userAndAddress;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +111,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initParam() {
+        userAndAddress = new HashMap<>();
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         bindIntent = new Intent(this, MyBlueService.class);
         fragmentManager = getSupportFragmentManager();
@@ -147,7 +152,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    blueService.writeRXCharacteristic(ByteUtils.getRateCmd(1, 1, 1, 1, 1, 1, 1, 0x01));
+                                    blueService.writeRXCharacteristic(ByteUtils.getRateCmd(1, 1, 1, 1, 1, 1, 1, 0x01),SharePreUtils.getCurrentID(ContentActivity.this));
                                 }
                             },1000);
                         }
@@ -236,6 +241,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         presenter.onDestroy();
         //remove saved user id
         SharePreUtils.removeCurrentID(this);
+        SharePreUtils.removeCheckID(this);
     }
 
     public void setTabSetting(int page, boolean isJump, String id) {
@@ -247,10 +253,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         transaction = fragmentManager.beginTransaction();
         hideFragment(transaction);
         resetImageViewAndTextView();
-        //if (infoFragment == null) {
-        //   infoFragment = new UserInfoFragment();
-        //   transaction.add(R.id.layoutContentActivityContent, infoFragment);
-        // }
 
         switch (page) {
             case 3:

@@ -76,7 +76,7 @@ public class ScrollerLayout extends ConstraintLayout {
         endW = heightSize;
         setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
         int weight = Math.min(weightSize, heightSize);
-        LogUtil.i("SL","xzxsl -onmeasure");
+        //LogUtil.i("SL","xzxsl -onmeasure");
         mView = getChildAt(0);
         if (mView != null) {
             ViewGroup.LayoutParams layoutParams = mView.getLayoutParams();
@@ -102,7 +102,7 @@ public class ScrollerLayout extends ConstraintLayout {
         //xuzhixin add
         layoutLeft = left;
         layoutRight = right;
-        LogUtil.i("SL","xzxsl -on layout");
+        //LogUtil.i("SL","xzxsl -on layout");
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.miraclink.content.check;
 
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
 import android.os.CountDownTimer;
 import android.os.Handler;
 
@@ -13,14 +15,17 @@ import com.miraclink.utils.LogUtil;
 import com.miraclink.utils.SharePreUtils;
 import com.miraclink.utils.Utils;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCallback {
     private static final String TAG = UserCheckPresenter.class.getSimpleName();
-    public static int checkStatus = 0;   // 0 stop // 1 starting
-    public static boolean userIsChecking = false;                     //user is checking?
     MyBlueService blueService;
     private MyCountDownTimer myCountDownTimer;
     private UserCheckContract.IView iView;
     private IUserDatabaseManager iUserDatabaseManager;
+    private Context context;
 
     private int time;
     private int rate;
@@ -42,12 +47,23 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
     private int backIo;
     private int rearIo;
 
+    public Map<String, Integer> statusSave = new HashMap<>(); // 0 stop // 1 starting
+    private Map<String, Long> timeSave = new HashMap<>();
+    private Map<String, Integer> armIoSave = new HashMap<>();
+    private Map<String, Integer> chestIoSave = new HashMap<>();
+    private Map<String, Integer> stomachIoSave = new HashMap<>();
+    private Map<String, Integer> neckIoSave = new HashMap<>();
+    private Map<String, Integer> legIoSave = new HashMap<>();
+    private Map<String, Integer> backIoSave = new HashMap<>();
+    private Map<String, Integer> rearIoSave = new HashMap<>();
+
     private String lastAddress;
     private int replayCount = 100;
 
-    public UserCheckPresenter(UserCheckContract.IView iView, IUserDatabaseManager iUserDatabaseManager) {
+    public UserCheckPresenter(UserCheckContract.IView iView, IUserDatabaseManager iUserDatabaseManager, Context context) {
         this.iView = iView;
         this.iUserDatabaseManager = iUserDatabaseManager;
+        this.context = context;
     }
 
     @Override
@@ -62,18 +78,21 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
     }
 
     @Override
-    public void onDeviceChange(BluetoothGattCharacteristic bluetoothGattCharacteristic) {
+    public void onDeviceChange(BluetoothGatt gatt, BluetoothGattCharacteristic bluetoothGattCharacteristic) {
         String value = ByteUtils.toHexString(bluetoothGattCharacteristic.getValue());
-        LogUtil.i(TAG, "xzx--on device change -values:" + value);
-        if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(), Utils.startBackByte)) {
-            userIsChecking = true;
-            checkStatus = 1;
-            iView.refreshStartButtonText(checkStatus);
-        } else if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(), Utils.stopBackByte)) {
-            checkStatus = 0;
-            iView.refreshStartButtonText(checkStatus);
-        } else if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(), Utils.addOrCutBackByte)) {
-            iView.refreshCheckButtonText(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo);
+        //LogUtil.i(TAG, "xzx-onDeviceChange-on device change -values:" + value);
+        if (gatt == blueService.idAndGatt.get(SharePreUtils.getCheckID(context))) {
+            LogUtil.i(TAG, "xzx-onDeviceChange-true gatt ------------");
+
+            if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(), Utils.startBackByte)) {
+                statusSave.put(SharePreUtils.getCheckID(context), 1);
+                iView.refreshStartButtonText(1);
+            } else if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(), Utils.stopBackByte)) {
+                statusSave.put(SharePreUtils.getCheckID(context), 0);
+                iView.refreshStartButtonText(0);
+            } else if (ByteUtils.isEqual(bluetoothGattCharacteristic.getValue(), Utils.addOrCutBackByte)) {
+                iView.refreshCheckButtonText(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo);
+            }
         }
     }
 
@@ -91,22 +110,33 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
 
     @Override
     public void onCheckStartClick() {
-        if (checkStatus == 0) {
-            blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x03, 0xE1, 0xE4));
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    LogUtil.i(TAG, "xzx user:pause time:" + pauseTime);
-                    // timer cmd
-                    myCountDownTimer = new MyCountDownTimer(pauseTime, 1000);
-                    myCountDownTimer.start();
-                }
-            }, 500);
-        } else if (checkStatus == 1) {
+        if (!statusSave.containsKey(SharePreUtils.getCheckID(context))) {
+            statusSave.put(SharePreUtils.getCheckID(context), 0);
+        }
+        if (0 == statusSave.get(SharePreUtils.getCheckID(context))) {
+            blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x03, 0xE1, 0xE4), SharePreUtils.getCheckID(context));
+            if (!hasChecking()) {
+                // max time
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        LogUtil.i(TAG, "xzx user:pause time:" + pauseTime);
+                        if (myCountDownTimer != null) {
+                            myCountDownTimer.cancel();
+                        }
+                        // timer cmd
+                        myCountDownTimer = new MyCountDownTimer(timeSave.get(SharePreUtils.getCheckID(context)), 1000);
+                        myCountDownTimer.start();
+                    }
+                }, 200);
+            }
+        } else if (1 == statusSave.get(SharePreUtils.getCheckID(context))) {
+            //  if (!hasChecking()) {
             if (myCountDownTimer != null) {
                 myCountDownTimer.cancel();
             }
-            blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x05, 0xE2, 0xE7));
+            // }
+            blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x05, 0xE2, 0xE7), SharePreUtils.getCheckID(context));
         }
     }
 
@@ -251,25 +281,28 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
 
     @Override
     public void onUserChanged() {
-        //isArmChecked = true;
-        //isChestChecked = true;
-        //isStomachChecked = true;
-        //isLegChecked = true;
-        //isNeckChecked = true;
-        //isBackChecked = true;
-        //isRearChecked = true;
-        //iView.refreshCheckButtonText(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo);
-        //for (int i = 1; i <= 7; i++) {
-        //    iView.setButtonBackground(i, true);
-        //}
+        armIo = armIoSave.get(SharePreUtils.getCheckID(context));
+        chestIo = chestIoSave.get(SharePreUtils.getCheckID(context));
+        stomachIo = stomachIoSave.get(SharePreUtils.getCheckID(context));
+        legIo = legIoSave.get(SharePreUtils.getCheckID(context));
+        neckIo = neckIoSave.get(SharePreUtils.getCheckID(context));
+        backIo = backIoSave.get(SharePreUtils.getCheckID(context));
+        rearIo = rearIoSave.get(SharePreUtils.getCheckID(context));
+        pauseTime = timeSave.get(SharePreUtils.getCheckID(context));
+
+        if (!statusSave.containsKey(SharePreUtils.getCheckID(context))) {
+            statusSave.put(SharePreUtils.getCheckID(context), 0);
+        }
+        iView.refreshStartButtonText(statusSave.get(SharePreUtils.getCheckID(context)));
+        iView.refreshCheckButtonText(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo);
+        iView.setTimeText(Utils.formatTime(pauseTime));
     }
 
     @Override
     public void onDisconnected() {
         myCountDownTimer.cancel();
-        userIsChecking = false;
-        checkStatus = 0;
-        iView.refreshStartButtonText(checkStatus);
+        statusSave.put(SharePreUtils.getCheckID(context), 0);
+        iView.refreshStartButtonText(statusSave.get(SharePreUtils.getCheckID(context)));
         blueService.close();
 
         //TODO rePlay Connected ---
@@ -286,78 +319,92 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         if (isArmChecked) {
             if (0 <= armIo && armIo <= 9) {
                 armIo++;
+                armIoSave.put(SharePreUtils.getCheckID(context), armIo);
             }
         }
         if (isChestChecked) {
             if (0 <= chestIo && chestIo <= 9) {
                 chestIo++;
+                chestIoSave.put(SharePreUtils.getCheckID(context), chestIo);
             }
         }
         if (isStomachChecked) {
             if (0 <= stomachIo && stomachIo <= 9) {
                 stomachIo++;
+                stomachIoSave.put(SharePreUtils.getCheckID(context), stomachIo);
             }
         }
         if (isLegChecked) {
             if (0 <= legIo && legIo <= 9) {
                 legIo++;
+                legIoSave.put(SharePreUtils.getCheckID(context), legIo);
             }
         }
         if (isNeckChecked) {
             if (0 <= neckIo && neckIo <= 9) {
                 neckIo++;
+                neckIoSave.put(SharePreUtils.getCheckID(context), neckIo);
             }
         }
         if (isBackChecked) {
             if (0 <= backIo && backIo <= 9) {
                 backIo++;
+                backIoSave.put(SharePreUtils.getCheckID(context), backIo);
             }
         }
         if (isRearChecked) {
             if (0 <= rearIo && rearIo <= 9) {
                 rearIo++;
+                rearIoSave.put(SharePreUtils.getCheckID(context), rearIo);
             }
         }
-        blueService.writeRXCharacteristic(ByteUtils.getRateCmd(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo, intToHex(rate)));
+        blueService.writeRXCharacteristic(ByteUtils.getRateCmd(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo, intToHex(rate)), SharePreUtils.getCheckID(context));
     }
 
     private void checkCut() {
         if (isArmChecked) {
             if (1 <= armIo && armIo <= 10) {
                 armIo--;
+                armIoSave.put(SharePreUtils.getCheckID(context), armIo);
             }
         }
         if (isChestChecked) {
             if (1 <= chestIo && chestIo <= 10) {
                 chestIo--;
+                chestIoSave.put(SharePreUtils.getCheckID(context), chestIo);
             }
         }
         if (isStomachChecked) {
             if (1 <= stomachIo && stomachIo <= 10) {
                 stomachIo--;
+                stomachIoSave.put(SharePreUtils.getCheckID(context), stomachIo);
             }
         }
         if (isLegChecked) {
             if (1 <= legIo && legIo <= 10) {
                 legIo--;
+                legIoSave.put(SharePreUtils.getCheckID(context), legIo);
             }
         }
         if (isNeckChecked) {
             if (1 <= neckIo && neckIo <= 10) {
                 neckIo--;
+                neckIoSave.put(SharePreUtils.getCheckID(context), neckIo);
             }
         }
         if (isBackChecked) {
             if (1 <= backIo && backIo <= 10) {
                 backIo--;
+                backIoSave.put(SharePreUtils.getCheckID(context), backIo);
             }
         }
         if (isRearChecked) {
             if (1 <= rearIo && rearIo <= 10) {
                 rearIo--;
+                rearIoSave.put(SharePreUtils.getCheckID(context), rearIo);
             }
         }
-        blueService.writeRXCharacteristic(ByteUtils.getRateCmd(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo, intToHex(rate)));
+        blueService.writeRXCharacteristic(ByteUtils.getRateCmd(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo, intToHex(rate)), SharePreUtils.getCheckID(context));
     }
 
     private void getUserInfoToDatabase(String id) {
@@ -392,7 +439,17 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         backIo = strong / 10;
         rearIo = strong / 10;
 
-        iView.refreshCheckButtonText(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo); //refresh
+        if (!timeSave.containsKey(SharePreUtils.getCheckID(context))){
+            timeSave.put(SharePreUtils.getCheckID(context), pauseTime);
+            armIoSave.put(SharePreUtils.getCheckID(context), armIo);
+            chestIoSave.put(SharePreUtils.getCheckID(context), chestIo);
+            stomachIoSave.put(SharePreUtils.getCheckID(context), stomachIo);
+            legIoSave.put(SharePreUtils.getCheckID(context), legIo);
+            neckIoSave.put(SharePreUtils.getCheckID(context), neckIo);
+            backIoSave.put(SharePreUtils.getCheckID(context), backIo);
+            rearIoSave.put(SharePreUtils.getCheckID(context), rearIo);
+            iView.refreshCheckButtonText(armIo, chestIo, stomachIo, legIo, neckIo, backIo, rearIo); //refresh
+        }
     }
 
     @Override
@@ -450,23 +507,54 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
         @Override
         public void onTick(long millisUntilFinished) {
             if (blueService != null) {
-                LogUtil.i(TAG, "handler -+++++-write rx");
-                blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x07, 0xE3, 0xEA));
+                //blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x07, 0xE3, 0xEA), SharePreUtils.getCheckID(context));
                 pauseTime = millisUntilFinished;
-                iView.setTimeText(Utils.formatTime(millisUntilFinished));
+                //iView.setTimeText(Utils.formatTime(millisUntilFinished));
+
+                Iterator iter = statusSave.keySet().iterator();
+                while (iter.hasNext()) {
+                    String s = (String) iter.next();
+                    if (statusSave.get(s) == 1) {
+                        blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x07, 0xE3, 0xEA), s);
+                        timeSave.put(s, timeSave.get(s) - 1000);
+                        if (s.equals(SharePreUtils.getCheckID(context))){
+                            iView.setTimeText(Utils.formatTime(timeSave.get(s)));
+                        }
+                    }
+                }
             }
         }
 
         @Override
         public void onFinish() {
-            userIsChecking = false;
             myCountDownTimer.cancel();
-            blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x05, 0xE2, 0xE7));
+            blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x05, 0xE2, 0xE7), SharePreUtils.getCheckID(context));
             pauseTime = time * 60 * 1000;
+            timeSave.put(SharePreUtils.getCheckID(context),pauseTime);
             iView.setTimeText("00:00");
             iView.setStartText("start");
             //TODO bt start status change
 
         }
+    }
+
+    //判断是否还有在检查中的
+    private boolean hasChecking() {
+//        Iterator iterator = statusSave.keySet().iterator();
+//        while (iterator.hasNext()) {
+//            if (statusSave.get(iterator.next()) == 1) {
+//                return true;
+//            }
+//        }
+//        return false;
+        return statusSave.containsValue(1);
+    }
+
+    private long getMaxTime() {
+        long max = 0;
+        Iterator iterator = timeSave.keySet().iterator();
+        while (iterator.hasNext()) {
+        }
+        return max;
     }
 }

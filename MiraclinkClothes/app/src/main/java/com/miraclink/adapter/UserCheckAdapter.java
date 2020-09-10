@@ -25,6 +25,16 @@ public class UserCheckAdapter extends RecyclerView.Adapter<UserCheckAdapter.Chec
         users = new ArrayList<>();
     }
 
+    public interface OnUserCheckItemClick{
+        void onItemClick(int position, String id);
+    }
+
+    private OnUserCheckItemClick onUserCheckItemClick;
+
+    public void setOnUserCheckItemClick(OnUserCheckItemClick checkItemClick){
+        onUserCheckItemClick = checkItemClick;
+    }
+
     @NonNull
     @Override
     public CheckHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -67,6 +77,12 @@ public class UserCheckAdapter extends RecyclerView.Adapter<UserCheckAdapter.Chec
             textMode = itemView.findViewById(R.id.textItemUserCheckFragmentMode);
             textId = itemView.findViewById(R.id.textItemUserCheckFragmentId);
             imgSex = itemView.findViewById(R.id.imageItemUserCheckFragmentIcon);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onUserCheckItemClick.onItemClick(getAdapterPosition(),users.get(getAdapterPosition()).getID());
+                }
+            });
         }
     }
 

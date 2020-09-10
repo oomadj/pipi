@@ -42,7 +42,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class UserCheckFragment extends Fragment implements View.OnClickListener, UserCheckContract.IView, IUserDatabaseManager.QueryAllUserCallback, View.OnTouchListener, IUserDatabaseManager.QueryUserByCheckIDsCallback {
+public class UserCheckFragment extends Fragment implements View.OnClickListener, UserCheckContract.IView, IUserDatabaseManager.QueryAllUserCallback, View.OnTouchListener,
+        IUserDatabaseManager.QueryUserByCheckIDsCallback,UserCheckAdapter.OnUserCheckItemClick {
     private static final String TAG = UserCheckFragment.class.getSimpleName();
     private Button btStart;
     private Button btLeg, btLegZero, btNeck, btArm, btArmZero, btChest, btStomach, btBack, btRear;
@@ -62,7 +63,6 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
     private UserCheckContract.Presenter presenter;
     ContentActivity activity;
     private IUserDatabaseManager iUserDatabaseManager;
-    private BroadcastReceiver receiver;
 
     private ArrayList<User> checkUsers;
     private int compose;
@@ -98,9 +98,6 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onStart() {
         super.onStart();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(BroadCastAction.USER_CHANGED);
-        getContext().registerReceiver(receiver, filter);
 
         presenter.getBleAddress(activity.getBleAddress());
         presenter.queryAllUser(iUserDatabaseManager, this);
@@ -113,7 +110,6 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
     public void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
-        getContext().unregisterReceiver(receiver);
     }
 
     public void addValue(boolean b){
@@ -127,7 +123,6 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         if (SharePreUtils.getCheckID(getContext()) != null && hidden == false) {
             if (isJump){
                 presenter.getUserInfo(SharePreUtils.getCheckID(getContext()));
-                presenter.onUserChanged(); //refresh  // no use
                 isJump = false;
             }
         }
@@ -136,21 +131,13 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
     private void initParam() {
         iUserDatabaseManager = UserDatabaseManager.getInstance(getContext(), AppExecutors.getInstance());
         userCheckAdapter = new UserCheckAdapter();
+        userCheckAdapter.setOnUserCheckItemClick(this);
         decoration = new UserListRecyclerDecoration();
-        presenter = new UserCheckPresenter(this, iUserDatabaseManager);
+        presenter = new UserCheckPresenter(this, iUserDatabaseManager,getContext());
         presenter.getBlueService(activity.getBlueService());
         if (!SharePreUtils.getCheckID(getContext()).isEmpty()) {
             presenter.getUserInfo(SharePreUtils.getCheckID(getContext()));
         }
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(BroadCastAction.USER_CHANGED)) {
-                    //presenter.onUserChanged();
-                    //presenter.getUserInfo(SharePreUtils.getCheckID(getContext()));
-                }
-            }
-        };
     }
 
     private void initView(View view) {
@@ -454,5 +441,13 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
         checkUsers = (ArrayList<User>) users;
         LogUtil.i(TAG, "check list:" + users.size());
         userCheckAdapter.setData(checkUsers);
+    }
+
+    @Override
+    public void onItemClick(int position, String id) {
+        SharePreUtils.setCheckID(getContext(),id);
+        drawerLayout.closeDrawers();
+        presenter.getUserInfo(id);
+        presenter.onUserChanged();
     }
 }

@@ -22,9 +22,12 @@ import androidx.annotation.Nullable;
 import com.miraclink.base.BaseCallback;
 import com.miraclink.utils.BroadCastAction;
 import com.miraclink.utils.LogUtil;
+import com.miraclink.utils.SharePreUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class MyBlueService extends Service {
@@ -40,9 +43,14 @@ public class MyBlueService extends Service {
     private static final int STATE_CONNECTED = 2;
 
     public static UUID CCCD = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
-    public static UUID RX_SERVICE_UUID = UUID.fromString("8653000a-43e6-47b7-9cb0-5fc21d4ae340");
-    public static UUID RX_CHAR_UUID = UUID.fromString("8653000c-43e6-47b7-9cb0-5fc21d4ae340");
-    public static UUID TX_CHAR_UUID = UUID.fromString("8653000b-43e6-47b7-9cb0-5fc21d4ae340");
+    //public static UUID RX_SERVICE_UUID; // = UUID.fromString("8653000a-43e6-47b7-9cb0-5fc21d4ae340");
+    //public static UUID RX_CHAR_UUID; // = UUID.fromString("8653000c-43e6-47b7-9cb0-5fc21d4ae340");
+    //public static UUID TX_CHAR_UUID; // = UUID.fromString("8653000b-43e6-47b7-9cb0-5fc21d4ae340");
+
+    public Map<String,BluetoothGatt> idAndGatt = new HashMap<>();
+    private Map<String,UUID> RX_SERVICE_UUID_MAP = new HashMap<>();
+    private Map<String,UUID> RX_CHAR_UUID_MAP = new HashMap<>();
+    private Map<String,UUID> TX_CHAR_UUID_MAP = new HashMap<>();
 
     private BaseCallback baseCallback; // xzx add
 
@@ -91,6 +99,14 @@ public class MyBlueService extends Service {
 
     // Previously connected device.  Try to reconnect.
     public boolean connect(final String address) {
+        //xzx add
+        BluetoothGatt gatt = idAndGatt.get(address);  //如果没有更换用户 先断开之前的连接再连接新的设备
+        if (gatt != null) {
+            gatt.disconnect();
+            gatt.close();
+            idAndGatt.remove(address);
+        }
+
         if (bluetoothAdapter == null || address == null) {
             LogUtil.i(TAG, "BluetoothAdapter not initialized or unspecified address");
             return false;
@@ -117,6 +133,8 @@ public class MyBlueService extends Service {
         } else {
             bluetoothGatt = device.connectGatt(this, false, gattCallback);
         }
+
+        idAndGatt.put(SharePreUtils.getCurrentID(this),bluetoothGatt); //放在gattCallback中
         LogUtil.i(TAG, "Trying to create a new connection.");
         bluetoothAddress = address;
         connectStatus = STATE_CONNECTING;
@@ -140,30 +158,24 @@ public class MyBlueService extends Service {
         bluetoothGatt = null;
     }
 
-    public void readCharacteristic(BluetoothGattCharacteristic characteristic) {
-        if (bluetoothAdapter == null || bluetoothGatt == null) {
-            LogUtil.d(TAG, "bluetooth adapter not initalize");
-            return;
-        }
-        bluetoothGatt.readCharacteristic(characteristic);
-    }
-
     public boolean enableTXNotification() {
-        BluetoothGattService rxService = bluetoothGatt.getService(RX_SERVICE_UUID);
+        BluetoothGatt gatt = idAndGatt.get(SharePreUtils.getCurrentID(this));
+        BluetoothGattService rxService = gatt.getService(RX_SERVICE_UUID_MAP.get(SharePreUtils.getCurrentID(this)));
         if (rxService == null) {
             LogUtil.d(TAG, "rxServce = null");
             broadcastUpdate(BroadCastAction.DEVICE_DOES_NOT_SUPPORT_UART);
             return false;
         }
 
-        BluetoothGattCharacteristic txCharacteristic = rxService.getCharacteristic(TX_CHAR_UUID);
+        LogUtil.i(TAG,"tx uuid:"+TX_CHAR_UUID_MAP.get(SharePreUtils.getCurrentID(this)).toString()+"rx service uuid："+RX_SERVICE_UUID_MAP.get(SharePreUtils.getCurrentID(this)));
+        BluetoothGattCharacteristic txCharacteristic = rxService.getCharacteristic(TX_CHAR_UUID_MAP.get(SharePreUtils.getCurrentID(this)));
         if (txCharacteristic == null) {
             LogUtil.d(TAG, "txChar = null");
             broadcastUpdate(BroadCastAction.DEVICE_DOES_NOT_SUPPORT_UART);
             return false;
         }
 
-        boolean b = bluetoothGatt.setCharacteristicNotification(txCharacteristic, true);
+        boolean b = gatt.setCharacteristicNotification(txCharacteristic, true);
         LogUtil.i(TAG, "set notification :" + b);
 
         BluetoothGattDescriptor descriptor = txCharacteristic.getDescriptor(CCCD);
@@ -172,24 +184,25 @@ public class MyBlueService extends Service {
             descriptor = new BluetoothGattDescriptor(CCCD, BluetoothGattDescriptor.PERMISSION_READ);  //read or write
         }
         descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-        boolean isDescriptor = bluetoothGatt.writeDescriptor(descriptor);
+        boolean isDescriptor = gatt.writeDescriptor(descriptor);
         LogUtil.i(TAG, "id descriptor:" + isDescriptor);
         return isDescriptor;
     }
 
-    public void writeRXCharacteristic(byte[] values) {
-        if (bluetoothGatt == null) {
+    public void writeRXCharacteristic(byte[] values,String id) {
+        BluetoothGatt gatt = idAndGatt.get(id);
+        if (gatt == null) {
             LogUtil.i(TAG, "xzx blue gatt is null");
             return;
         }
-        BluetoothGattService rxService = bluetoothGatt.getService(RX_SERVICE_UUID);
+        BluetoothGattService rxService = gatt.getService(RX_SERVICE_UUID_MAP.get(id));
         if (rxService == null) {
             Log.d(TAG, "xzx rx service not found");
             broadcastUpdate(BroadCastAction.DEVICE_DOES_NOT_SUPPORT_UART);
             return;
         }
 
-        BluetoothGattCharacteristic rxCharacteristic = rxService.getCharacteristic(RX_CHAR_UUID);
+        BluetoothGattCharacteristic rxCharacteristic = rxService.getCharacteristic(RX_CHAR_UUID_MAP.get(id));
         if (rxCharacteristic == null) {
             LogUtil.d(TAG, "xzx rx char not found");
             broadcastUpdate(BroadCastAction.DEVICE_DOES_NOT_SUPPORT_UART);
@@ -208,7 +221,7 @@ public class MyBlueService extends Service {
             Log.e(TAG, "xzx--fail 222");
         }
 
-        boolean status = bluetoothGatt.writeCharacteristic(rxCharacteristic);
+        boolean status = gatt.writeCharacteristic(rxCharacteristic);
         LogUtil.i(TAG, "write rx char status:" + status);
     }
 
@@ -220,7 +233,7 @@ public class MyBlueService extends Service {
 
     private void broadcastUpdate(final String action, final BluetoothGattCharacteristic characteristic) {
         final Intent intent = new Intent(action);
-        if (TX_CHAR_UUID.equals(characteristic.getUuid())) {
+        if (TX_CHAR_UUID_MAP.get(SharePreUtils.getCheckID(this)).equals(characteristic.getUuid())) {
             intent.putExtra(BroadCastAction.EXTRA_DATA, characteristic.getValue());
         } else {
         }
@@ -236,7 +249,7 @@ public class MyBlueService extends Service {
                 intentAction = BroadCastAction.ACTION_GATT_CONNECTED;
                 connectStatus = STATE_CONNECTED;
                 broadcastUpdate(intentAction);
-                LogUtil.i(TAG, "Connected to GATT server | start service discovery:" + bluetoothGatt.discoverServices());
+                LogUtil.i(TAG, "Connected to GATT server | start service discovery:" + gatt.discoverServices());
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 intentAction = BroadCastAction.ACTION_GATT_DISCONNECTED;
                 connectStatus = STATE_DISCONNECTED;
@@ -250,7 +263,7 @@ public class MyBlueService extends Service {
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                List<BluetoothGattService> services = bluetoothGatt.getServices();
+                List<BluetoothGattService> services = gatt.getServices();
                 for (int i = 0; i < services.size(); i++) {
                     BluetoothGattService service = services.get(i);
                     LogUtil.i(TAG, "service id:" + service.getUuid().toString());
@@ -258,20 +271,20 @@ public class MyBlueService extends Service {
                     for (int b = 0; b < characteristics.size(); b++) {
                         int charProp = characteristics.get(b).getProperties();
                         if ((charProp & BluetoothGattCharacteristic.PROPERTY_WRITE) > 0) {
-                            RX_SERVICE_UUID = services.get(i).getUuid();
-                            RX_CHAR_UUID = characteristics.get(b).getUuid();
+                            RX_SERVICE_UUID_MAP.put(SharePreUtils.getCurrentID(MyBlueService.this),services.get(i).getUuid());
+                            RX_CHAR_UUID_MAP.put(SharePreUtils.getCurrentID(MyBlueService.this),characteristics.get(b).getUuid());
                             //LogUtil.i(TAG, "write uuid: service:" + RX_SERVICE_UUID + ": rx char:" + RX_CHAR_UUID);
                         }
 
                         if ((charProp & BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE) > 0) {
-                            RX_SERVICE_UUID = services.get(i).getUuid();
-                            RX_CHAR_UUID = characteristics.get(b).getUuid();
+                            RX_SERVICE_UUID_MAP.put(SharePreUtils.getCurrentID(MyBlueService.this),services.get(i).getUuid());
+                            RX_CHAR_UUID_MAP.put(SharePreUtils.getCurrentID(MyBlueService.this),characteristics.get(b).getUuid());
                             //Log.i(TAG, "xzx-write no response-uuid: service:" + RX_SERVICE_UUID + ":rx char:" + RX_CHAR_UUID);
                         }
 
                         if ((charProp & BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
-                            RX_SERVICE_UUID = services.get(i).getUuid();
-                            TX_CHAR_UUID = characteristics.get(b).getUuid();
+                            RX_SERVICE_UUID_MAP.put(SharePreUtils.getCurrentID(MyBlueService.this),services.get(i).getUuid());
+                            TX_CHAR_UUID_MAP.put(SharePreUtils.getCurrentID(MyBlueService.this),characteristics.get(b).getUuid());
                             //Log.i(TAG, "xzx-notify-uuid: service" + RX_SERVICE_UUID + ":tx char:" + TX_CHAR_UUID);
                         }
 
@@ -312,7 +325,7 @@ public class MyBlueService extends Service {
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             LogUtil.i(TAG, "on char changed");
             broadcastUpdate(BroadCastAction.ACTION_DATA_AVAILABLE, characteristic);
-            baseCallback.onDeviceChange(characteristic);
+            baseCallback.onDeviceChange(gatt,characteristic);
         }
 
         @Override

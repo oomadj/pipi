@@ -42,7 +42,6 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     private Button btSave;
 
     private IUserDatabaseManager iUserDatabaseManager;
-    private BroadcastReceiver receiver;
     private UserInfoContract.Presenter presenter;
     private int sex = 0;
     private AlertDialog alertDialog;
@@ -84,33 +83,16 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onStart() {
         super.onStart();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(BroadCastAction.USER_CHANGED);
-        getContext().registerReceiver(receiver, filter);
-        //TODO 暂时为只能新建
-        //presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        getContext().unregisterReceiver(receiver);
     }
 
     private void initParam() {
-        LogUtil.i(TAG, "info-get id:" + SharePreUtils.getCurrentID(getContext()));
         iUserDatabaseManager = UserDatabaseManager.getInstance(getContext(), AppExecutors.getInstance());
         presenter = new UserInfoPresenter(this);
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(BroadCastAction.USER_CHANGED)) {
-                    //TODO 暂时为只能新建
-
-                    // presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
-                }
-            }
-        };
     }
 
     private void initView(View view) {

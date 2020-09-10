@@ -91,40 +91,23 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onStart() {
         super.onStart();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(BroadCastAction.USER_CHANGED);
-        getContext().registerReceiver(receiver, filter);
-        //TODO 暂时为只能新建
-        //presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
         presenter.queryUser(iUserDatabaseManager, id);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        getContext().unregisterReceiver(receiver);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        //TODO 暂时为只能新建
-        //presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
         presenter.queryUser(iUserDatabaseManager, id);
     }
 
     private void initParam() {
         iUserDatabaseManager = UserDatabaseManager.getInstance(getContext(), AppExecutors.getInstance());
         presenter = new SettingsPresenter(this);
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(BroadCastAction.USER_CHANGED)) {
-                    //TODO 暂时为只能新建
-                    //presenter.queryUser(iUserDatabaseManager, SharePreUtils.getCurrentID(getContext()));
-                }
-            }
-        };
     }
 
     private void initView(View view) {
@@ -165,10 +148,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 if (checkSettingEmpty()) {
                     return;
                 }
-                if (UserCheckPresenter.checkStatus == 1) {
-                    Toast.makeText(getContext(), R.string.user_checking, Toast.LENGTH_SHORT).show();
+                if (activity.userAndAddress.size() >= 6 || activity.checkUserIds.size() >= 6) {
+                    Toast.makeText(getContext(), R.string.user_checking_max, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                //if (UserCheckPresenter.checkStatus == 1) {
+                //    Toast.makeText(getContext(), R.string.user_checking, Toast.LENGTH_SHORT).show();
+                //    return;
+                //}
                 //TODO net
                 //if (NetworkUtil.getConnectivityEnable(getContext())) {
                 //} else {

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -248,7 +249,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 byte[] values2 = new byte[]{(byte) 0xAE, 0x03, (byte) 0xE1, (byte) 0xE4};
                 try {
                     values = message.getBytes("UTF-8");
-                    blueService.writeRXCharacteristic(values2);
+                    blueService.writeRXCharacteristic(values2,"test");
                     String currentDateTimeString = DateFormat.getTimeInstance().format(new Date());
                     stringList.add("[" + currentDateTimeString + "]" + message);
                     mainAdapter.setData(stringList);
@@ -296,7 +297,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
-    public void onDeviceChange(BluetoothGattCharacteristic bluetoothGattCharacteristic) {
+    public void onDeviceChange(BluetoothGatt gatt,BluetoothGattCharacteristic bluetoothGattCharacteristic) {
 
     }
 
