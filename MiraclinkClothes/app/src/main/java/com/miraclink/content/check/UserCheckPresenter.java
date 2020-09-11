@@ -300,7 +300,7 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
 
     @Override
     public void onDisconnected() {
-        myCountDownTimer.cancel();
+        //myCountDownTimer.cancel();
         statusSave.put(SharePreUtils.getCheckID(context), 0);
         iView.refreshStartButtonText(statusSave.get(SharePreUtils.getCheckID(context)));
         blueService.close();
@@ -516,9 +516,13 @@ public class UserCheckPresenter implements UserCheckContract.Presenter, BaseCall
                     String s = (String) iter.next();
                     if (statusSave.get(s) == 1) {
                         blueService.writeRXCharacteristic(ByteUtils.getCmdStart(0x07, 0xE3, 0xEA), s);
-                        timeSave.put(s, timeSave.get(s) - 1000);
-                        if (s.equals(SharePreUtils.getCheckID(context))){
-                            iView.setTimeText(Utils.formatTime(timeSave.get(s)));
+                        if (timeSave.get(s) >= 1000){
+                            timeSave.put(s, timeSave.get(s) - 1000);
+                            if (s.equals(SharePreUtils.getCheckID(context))){
+                                iView.setTimeText(Utils.formatTime(timeSave.get(s)));
+                            }
+                        }else {
+                            statusSave.put(s,0); //时间结束，修改状态
                         }
                     }
                 }
