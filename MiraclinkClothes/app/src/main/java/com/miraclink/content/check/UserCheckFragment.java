@@ -214,28 +214,40 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btUserCheckFragmentStart:     // start and stop pause
+                if (SharePreUtils.getCheckID(getContext()).isEmpty()){
+                    Toast.makeText(getContext(),getString(R.string.not_check_user),Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (Utils.isFastDoubleClick()) {
                     LogUtil.i(TAG, "click is fast");
                 } else {
                     if (ContentActivity.mState == ContentActivity.UART_PROFILE_CONNECTED) {
                         presenter.onCheckStartClick();
                     } else {
-                        Toast.makeText(getContext(), "ble not connect", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.not_ble), Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
             case R.id.imgUserCheckFragmentAdd:
+                if (SharePreUtils.getCheckID(getContext()).isEmpty()){
+                    Toast.makeText(getContext(),getString(R.string.not_check_user),Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (ContentActivity.mState == ContentActivity.UART_PROFILE_CONNECTED) {
                     presenter.onCheckRateAdd();
                 } else {
-                    Toast.makeText(getContext(), "ble not connect", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.not_ble), Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.imgUserCheckFragmentCut:
+                if (SharePreUtils.getCheckID(getContext()).isEmpty()){
+                    Toast.makeText(getContext(),getString(R.string.not_check_user),Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (ContentActivity.mState == ContentActivity.UART_PROFILE_CONNECTED) {
                     presenter.onCheckRateCut();
                 } else {
-                    Toast.makeText(getContext(), "ble not connect", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.not_ble), Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.btUserCheckFragmentLeg:

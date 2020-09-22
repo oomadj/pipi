@@ -85,5 +85,7 @@
     <string name="user_checking">用户使用中</string>
     <string name="user_checking_max">已选择最大用户数量</string>
     <string name="ble_no_connect">设备未连接，请在设置中选择设备</string>
+    <string name="not_check_user">未选择用户</string>
+    <string name="not_ble">设备未连接</string>
 
 </resources>

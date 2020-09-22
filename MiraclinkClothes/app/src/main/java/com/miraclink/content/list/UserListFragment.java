@@ -46,7 +46,7 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
     private IUserDatabaseManager iUserDatabaseManager;
 
     private ImageView imgNew, imgGetUser;
-    private String thisUserId;
+    private String thisUserId = null;
 
     private RecyclerView recyclerHistory;
     private CheckHistoryAdapter historyAdapter;
@@ -152,6 +152,11 @@ public class UserListFragment extends Fragment implements UserListAdapter.OnUser
     public void onQueried(List<User> userList) {
         users = (ArrayList<User>) userList;
         userAdapter.setData(users);
+        if (thisUserId == null) {
+            if (users.size() >0){
+                thisUserId = users.get(0).getID();
+            }
+        }
     }
 
     @Override
