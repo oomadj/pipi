@@ -18,8 +18,6 @@ import android.os.IBinder;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,10 +35,6 @@ import com.miraclink.content.check.UserCheckFragment;
 import com.miraclink.content.info.UserInfoFragment;
 import com.miraclink.content.list.UserListFragment;
 import com.miraclink.content.setting.SettingsFragment;
-import com.miraclink.database.IUserDatabaseManager;
-import com.miraclink.database.UserDatabaseManager;
-import com.miraclink.model.User;
-import com.miraclink.utils.AppExecutors;
 import com.miraclink.utils.BroadCastAction;
 import com.miraclink.utils.ByteUtils;
 import com.miraclink.utils.LogUtil;
@@ -52,7 +46,6 @@ import java.util.Map;
 
 public class ContentActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = ContentActivity.class.getSimpleName();
-    private FrameLayout frameLayout;
     private UserCheckFragment checkFragment;
     private UserListFragment listFragment;
     private UserInfoFragment infoFragment;
@@ -115,7 +108,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         bindIntent = new Intent(this, MyBlueService.class);
         fragmentManager = getSupportFragmentManager();
-        frameLayout = findViewById(R.id.layoutContentActivityContent);
         presenter = new ContentPresenter();
         serviceConnection = new ServiceConnection() {
             @Override

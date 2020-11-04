@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,18 +20,14 @@ import androidx.fragment.app.Fragment;
 import com.miraclink.R;
 import com.miraclink.bluetooth.DeviceListActivity;
 import com.miraclink.content.ContentActivity;
-import com.miraclink.content.check.UserCheckPresenter;
 import com.miraclink.database.IUserDatabaseManager;
 import com.miraclink.database.UserDatabaseManager;
 import com.miraclink.model.User;
 import com.miraclink.utils.AppExecutors;
-import com.miraclink.utils.BroadCastAction;
 import com.miraclink.utils.LogUtil;
 import com.miraclink.utils.SharePreUtils;
 import com.miraclink.widget.ScrollerLayout;
 import com.miraclink.widget.SettingLineLayout;
-
-import java.util.List;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener, ScrollerLayout.OnSelectPositionClick, SettingsContract.IView, RadioGroup.OnCheckedChangeListener {
     private static final String TAG = SettingsFragment.class.getSimpleName();
@@ -47,11 +42,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
     private SettingLineLayout lineLayoutDeviceSelect;
     private SettingLineLayout lineLayoutTimeSelect;
-
-    private Button btSelectDevice;
     private Button btSaveSettings;
     private IUserDatabaseManager iUserDatabaseManager;
-    private BroadcastReceiver receiver;
     private User userSettings;
     private String id;
 
@@ -119,7 +111,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         lineLayoutTimeSelect = view.findViewById(R.id.layoutUserSettingFragmentTimeSelect);
         lineLayoutDeviceSelect.setOnClickListener(deviceSelectClick);
         lineLayoutTimeSelect.setOnClickListener(timeSelectClick);
-
         rgRate = view.findViewById(R.id.rgUserSettingFragmentRate);
         rgRate.setOnCheckedChangeListener(this);
         rgCompose = view.findViewById(R.id.rgUserSettingFragmentCompose);
@@ -152,23 +143,26 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                     Toast.makeText(getContext(), R.string.user_checking_max, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                //if (UserCheckPresenter.checkStatus == 1) {
-                //    Toast.makeText(getContext(), R.string.user_checking, Toast.LENGTH_SHORT).show();
-                //    return;
-                //}
-                //TODO net
-                //if (NetworkUtil.getConnectivityEnable(getContext())) {
-                //} else {
-                LogUtil.i(TAG, "click user: time:" + time + "strong:" + strong + "rate:" + rate + "compose:" + compose + "mode:" + mode);
-                activity.checkUserIds.add(id);
+                if (!isIdExist(id)) {
+                    activity.checkUserIds.add(id);
+                }
                 SharePreUtils.setCheckID(getContext(), id);
                 presenter.updateUserSettings(iUserDatabaseManager, time, strong, rate, compose, mode, id);
                 activity.setTabSelection(2, true);
-                //}
                 break;
             default:
                 break;
         }
+    }
+
+    private boolean isIdExist(String id) {
+        boolean b = false;
+        for (int i = 0; i < activity.checkUserIds.size(); i++) {
+            if (activity.checkUserIds.get(i).equals(id)) {
+                b = true;
+            }
+        }
+        return b;
     }
 
     public void setIDString(String idString) {
