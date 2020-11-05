@@ -1,9 +1,6 @@
 package com.miraclink.content.check;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,7 +29,6 @@ import com.miraclink.database.UserDatabaseManager;
 import com.miraclink.model.CheckHistory;
 import com.miraclink.model.User;
 import com.miraclink.utils.AppExecutors;
-import com.miraclink.utils.BroadCastAction;
 import com.miraclink.utils.LogUtil;
 import com.miraclink.utils.SharePreUtils;
 import com.miraclink.utils.Utils;
@@ -283,6 +279,7 @@ public class UserCheckFragment extends Fragment implements View.OnClickListener,
                 break;
             case R.id.imgUserCheckFragmentSlide:
                 drawerLayout.openDrawer(Gravity.LEFT);
+                break;
             case R.id.imgUserCheckFragmentSelectAll:
                 presenter.onCheckAll();
                 break;

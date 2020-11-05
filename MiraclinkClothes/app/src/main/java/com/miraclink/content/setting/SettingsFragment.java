@@ -34,7 +34,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
     private ScrollerLayout scrollerLayout;
     private SettingsContract.Presenter presenter;
-    private RadioGroup rgRate, rgCompose, rgMode;
+    private RadioGroup rgRate;
+    private RadioGroup rgCompose1, rgCompose2;
+    private RadioGroup rgMode1, rgMode2;
     private RadioButton rbCompose1, rbCompose2, rbCompose3, rbCompose4, rbCompose5;
     private RadioButton rbMode1, rbMode2, rbMode3, rbMode4, rbMode5;
     private RadioButton rbRate1, rbRate2, rbRate3;
@@ -113,10 +115,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
         lineLayoutTimeSelect.setOnClickListener(timeSelectClick);
         rgRate = view.findViewById(R.id.rgUserSettingFragmentRate);
         rgRate.setOnCheckedChangeListener(this);
-        rgCompose = view.findViewById(R.id.rgUserSettingFragmentCompose);
-        rgCompose.setOnCheckedChangeListener(this);
-        rgMode = view.findViewById(R.id.rgUserSettingFragmentMode);
-        rgMode.setOnCheckedChangeListener(this);
+        rgCompose1 = view.findViewById(R.id.rgUserSettingFragmentCompose1);
+        rgCompose1.setOnCheckedChangeListener(this);
+        rgCompose2 = view.findViewById(R.id.rgUserSettingFragmentCompose2);
+        rgCompose2.setOnCheckedChangeListener(this);
+        rgMode1 = view.findViewById(R.id.rgUserSettingFragmentMode1);
+        rgMode1.setOnCheckedChangeListener(this);
+        rgMode2 = view.findViewById(R.id.rgUserSettingFragmentMode2);
+        rgMode2.setOnCheckedChangeListener(this);
         rbCompose1 = view.findViewById(R.id.rbUserSettingFragmentCompose1);
         rbCompose2 = view.findViewById(R.id.rbUserSettingFragmentCompose2);
         rbCompose3 = view.findViewById(R.id.rbUserSettingFragmentCompose3);
@@ -306,7 +312,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        if (group == rgCompose) {
+        if (group == rgCompose1) {
+            rgCompose2.setOnCheckedChangeListener(null);
+            rgCompose2.clearCheck();
+            rgCompose2.setOnCheckedChangeListener(this);
             switch (checkedId) {
                 case R.id.rbUserSettingFragmentCompose1:
                     compose = 1;
@@ -317,6 +326,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 case R.id.rbUserSettingFragmentCompose3:
                     compose = 3;
                     break;
+                default:
+                    break;
+            }
+        } else if (group == rgCompose2) {
+            rgCompose1.setOnCheckedChangeListener(null);
+            rgCompose1.clearCheck();
+            rgCompose1.setOnCheckedChangeListener(this);
+            switch (checkedId) {
                 case R.id.rbUserSettingFragmentCompose4:
                     compose = 4;
                     break;
@@ -326,7 +343,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 default:
                     break;
             }
-        } else if (group == rgMode) {
+        } else if (group == rgMode1) {
+            rgMode2.setOnCheckedChangeListener(null);
+            rgMode2.clearCheck();
+            rgMode2.setOnCheckedChangeListener(this);
             switch (checkedId) {
                 case R.id.rbUserSettingFragmentMode1:
                     mode = 1;
@@ -337,6 +357,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 case R.id.rbUserSettingFragmentMode3:
                     mode = 3;
                     break;
+                default:
+                    break;
+            }
+        } else if (group == rgMode2) {
+            rgMode1.setOnCheckedChangeListener(null);
+            rgMode1.clearCheck();
+            rgMode1.setOnCheckedChangeListener(this);
+            switch (checkedId) {
                 case R.id.rbUserSettingFragmentMode4:
                     mode = 4;
                     break;
@@ -346,7 +374,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 default:
                     break;
             }
-
         } else if (group == rgRate) {
             switch (checkedId) {
                 case R.id.rbUserSettingFragmentRate1:

@@ -91,138 +91,138 @@
             android:id="@+id/textSettingStrong0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="9sp"
-            android:textColor="@color/setting_strong_text"
             android:layout_marginStart="16dp"
-            app:layout_constraintTop_toBottomOf="@id/scrollerUserSettingsFragmentStrong"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:text="0"
+            android:textColor="@color/setting_strong_text"
+            android:textSize="9sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scrollerUserSettingsFragmentStrong" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textSettingStrong1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10"
-            android:textSize="9sp"
-            android:textColor="@color/setting_strong_text"
             android:layout_marginStart="28dp"
-            app:layout_constraintTop_toTopOf="@id/textSettingStrong0"
+            android:text="10"
+            android:textColor="@color/setting_strong_text"
+            android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="@id/textSettingStrong0"
-            app:layout_constraintStart_toEndOf="@id/textSettingStrong0"/>
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong0"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong0" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textSettingStrong2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="20"
-            android:textSize="9sp"
-            android:textColor="@color/setting_strong_text"
             android:layout_marginStart="24dp"
-            app:layout_constraintTop_toTopOf="@id/textSettingStrong1"
+            android:text="20"
+            android:textColor="@color/setting_strong_text"
+            android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="@id/textSettingStrong1"
-            app:layout_constraintStart_toEndOf="@id/textSettingStrong1"/>
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong1"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong1" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textSettingStrong3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="30"
-            android:textSize="9sp"
-            android:textColor="@color/setting_strong_text"
             android:layout_marginStart="23dp"
-            app:layout_constraintTop_toTopOf="@id/textSettingStrong2"
+            android:text="30"
+            android:textColor="@color/setting_strong_text"
+            android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="@id/textSettingStrong2"
-            app:layout_constraintStart_toEndOf="@id/textSettingStrong2"/>
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong2"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong2" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textSettingStrong4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="40"
-            android:textSize="9sp"
-            android:textColor="@color/setting_strong_text"
             android:layout_marginStart="23dp"
-            app:layout_constraintTop_toTopOf="@id/textSettingStrong3"
+            android:text="40"
+            android:textColor="@color/setting_strong_text"
+            android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="@id/textSettingStrong3"
-            app:layout_constraintStart_toEndOf="@id/textSettingStrong3"/>
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong3"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong3" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textSettingStrong5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="50"
-            android:textSize="9sp"
-            android:textColor="@color/setting_strong_text"
             android:layout_marginStart="22dp"
-            app:layout_constraintTop_toTopOf="@id/textSettingStrong4"
+            android:text="50"
+            android:textColor="@color/setting_strong_text"
+            android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="@id/textSettingStrong4"
-            app:layout_constraintStart_toEndOf="@id/textSettingStrong4"/>
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong4"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong4" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textSettingStrong6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="60"
-            android:textSize="9sp"
-            android:textColor="@color/setting_strong_text"
             android:layout_marginStart="23dp"
-            app:layout_constraintTop_toTopOf="@id/textSettingStrong5"
+            android:text="60"
+            android:textColor="@color/setting_strong_text"
+            android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="@id/textSettingStrong5"
-            app:layout_constraintStart_toEndOf="@id/textSettingStrong5"/>
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong5"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong5" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textSettingStrong7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="70"
-            android:textSize="9sp"
-            android:textColor="@color/setting_strong_text"
             android:layout_marginStart="23dp"
-            app:layout_constraintTop_toTopOf="@id/textSettingStrong6"
+            android:text="70"
+            android:textColor="@color/setting_strong_text"
+            android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="@id/textSettingStrong6"
-            app:layout_constraintStart_toEndOf="@id/textSettingStrong6"/>
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong6"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong6" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textSettingStrong8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="80"
-            android:textSize="9sp"
-            android:textColor="@color/setting_strong_text"
             android:layout_marginStart="23dp"
-            app:layout_constraintTop_toTopOf="@id/textSettingStrong7"
+            android:text="80"
+            android:textColor="@color/setting_strong_text"
+            android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="@id/textSettingStrong7"
-            app:layout_constraintStart_toEndOf="@id/textSettingStrong7"/>
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong7"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong7" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textSettingStrong9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="90"
-            android:textSize="9sp"
-            android:textColor="@color/setting_strong_text"
             android:layout_marginStart="23dp"
-            app:layout_constraintTop_toTopOf="@id/textSettingStrong8"
+            android:text="90"
+            android:textColor="@color/setting_strong_text"
+            android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="@id/textSettingStrong8"
-            app:layout_constraintStart_toEndOf="@id/textSettingStrong8"/>
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong8"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong8" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textSettingStrong10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100"
-            android:textSize="9sp"
-            android:textColor="@color/setting_strong_text"
             android:layout_marginStart="20dp"
-            app:layout_constraintTop_toTopOf="@id/textSettingStrong9"
+            android:text="100"
+            android:textColor="@color/setting_strong_text"
+            android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="@id/textSettingStrong9"
-            app:layout_constraintStart_toEndOf="@id/textSettingStrong9"/>
+            app:layout_constraintStart_toEndOf="@id/textSettingStrong9"
+            app:layout_constraintTop_toTopOf="@id/textSettingStrong9" />
 
         <View
             android:id="@+id/viewUserSettingFragmentLine1"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:background="@color/line_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -233,7 +233,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/info_start_layout_margin"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="@string/rate"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -245,7 +245,6 @@
             android:layout_height="35dp"
             android:layout_marginStart="@dimen/info_start_layout_margin"
             android:layout_marginEnd="@dimen/info_start_layout_margin"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -254,25 +253,34 @@
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentRate1"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:textSize="11sp"
-                android:text="1" />
+                android:text="1"
+                android:textColor="@color/enterprise_black"
+                android:textSize="11sp" />
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentRate2"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
-                android:textSize="11sp"
-                android:text="2" />
+                android:text="2"
+                android:textColor="@color/enterprise_black"
+                android:textSize="11sp" />
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentRate3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
-                android:textSize="11sp"
-                android:text="3" />
+                android:text="3"
+                android:textColor="@color/enterprise_black"
+                android:textSize="11sp" />
 
         </RadioGroup>
 
@@ -291,19 +299,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/info_start_layout_margin"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="@string/compose"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/viewUserSettingFragmentLine2" />
 
         <RadioGroup
-            android:id="@+id/rgUserSettingFragmentCompose"
+            android:id="@+id/rgUserSettingFragmentCompose1"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="35dp"
             android:layout_marginStart="@dimen/info_start_layout_margin"
             android:layout_marginEnd="@dimen/info_start_layout_margin"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -312,46 +319,67 @@
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentCompose1"
                 android:layout_width="wrap_content"
-                android:layout_height="28dp"
-                android:layout_marginTop="-20dp"
-                android:textSize="11sp"
-                android:text="@string/compose_alone" />
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="@string/compose_alone"
+                android:textColor="@color/enterprise_black"
+                android:textSize="11sp" />
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentCompose2"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="-20dp"
-                android:textSize="11sp"
-                android:text="@string/compose1" />
+                android:text="@string/compose1"
+                android:textColor="@color/enterprise_black"
+                android:textSize="11sp" />
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentCompose3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="52dp"
-                android:layout_marginTop="-20dp"
-                android:textSize="11sp"
-                android:text="@string/compose2" />
+                android:text="@string/compose2"
+                android:textColor="@color/enterprise_black"
+                android:textSize="11sp" />
+
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/rgUserSettingFragmentCompose2"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:layout_marginEnd="@dimen/info_start_layout_margin"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rgUserSettingFragmentCompose1">
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentCompose4"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-150dp"
-                android:layout_marginTop="10dp"
-                android:textSize="11sp"
-                android:text="@string/compose3" />
+                android:text="@string/compose3"
+                android:textColor="@color/enterprise_black"
+                android:textSize="11sp" />
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentCompose5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-199dp"
-                android:layout_marginTop="10dp"
-                android:textSize="11sp"
-                android:text="@string/compose4" />
+                android:text="@string/compose4"
+                android:textColor="@color/enterprise_black"
+                android:textSize="11sp" />
 
         </RadioGroup>
 
@@ -359,26 +387,27 @@
             android:id="@+id/viewUserSettingFragmentLine3"
             android:layout_width="0dp"
             android:layout_height="1dp"
+            android:layout_marginTop="10dp"
             android:background="@color/line_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rgUserSettingFragmentCompose" />
+            app:layout_constraintTop_toBottomOf="@id/rgUserSettingFragmentCompose2" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textUserSettingFragmentMode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/info_start_layout_margin"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="@string/mode"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/viewUserSettingFragmentLine3" />
 
         <RadioGroup
-            android:id="@+id/rgUserSettingFragmentMode"
+            android:id="@+id/rgUserSettingFragmentMode1"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="35dp"
             android:layout_marginStart="@dimen/info_start_layout_margin"
             android:layout_marginEnd="@dimen/info_start_layout_margin"
             android:gravity="center_vertical"
@@ -390,56 +419,79 @@
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentMode1"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-20dp"
-                android:textSize="11sp"
-                android:text="@string/mode1" />
+                android:text="@string/mode1"
+                android:textColor="@color/enterprise_black"
+                android:textSize="11sp" />
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentMode2"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="-20dp"
-                android:textSize="11sp"
-                android:text="@string/mode2" />
+                android:text="@string/mode2"
+                android:textColor="@color/enterprise_black"
+                android:textSize="11sp" />
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentMode3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="-20dp"
-                android:textSize="11sp"
-                android:text="@string/mode3" />
+                android:text="@string/mode3"
+                android:textColor="@color/enterprise_black"
+                android:textSize="11sp" />
+
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/rgUserSettingFragmentMode2"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="@dimen/info_start_layout_margin"
+            android:layout_marginEnd="@dimen/info_start_layout_margin"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rgUserSettingFragmentMode1">
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentMode4"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-120dp"
-                android:layout_marginTop="10dp"
-                android:textSize="11sp"
-                android:text="@string/mode4" />
+                android:text="@string/mode4"
+                android:textColor="@color/enterprise_black"
+                android:textSize="11sp" />
 
             <RadioButton
                 android:id="@+id/rbUserSettingFragmentMode5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-260dp"
-                android:layout_marginTop="10dp"
-                android:textSize="11sp"
-                android:text="@string/mode5" />
+                android:text="@string/mode5"
+                android:textColor="@color/enterprise_black"
+                android:textSize="11sp" />
         </RadioGroup>
 
         <View
             android:id="@+id/viewUserSettingFragmentLine4"
             android:layout_width="0dp"
             android:layout_height="1dp"
+            android:layout_marginTop="10dp"
             android:background="@color/line_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rgUserSettingFragmentMode" />
+            app:layout_constraintTop_toBottomOf="@id/rgUserSettingFragmentMode2" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btSettingsFragmentSave"
