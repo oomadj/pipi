@@ -1,11 +1,20 @@
 package com.miraclink.utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.core.content.FileProvider;
 
 import com.miraclink.R;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -132,6 +141,36 @@ public class Utils {
             return true;
         }else {
             return false;
+        }
+    }
+
+    public static void installApk(Context context, String apkpath) {
+        try {
+            File file = new File(apkpath);
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                //Toast.makeText(context, "Android N", Toast.LENGTH_LONG).show();
+                Uri uri = FileProvider.getUriForFile(context, "com.miraclinkbell.provider", file);
+                intent.setDataAndType(uri, "application/vnd.android.package-archive");
+            } else {
+                intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+            }
+            context.startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(context, "failed file parsing", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static int getVersionCode(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 }

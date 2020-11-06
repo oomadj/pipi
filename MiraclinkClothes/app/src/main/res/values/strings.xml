@@ -90,4 +90,14 @@
 
     <string name="permission_rationale">开始使用服务前需要允许下列应用程序权限：\n一、读写外部储存装置的权限，\n　　让你可以挑选照片。\n二、取得精确位置的权限，\n　　蓝牙必要的辅助权限。 </string>
 
+    <string name="down_new_version">有新的软件版本可更新</string>
+    <string name="down_tips">更新内容:</string>
+    <string name="down_ok">更新</string>
+    <string name="down_next">下次</string>
+    <string name="down_this_version">当前版本：</string>
+    <string name="down_update_version">更新版本：</string>
+    <string name="down_enforce">此版本有重要更新，必须更新软件才能使用！</string>
+    <string name="downing">正在下载更新...</string>
+    <string name="down_check_failed">检查更新失败!</string>
+
 </resources>

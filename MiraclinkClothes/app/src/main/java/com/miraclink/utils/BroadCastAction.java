@@ -12,4 +12,9 @@ public class BroadCastAction {
 
     public final static String USER_CHANGED = "user_changed";
     public final static String USER_LIST_DATA = "user_list_data";
+
+    public final static String CHECK_VERSION_FAILED = "check_version_failed";
+    public final static String CHECK_VERSION_DATA = "check_version_data";
+    public final static String DOWN_APK = "down_apk";
+    public final static String DOWN_APK_FINISHED = "down_apk_finished";
 }

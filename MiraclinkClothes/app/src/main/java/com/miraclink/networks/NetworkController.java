@@ -4,6 +4,8 @@ package com.miraclink.networks;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
+import com.miraclink.networks.callbacks.CheckVersionCallback;
+import com.miraclink.networks.callbacks.DownApkCallback;
 import com.miraclink.networks.callbacks.LoginCallback;
 import com.miraclink.networks.callbacks.UserListCallback;
 import com.miraclink.utils.MyApplication;
@@ -23,6 +25,7 @@ public class NetworkController {
     private Context context;
     private MediaType mediaTypeJSON;
     private String serverUrl = "https://www.baidu.com";
+    private String checkVersionUrl = "http://192.168.0.181:8804";
     private String token;
     private OkHttpClient client;
 
@@ -59,25 +62,6 @@ public class NetworkController {
         this.token = "2323432343"; //token;
     }
 
-    //登录
-    public void putLogin(String userName,String passWord){
-        StringBuilder targetURL = new StringBuilder(serverUrl);
-        targetURL.append("/v1/User/login");
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("username",userName);
-        jsonObject.addProperty("password",passWord);
-        Request request = httpPostRequestLogin(targetURL,jsonObject.toString());
-        client.newCall(request).enqueue(new LoginCallback(context));
-    }
-
-    //get user list
-    public void getUserList(){
-        StringBuilder targetURL = new StringBuilder(serverUrl);
-        targetURL.append("/test/user");
-        Request request = httpGetRequest(targetURL);
-        client.newCall(request).enqueue(new UserListCallback(context));
-    }
-
     private Request httpGetRequest(StringBuilder targetURL){
         return new Request.Builder()
                 .url(targetURL.toString())
@@ -111,5 +95,41 @@ public class NetworkController {
                 .build();
     }
 
+    //登录
+    public void putLogin(String userName,String passWord){
+        StringBuilder targetURL = new StringBuilder(serverUrl);
+        targetURL.append("/v1/User/login");
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("username",userName);
+        jsonObject.addProperty("password",passWord);
+        Request request = httpPostRequestLogin(targetURL,jsonObject.toString());
+        client.newCall(request).enqueue(new LoginCallback(context));
+    }
+
+    //get user list
+    public void getUserList(){
+        StringBuilder targetURL = new StringBuilder(serverUrl);
+        targetURL.append("/test/user");
+        Request request = httpGetRequest(targetURL);
+        client.newCall(request).enqueue(new UserListCallback(context));
+    }
+
+    //appType  3:bell    4:clothes
+    public void postCheckVersion(int version) {
+        StringBuilder targetUrl = new StringBuilder(checkVersionUrl);
+        targetUrl.append("/app/version/checkUpdate");
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("appType", 4);
+        jsonObject.addProperty("currentVersion", version);
+        jsonObject.addProperty("sysType", 0);
+        Request request = httpPostRequestLogin(targetUrl, jsonObject.toString());
+        client.newCall(request).enqueue(new CheckVersionCallback(context));
+    }
+
+    public void getDownApk(String downUrl) {
+        StringBuilder targetUrl = new StringBuilder(downUrl);
+        Request request = httpGetRequest(targetUrl);
+        client.newCall(request).enqueue(new DownApkCallback(context));
+    }
 
 }
