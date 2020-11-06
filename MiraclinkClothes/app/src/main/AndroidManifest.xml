@@ -23,18 +23,20 @@
         <activity android:name=".MainActivity">
 
         </activity>
+
+        <activity android:name=".base.LauncherActivity"
+            android:theme="@style/LaunchTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".bluetooth.DeviceListActivity"
             android:theme="@style/DeviceListActivityTranslucent"></activity>
         <activity
             android:name=".content.ContentActivity"
-            android:theme="@style/LaunchTheme"
             android:windowSoftInputMode="adjustUnspecified|stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <service

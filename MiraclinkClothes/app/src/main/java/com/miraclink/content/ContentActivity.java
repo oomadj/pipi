@@ -1,6 +1,5 @@
 package com.miraclink.content;
 
-import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -10,8 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -20,7 +17,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -221,7 +217,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         }
-        getPermission();
     }
 
     @Override
@@ -373,45 +368,4 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private final int ACCESS_LOCATION = 1;
-
-    private void getPermission() {
-        LogUtil.i(TAG, "sdk version:" + Build.VERSION.SDK_INT);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int permissionCheck = 0;
-            permissionCheck = this.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
-            permissionCheck += this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
-
-            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                //未获得权限
-                this.requestPermissions( // 请求授权
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION},
-                        ACCESS_LOCATION);// 自定义常量,任意整型
-            }
-        }
-    }
-
-    private boolean hasAllPermissionGranted(int[] grantResults) {
-        for (int grantResult : grantResults) {
-            if (grantResult == PackageManager.PERMISSION_DENIED) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        switch (requestCode) {
-            case ACCESS_LOCATION:
-                if (hasAllPermissionGranted(grantResults)) {
-                    Toast.makeText(this, "onRequestPermissions success", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "onRequestPermissions failed", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
 }
